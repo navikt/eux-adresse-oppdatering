@@ -1,0 +1,42 @@
+name: build
+run-name: Build - ${{ github.event.head_commit.message }}
+
+permissions:
+  deployments: write
+  packages: write
+  contents: write
+  id-token: write
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+env:
+  APP_NAME: eux-adresse-oppdatering
+  IMAGE: ghcr.io/${{ github.repository }}/eux-adresse-oppdatering
+  READER_TOKEN: ${{ secrets.READER_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and test
+        run: >
+          mvn clean install
+          --settings ./.github/settings.xml
+          --no-transfer-progress -B

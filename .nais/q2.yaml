@@ -1,0 +1,12 @@
+name: eux-adresse-oppdatering-q2
+ingress: https://eux-adresse-oppdatering-q2.intern.dev.nav.no
+
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    memory: 512Mi
+
+replicas:
+  min: 1
+  max: 2
