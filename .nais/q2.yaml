@@ -1,6 +1,11 @@
 name: eux-adresse-oppdatering-q2
 ingress: https://eux-adresse-oppdatering-q2.intern.dev.nav.no
 
+kafka:
+  pool: nav-dev
+  topics:
+    eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1-q2
+
 resources:
   limits:
     memory: 512Mi
@@ -8,5 +13,5 @@ resources:
     memory: 512Mi
 
 replicas:
-  min: 1
-  max: 2
+  min: 2
+  max: 3

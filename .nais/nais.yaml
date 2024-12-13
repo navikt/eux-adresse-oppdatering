@@ -34,6 +34,8 @@ spec:
     requests:
       cpu: 900m
       memory: {{ resources.requests.memory }}
+  kafka:
+    pool: {{ kafka.pool }}
   azure:
     application:
       enabled: true
@@ -52,3 +54,6 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
+  env:
+    - name: KAFKA_TOPICS_EUX_RINA_DOCUMENT_EVENTS_V1
+      value: {{ kafka.topics.eux-rina-document-events-v1 }}

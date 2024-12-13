@@ -6,3 +6,21 @@ logging:
   structured:
     format:
       console: logstash
+
+kafka:
+  topics:
+    eux-rina-document-events-v1: ${KAFKA_TOPICS_EUX_RINA_DOCUMENT_EVENTS_V1}
+    eux-rina-case-events-v1: ${KAFKA_TOPICS_EUX_RINA_CASE_EVENTS_V1}
+  bootstrap-servers: ${KAFKA_BROKERS}
+  properties:
+    security:
+      protocol: SSL
+    ssl:
+      keystore:
+        type: PKCS12
+        location: ${KAFKA_KEYSTORE_PATH}
+        password: ${KAFKA_CREDSTORE_PASSWORD}
+      truststore:
+        type: PKCS12
+        location: ${KAFKA_TRUSTSTORE_PATH}
+        password: ${KAFKA_CREDSTORE_PASSWORD}
