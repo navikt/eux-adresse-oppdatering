@@ -14,7 +14,6 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE
 
 @Configuration
 class KafkaConfig(
@@ -43,7 +42,7 @@ class KafkaConfig(
                 VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java,
                 KEY_DESERIALIZER_CLASS to StringDeserializer::class.java.name,
                 VALUE_DESERIALIZER_CLASS to JsonDeserializer::class.java.name,
-                VALUE_DEFAULT_TYPE to T::class.java.name,
+//                VALUE_DEFAULT_TYPE to T::class.java.name,
                 SECURITY_PROTOCOL_CONFIG to securityProtocol,
                 SSL_KEYSTORE_TYPE_CONFIG to kafkaSslProperties.keystore.type,
                 SSL_KEYSTORE_LOCATION_CONFIG to kafkaSslProperties.keystore.location,
