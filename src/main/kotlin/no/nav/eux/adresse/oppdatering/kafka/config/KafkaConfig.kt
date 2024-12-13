@@ -1,6 +1,5 @@
 package no.nav.eux.adresse.oppdatering.kafka.config
 
-import no.nav.eux.adresse.oppdatering.kafka.model.case.KafkaRinaCase
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
@@ -17,9 +16,6 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KE
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE
-import kotlin.apply
-import kotlin.jvm.java
-import kotlin.to
 
 @Configuration
 class KafkaConfig(
@@ -29,9 +25,6 @@ class KafkaConfig(
     val securityProtocol: String,
     val kafkaSslProperties: KafkaSslProperties
 ) {
-
-    @Bean
-    fun rinaCaseKafkaListenerContainerFactory() = kafkaListenerContainerFactory<KafkaRinaCase>()
 
     @Bean
     fun rinaDocumentKafkaListenerContainerFactory() = kafkaListenerContainerFactory<KafkaRinaDocument>()
