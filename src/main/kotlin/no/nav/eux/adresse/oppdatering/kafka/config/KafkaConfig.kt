@@ -1,6 +1,5 @@
 package no.nav.eux.adresse.oppdatering.kafka.config
 
-import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
 import org.apache.kafka.common.config.SslConfigs.*
@@ -26,8 +25,11 @@ class KafkaConfig(
     val kafkaSslProperties: KafkaSslProperties
 ) {
 
+//    @Bean
+//    fun rinaDocumentKafkaListenerContainerFactory() = kafkaListenerContainerFactory<KafkaRinaDocument>()
+
     @Bean
-    fun rinaDocumentKafkaListenerContainerFactory() = kafkaListenerContainerFactory<KafkaRinaDocument>()
+    fun rinaDocumentKafkaListenerContainerFactory() = kafkaListenerContainerFactory<String>()
 
     private inline fun <reified T> kafkaListenerContainerFactory() =
         ConcurrentKafkaListenerContainerFactory<String, T>()
