@@ -17,7 +17,7 @@ kafka:
     scope: api://dev-fss.pdl.pdl-mottak/.default
 
   eux-rina-api:
-    host: eux-rina-api-q2
+    app: eux-rina-api-q2
     url: http://eux-rina-api-q2
     scope: api://dev-gcp.eessibasis.eux-rina-api-q2/.default
 

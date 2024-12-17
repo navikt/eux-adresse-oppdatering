@@ -15,10 +15,26 @@ import java.time.LocalDateTime.now
 @Service
 class BearerTokenService(
     val clientProperties: ClientProperties,
-    val clientTokens: Map<ApiClient, BearerToken>
+    val clientTokens: MutableMap<Client, BearerToken>
 ) {
 
     val log = logger {}
+
+    fun fetch(client: Client): BearerToken {
+        return try {
+            val bearerToken = clientTokens.get(client)
+            if (bearerToken.upForRenewal() || bearerToken == null) {
+                val token = client.token()
+                clientTokens.put(client, token)
+                return token
+            } else {
+                return bearerToken
+            }
+        } catch (e: Exception) {
+            log.error(e) { "Failed to fetch token" }
+            throw e
+        }
+    }
 
     fun BearerToken?.upForRenewal() =
         if (this != null)
@@ -36,7 +52,7 @@ class BearerTokenService(
             .retrieve()
             .body<TokenResponse>()!!
             .bearerToken
-        log.info {"Successfully retrieved token for $this" }
+        log.info { "Successfully retrieved token for $this" }
         return token
     }
 
