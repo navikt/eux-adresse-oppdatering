@@ -17,12 +17,12 @@ class IntegrationConfig {
     fun clientTokens() = HashMap<Client, BearerToken>()
 
     @Bean
-    fun euxRinaApi(
+    fun euxRinaApiRestClient(
         clientProperties: ClientProperties,
         bearerTokenService: BearerTokenService
     ) = RestClient
         .builder()
-        .baseUrl("${clientProperties.euxRinaApi.url}/cpi")
+        .baseUrl(clientProperties.euxRinaApi.url)
         .requestInterceptor(bearerTokenService interceptorFor EUX_RINA_API)
         .build()
 

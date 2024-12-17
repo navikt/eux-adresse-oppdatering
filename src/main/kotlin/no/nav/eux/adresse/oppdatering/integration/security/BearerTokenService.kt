@@ -3,10 +3,10 @@ package no.nav.eux.adresse.oppdatering.integration.security
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
+import no.nav.eux.adresse.oppdatering.integration.security.BearerTokenService.Client.*
 import org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
-import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import java.time.LocalDateTime.now
@@ -54,19 +54,22 @@ class BearerTokenService(
         return token
     }
 
-    fun Client.createBody(): MultiValueMap<String, String> {
-        val formValues = LinkedMultiValueMap<String, String>()
-        formValues.add("grant_type", "client_credentials")
-        formValues.add("client_id", clientProperties.id)
-        formValues.add("client_secret", clientProperties.secret)
-        val scope = when (this) {
-            Client.PDL_API -> clientProperties.pdlApi.scope
-            Client.PDL_MOTTAK -> clientProperties.pdlMottak.scope
-            Client.EUX_RINA_API -> clientProperties.euxRinaApi.scope
-        };
-        formValues.add("scope", scope)
-        return formValues
-    }
+    fun Client.createBody() =
+        LinkedMultiValueMap<String, String>()
+            .apply {
+                add("grant_type", "client_credentials")
+                add("client_id", clientProperties.id)
+                add("client_secret", clientProperties.secret)
+                add("scope", scope)
+            }
+
+    val Client.scope
+        get() =
+            when (this) {
+                PDL_API -> clientProperties.pdlApi.scope
+                PDL_MOTTAK -> clientProperties.pdlMottak.scope
+                EUX_RINA_API -> clientProperties.euxRinaApi.scope
+            }
 
     enum class Client {
         PDL_API,

@@ -5,7 +5,7 @@ import java.time.OffsetDateTime
 data class KafkaRinaDocumentMetadata(
     val id: String,
     val type: String,
-    val caseId: Int,
+    val caseId: Long,
     val versions: List<KafkaRinaDocumentVersions>,
     val creationDate: OffsetDateTime,
 )
