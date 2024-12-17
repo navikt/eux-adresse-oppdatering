@@ -1,5 +1,6 @@
 package no.nav.eux.adresse.oppdatering
 
+import no.nav.eux.adresse.oppdatering.integration.security.ClientProperties
 import no.nav.eux.adresse.oppdatering.kafka.config.KafkaSslProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -7,7 +8,8 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 @EnableConfigurationProperties(
-    KafkaSslProperties::class
+    KafkaSslProperties::class,
+    ClientProperties::class,
 )
 class Application
 

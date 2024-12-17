@@ -32,7 +32,7 @@ spec:
       cpu: "1"
       memory: {{ resources.limits.memory }}
     requests:
-      cpu: 900m
+      cpu: "1"
       memory: {{ resources.requests.memory }}
   kafka:
     pool: {{ kafka.pool }}
@@ -54,6 +54,25 @@ spec:
     autoInstrumentation:
       enabled: true
       runtime: java
+  accessPolicy:
+    outbound:
+      external:
+        - host: {{ application.pdl-api.host }}
+        - host: {{ application.pdl-mottak.host }}
+      rules:
+        - application: {{ application.eux-rina-api.app }}
   env:
     - name: KAFKA_TOPICS_EUX_RINA_DOCUMENT_EVENTS_V1
       value: {{ kafka.topics.eux-rina-document-events-v1 }}
+    - name: PDL_API_URL
+      value: {{ application.pdl-api.url }}
+    - name: PDL_API_SCOPE
+      value: {{ application.pdl-api.scope }}
+    - name: PDL_MOTTAK_URL
+      value: {{ application.pdl-mottak.url }}
+    - name: PDL_MOTTAK_SCOPE
+      value: {{ application.pdl-mottak.scope }}
+    - name: EUX_RINA_API_URL
+      value: {{ application.eux-rina-api.url }}
+    - name: EUX_RINA_API_SCOPE
+      value: {{ application.eux-rina-api.scope }}

@@ -23,3 +23,17 @@ kafka:
         type: PKCS12
         location: ${KAFKA_TRUSTSTORE_PATH}
         password: ${KAFKA_CREDSTORE_PASSWORD}
+
+client:
+  id: ${AZURE_APP_CLIENT_ID}
+  secret: ${AZURE_APP_CLIENT_SECRET}
+  tokenEndpoint: ${AZURE_OPENID_CONFIG_TOKEN_ENDPOINT}
+  pdlApi:
+    url: ${PDL_API_URL}
+    scope: ${PDL_API_SCOPE}
+  pdlMottak:
+    url: ${PDL_MOTTAK_URL}
+    scope: ${PDL_MOTTAK_SCOPE}
+  euxRinaApi:
+    url: ${EUX_RINA_API_URL}
+    scope: ${EUX_RINA_API_SCOPE}
