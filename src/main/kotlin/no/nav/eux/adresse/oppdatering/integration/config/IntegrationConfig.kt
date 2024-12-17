@@ -12,8 +12,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor
 class IntegrationConfig {
 
     @Bean
-    fun clientTokens(): Map<ApiClient, BearerToken> = HashMap<ApiClient, BearerToken>()
-
+    fun clientTokens() = HashMap<Client, BearerToken>()
 
     fun bearerTokenInterceptor(
         bearerTokenService: BearerTokenService,
@@ -26,14 +25,4 @@ class IntegrationConfig {
         }
     }
 
-    //  private ClientHttpRequestInterceptor bearerTokenInterceptor(
-    //    BearerTokenService bearerTokenService,
-    //    BearerTokenService.Client client
-    //  ) {
-    //    return (request, body, execution) -> {
-    //      var token = bearerTokenService.fetch(client).token();
-    //      request.getHeaders().setBearerAuth(token);
-    //      return execution.execute(request, body);
-    //    };
-    //  }
 }

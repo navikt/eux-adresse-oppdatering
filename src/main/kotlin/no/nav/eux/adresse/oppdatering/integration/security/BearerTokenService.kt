@@ -3,7 +3,6 @@ package no.nav.eux.adresse.oppdatering.integration.security
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
-import no.nav.eux.adresse.oppdatering.integration.security.ClientProperties.ApiClient
 import org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
@@ -20,21 +19,20 @@ class BearerTokenService(
 
     val log = logger {}
 
-    fun fetch(client: Client): BearerToken {
-        return try {
-            val bearerToken = clientTokens.get(client)
+    fun fetch(client: Client): BearerToken =
+        try {
+            val bearerToken = clientTokens[client]
             if (bearerToken.upForRenewal() || bearerToken == null) {
                 val token = client.token()
-                clientTokens.put(client, token)
-                return token
+                clientTokens[client] = token
+                token
             } else {
-                return bearerToken
+                bearerToken
             }
         } catch (e: Exception) {
             log.error(e) { "Failed to fetch token" }
             throw e
         }
-    }
 
     fun BearerToken?.upForRenewal() =
         if (this != null)
