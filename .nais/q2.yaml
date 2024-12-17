@@ -6,6 +6,7 @@ kafka:
   topics:
     eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1-q2
 
+application:
   pdl-api:
     host: pdl-api.dev-fss-pub.nais.io
     url: https://pdl-api.dev-fss-pub.nais.io/graphql
