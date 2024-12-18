@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
@@ -30,8 +31,10 @@ class KafkaConfig(
     fun rinaDocumentKafkaListenerContainerFactory() = kafkaListenerContainerFactory<KafkaRinaDocument>()
 
     private inline fun <reified T> kafkaListenerContainerFactory() =
-        ConcurrentKafkaListenerContainerFactory<String, T>()
-            .apply { consumerFactory = docConsumerFactory<T>() }
+        ConcurrentKafkaListenerContainerFactory<String, T>().apply {
+            consumerFactory = docConsumerFactory<T>()
+            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+        }
 
     private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =
         DefaultKafkaConsumerFactory(
@@ -41,6 +44,7 @@ class KafkaConfig(
                 VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java,
                 KEY_DESERIALIZER_CLASS to StringDeserializer::class.java.name,
                 VALUE_DESERIALIZER_CLASS to JsonDeserializer::class.java.name,
+                ENABLE_AUTO_COMMIT_CONFIG to false,
                 VALUE_DEFAULT_TYPE to T::class.java.name,
                 SECURITY_PROTOCOL_CONFIG to securityProtocol,
                 SSL_KEYSTORE_TYPE_CONFIG to kafkaSslProperties.keystore.type,
