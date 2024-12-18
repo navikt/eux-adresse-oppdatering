@@ -18,7 +18,7 @@ class EuxRinaCaseEventsKafkaListener(
     val log = logger {}
 
     @KafkaListener(
-        id = "eux-avslutt-rinasaker-document",
+        id = "eux-adresse-oppdatering-document",
         topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
     )
