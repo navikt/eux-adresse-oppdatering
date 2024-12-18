@@ -17,6 +17,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KE
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE
+import java.time.Duration
 
 @Configuration
 class KafkaConfig(
@@ -34,6 +35,7 @@ class KafkaConfig(
         ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             consumerFactory = docConsumerFactory<T>()
             containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+            containerProperties.setAuthExceptionRetryInterval( Duration.ofSeconds(4L) )
         }
 
     private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =

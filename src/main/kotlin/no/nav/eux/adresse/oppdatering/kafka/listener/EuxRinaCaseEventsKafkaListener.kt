@@ -34,7 +34,7 @@ class EuxRinaCaseEventsKafkaListener(
         mdc(rinasakId = caseId.toInt(), bucType = bucType)
         log.info { "Received document event of type $documentEventType for case $caseId" }
         adresseService.oppdaterPdl(kafkaRinaDocument)
-        acknowledgment.nack(Duration.ofSeconds(40))
+        acknowledgment.acknowledge()
     }
 
 }
