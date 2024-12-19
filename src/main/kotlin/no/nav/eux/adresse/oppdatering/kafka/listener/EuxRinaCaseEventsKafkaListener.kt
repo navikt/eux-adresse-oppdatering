@@ -37,10 +37,19 @@ class EuxRinaCaseEventsKafkaListener(
             sedType = documentMetadata.type
         )
         log.info { "Mottok dokument fra Kafka av type $documentEventType" }
-        adresseService.oppdaterPdl(kafkaRinaDocument)
+        if (bucTilBehandling(bucType))
+            adresseService.oppdaterPdl(kafkaRinaDocument)
+        else
+            log.info { "BUC type behandles ikke" }
         acknowledgment.acknowledge()
         log.info { "Adresseoppdatering for dokument ferdigstillt" }
         clearLocalMdc()
     }
 
+    fun bucTilBehandling(bucType: String): Boolean =
+        listOf(
+            "H_BUC_01"
+        )
+            .contains(bucType)
+    
 }
