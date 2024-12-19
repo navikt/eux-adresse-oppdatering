@@ -13,7 +13,7 @@ class EuxRinaApiClient(
 
     fun dokument(rinasakId: Long, sedId: String) = euxRinaApiRestClient
         .get()
-        .uri("/cpi/buc/$rinasakId/sed/$sedId")
+        .uri("/cpi/buc/$rinasakId/sed/$sedId?domene=nav")
         .accept(APPLICATION_JSON)
         .retrieve()
         .body<EuxRinaApiDokument>()

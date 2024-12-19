@@ -51,5 +51,5 @@ class EuxRinaCaseEventsKafkaListener(
             "H_BUC_01"
         )
             .contains(bucType)
-    
+
 }
