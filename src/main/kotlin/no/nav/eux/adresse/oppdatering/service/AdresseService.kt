@@ -28,7 +28,7 @@ class AdresseService(
         pdlService.oppdaterKontaktadresse(
             adresse = kontaktadresse!!,
             kilde = kafkaRinaDocument.payLoad.documentMetadata.creator.organisation.name,
-            ident = dokument.nav.bruker.person.pin.firstOrNull { it.landkode == "NO" }?.identifikator!!
+            ident = dokument.nav.bruker.person.pin.firstOrNull { it.landkode == "NOR" }?.identifikator!!
         )
         log.info { "Kontaktadresse oppdatert" }
     }

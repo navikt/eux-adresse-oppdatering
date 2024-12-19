@@ -23,8 +23,7 @@ class EuxRinaCaseEventsKafkaListener(
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
     )
     fun document(
-        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
-        acknowledgment: Acknowledgment
+        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>
     ) {
         val kafkaRinaDocument = consumerRecord.value()
         val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
@@ -36,13 +35,13 @@ class EuxRinaCaseEventsKafkaListener(
             bucType = bucType,
             sedType = documentMetadata.type
         )
-        log.info { "Mottok dokument fra Kafka av type $documentEventType" }
-        if (bucTilBehandling(bucType))
+        if (bucTilBehandling(bucType)) {
+            log.info { "Mottok dokument fra Kafka av type $documentEventType" }
             adresseService.oppdaterPdl(kafkaRinaDocument)
-        else
+            log.info { "Adresseoppdatering for dokument ferdigstillt" }
+        } else {
             log.info { "BUC type behandles ikke" }
-        acknowledgment.acknowledge()
-        log.info { "Adresseoppdatering for dokument ferdigstillt" }
+        }
         clearLocalMdc()
     }
 
