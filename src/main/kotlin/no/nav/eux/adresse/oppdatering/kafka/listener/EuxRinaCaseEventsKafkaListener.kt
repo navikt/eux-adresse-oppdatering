@@ -3,12 +3,12 @@ package no.nav.eux.adresse.oppdatering.kafka.listener
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.adresse.oppdatering.service.AdresseService
+import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Service
-import java.time.Duration
 
 @Service
 class EuxRinaCaseEventsKafkaListener(
@@ -31,10 +31,16 @@ class EuxRinaCaseEventsKafkaListener(
         val documentEventType = kafkaRinaDocument.documentEventType
         val caseId = documentMetadata.caseId
         val bucType = kafkaRinaDocument.buc
-        mdc(rinasakId = caseId.toInt(), bucType = bucType)
-        log.info { "Received document event of type $documentEventType for case $caseId" }
+        mdc(
+            rinasakId = caseId.toInt(),
+            bucType = bucType,
+            sedType = documentMetadata.type
+        )
+        log.info { "Mottok dokument fra Kafka av type $documentEventType" }
         adresseService.oppdaterPdl(kafkaRinaDocument)
         acknowledgment.acknowledge()
+        log.info { "Adresseoppdatering for dokument ferdigstillt" }
+        clearLocalMdc()
     }
 
 }

@@ -18,14 +18,23 @@ data class EuxRinaApiDokument(
     data class Adresse(
         val type: String,
         val gate: String,
-        val land: String,
-        val by: String
+        val landkode: String,
+        val by: String,
+        val bygning: String,
+        val region: String,
+        val postnummer: String,
     )
 
     data class Person(
         val kjoenn: String,
         val etternavn: String,
         val fornavn: String,
+        val pin: List<Pin>,
         val foedselsdato: String
+    )
+
+    data class Pin(
+        val identifikator: String,
+        val landkode: String,
     )
 }

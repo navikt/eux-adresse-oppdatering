@@ -8,4 +8,5 @@ data class KafkaRinaDocumentMetadata(
     val caseId: Long,
     val versions: List<KafkaRinaDocumentVersions>,
     val creationDate: OffsetDateTime,
+    val creator: KafkaRinaDocumentCreator
 )
