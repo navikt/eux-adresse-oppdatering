@@ -5,6 +5,7 @@ import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlMottakClient
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlUtenlandskAdresse
 import no.nav.eux.adresse.oppdatering.model.Adresse
 import org.springframework.stereotype.Service
+import java.time.LocalDate.now
 
 @Service
 class PdlService(
@@ -14,17 +15,30 @@ class PdlService(
     val log = logger {}
 
     fun oppdaterKontaktadresse(adresse: Adresse, kilde: String, ident: String) {
-        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(kilde, ident, "KONTAKTADRESSE")
+        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
+            kilde = kilde,
+            ident = ident,
+            type = "KONTAKTADRESSE",
+            gyldigTilOgMed = now().plusYears(5)
+        )
         log.info { "Endringsmelding for kontaktadresse sendt til PDL" }
     }
 
     fun oppdaterBostedsadresse(adresse: Adresse, kilde: String, ident: String) {
-        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(kilde, ident, "BOSTEDSADRESSE")
+        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
+            kilde = kilde,
+            ident = ident,
+            type = "BOSTEDSADRESSE"
+        )
         log.info { "Endringsmelding for bostedsadresse sendt til PDL" }
     }
 
     fun oppdaterOppholdsadresse(adresse: Adresse, kilde: String, ident: String) {
-        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(kilde, ident, "OPPHOLDSADRESSE")
+        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
+            kilde = kilde,
+            ident = ident,
+            type = "OPPHOLDSADRESSE"
+        )
         log.info { "Endringsmelding for oppholdsadresse sendt til PDL" }
     }
 }
