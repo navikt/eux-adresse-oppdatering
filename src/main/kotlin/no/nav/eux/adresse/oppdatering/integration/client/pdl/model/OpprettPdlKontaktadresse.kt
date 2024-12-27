@@ -28,10 +28,11 @@ data class OpprettPdlKontaktadresse(
     )
 
     data class Adresse(
-        val adressenavnNummer: String,
-        val bygningEtasjeLeilighet: String,
+        val adressenavnNummer: String?,
+        val bygningEtasjeLeilighet: String?,
+        val postboksNummerNavn: String? = null,
         val postkode: String,
-        val regionDistriktOmraade: String,
+        val regionDistriktOmraade: String?,
         val landkode: String,
         @JsonProperty("@type")
         val type: String = "UTENLANDSK_ADRESSE"

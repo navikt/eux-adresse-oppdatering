@@ -16,13 +16,13 @@ data class EuxRinaApiDokument(
     )
 
     data class Adresse(
-        val type: String,
-        val gate: String,
-        val landkode: String,
-        val by: String,
-        val bygning: String,
-        val region: String,
-        val postnummer: String,
+        val type: String?,
+        val gate: String?,
+        val landkode: String?,
+        val by: String?,
+        val bygning: String?,
+        val region: String?,
+        val postnummer: String?,
     )
 
     data class Person(
@@ -37,4 +37,7 @@ data class EuxRinaApiDokument(
         val identifikator: String,
         val landkode: String,
     )
+
+    val identNor: String?
+        get() = nav.bruker.person.pin.firstOrNull { it.landkode == "NOR" }?.identifikator
 }

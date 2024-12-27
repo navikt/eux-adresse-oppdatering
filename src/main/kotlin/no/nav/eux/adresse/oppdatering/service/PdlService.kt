@@ -23,6 +23,14 @@ class PdlService(
         pdlMottakClient.endringsmelding(opprettPdlKontaktadresse)
         log.info { "Endringsmelding for kontaktadresse sendt til PDL" }
     }
+
+    fun oppdaterBostedsadresse(adresse: Adresse, kilde: String, ident: String) {
+        log.info { "oppdatering for bostedsadresse ikke implementert" }
+    }
+
+    fun oppdaterOppholdsadresse(adresse: Adresse, kilde: String, ident: String) {
+        log.info { "oppdatering for oppholdsadresse ikke implementert" }
+    }
 }
 
 fun Adresse.toOpprettPdlKontaktadresse(kilde: String, ident: String) =
@@ -33,10 +41,10 @@ fun Adresse.toOpprettPdlKontaktadresse(kilde: String, ident: String) =
                 endringsmelding = OpprettPdlKontaktadresse.Endringsmelding(
                     kilde = kilde,
                     adresse = OpprettPdlKontaktadresse.Adresse(
-                        adressenavnNummer = this.adressenavnNummer!!,
-                        bygningEtasjeLeilighet = this.bygningEtasjeLeilighet!!,
+                        adressenavnNummer = this.adressenavnNummer,
+                        bygningEtasjeLeilighet = this.bygningEtasjeLeilighet,
                         postkode = this.postkode!!,
-                        regionDistriktOmraade = this.regionDistriktOmraade!!,
+                        regionDistriktOmraade = this.regionDistriktOmraade,
                         landkode = this.landkode!!
                     )
                 )

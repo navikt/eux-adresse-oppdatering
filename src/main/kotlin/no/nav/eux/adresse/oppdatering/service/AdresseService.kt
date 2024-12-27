@@ -22,29 +22,102 @@ class AdresseService(
         ) ?: throw RuntimeException("Dokument ikke funnet")
         log.info { "Dokument hentet fra Rina" }
         println(dokument)
-        val kontaktadresse = dokument.kontaktadresse()
-        log.info { "Kontaktadresse hentet fra dokument" }
-        println(kontaktadresse)
-        pdlService.oppdaterKontaktadresse(
-            adresse = kontaktadresse!!,
-            kilde = kafkaRinaDocument.payLoad.documentMetadata.creator.organisation.name,
-            ident = dokument.nav.bruker.person.pin.firstOrNull { it.landkode == "NOR" }?.identifikator!!
-        )
-        log.info { "Kontaktadresse oppdatert" }
+        dokument.nav.bruker.adresse
+            .filter { it.kanSendesTilPdl() }
+            .forEach {
+                oppdaterPdl(
+                    adresse = it,
+                    kilde = kafkaRinaDocument.kilde,
+                    ident = dokument.identNor!!
+                )
+            }
+        log.info { "Oppdatering av kontaktadresser ferdig" }
     }
 
-    fun EuxRinaApiDokument.kontaktadresse(): Adresse? {
-        val adresse = nav.bruker.adresse.firstOrNull { it.type == "kontakt" }
-        return adresse?.let {
-            Adresse(
-                adressenavnNummer = it.gate,
-                bygningEtasjeLeilighet = it.bygning,
-                bySted = it.by,
-                postkode = it.postnummer,
-                regionDistriktOmraade = it.region,
-                landkode = it.landkode
-            )
+    fun EuxRinaApiDokument.Adresse.kanSendesTilPdl(): Boolean =
+        when {
+            landkode.isNullOrBlank() -> false
+                .also { log.info { "Landkode er null, adresse blir ikke sendt til PDL" } }
+
+            postnummer.isNullOrBlank() -> false
+                .also { log.info { "Postnummer er null, adresse blir ikke sendt til PDL" } }
+
+            else -> true
+        }
+
+    fun oppdaterPdl(
+        adresse: EuxRinaApiDokument.Adresse,
+        kilde: String,
+        ident: String
+    ) {
+        when (adresse.type) {
+            "kontakt" -> {
+                pdlService.oppdaterKontaktadresse(
+                    adresse = adresse.adresse().validertAdresse(),
+                    kilde = kilde,
+                    ident = ident
+                )
+            }
+
+            "bosted" -> {
+                pdlService.oppdaterBostedsadresse(
+                    adresse = adresse.adresse().validertAdresse(),
+                    kilde = kilde,
+                    ident = ident
+                )
+            }
+
+            "opphold" -> {
+                pdlService.oppdaterOppholdsadresse(
+                    adresse = adresse.adresse().validertAdresse(),
+                    kilde = kilde,
+                    ident = ident
+                )
+            }
+
+            else -> {
+                log.info { "Ukjent adresse type ${adresse.type}, adresse blir ikke sendt til PDL" }
+            }
         }
     }
+
+    fun EuxRinaApiDokument.Adresse.adresse(): Adresse =
+        Adresse(
+            adressenavnNummer = gate,
+            bygningEtasjeLeilighet = bygning,
+            bySted = by,
+            postkode = postnummer,
+            regionDistriktOmraade = region,
+            landkode = landkode
+        )
+
+    fun Adresse.validertAdresse() =
+        copy(
+            adressenavnNummer = adressenavnNummerValidert(),
+            postboksNummerNavn = adressenavnNummerValidert()
+        )
+            .flyttAdressenavnNummerTilPostboksNummerNavn()
+
+    fun Adresse.adressenavnNummerValidert(): String? =
+        when {
+            adressenavnNummer in ordForUkjent -> {
+                log.info { "Gate definert som $adressenavnNummer, setter feltet til null" }
+                null
+            }
+
+            adressenavnNummer?.none { it.isLetter() } == true -> {
+                log.info { "Ingen bokstaver, setter feltet til null" }
+                null
+            }
+
+            else -> {
+                adressenavnNummer
+            }
+        }
+
+    fun Adresse.flyttAdressenavnNummerTilPostboksNummerNavn(): Adresse =
+        if (adressenavnNummer != null && ordForPostboks.any { it in adressenavnNummer })
+            copy(adressenavnNummer = null, postboksNummerNavn = adressenavnNummer)
+        else this
 
 }
