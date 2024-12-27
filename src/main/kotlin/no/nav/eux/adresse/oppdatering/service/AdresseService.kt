@@ -23,14 +23,15 @@ class AdresseService(
         log.info { "Dokument hentet fra Rina" }
         println(dokument)
         dokument.nav.bruker.adresse
-            .filter { it.kanSendesTilPdl() }
-            .forEach {
+            ?.filter { it.kanSendesTilPdl() }
+            ?.forEach {
                 oppdaterPdl(
                     adresse = it,
                     kilde = kafkaRinaDocument.kilde,
                     ident = dokument.identNor!!
                 )
             }
+            ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
         log.info { "Oppdatering av kontaktadresser ferdig" }
     }
 
@@ -53,7 +54,7 @@ class AdresseService(
         when (adresse.type) {
             "kontakt" -> {
                 pdlService.oppdaterKontaktadresse(
-                    adresse = adresse.adresse().validertAdresse(),
+                    adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident
                 )
@@ -61,7 +62,7 @@ class AdresseService(
 
             "bosted" -> {
                 pdlService.oppdaterBostedsadresse(
-                    adresse = adresse.adresse().validertAdresse(),
+                    adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident
                 )
@@ -69,7 +70,7 @@ class AdresseService(
 
             "opphold" -> {
                 pdlService.oppdaterOppholdsadresse(
-                    adresse = adresse.adresse().validertAdresse(),
+                    adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident
                 )
@@ -80,6 +81,9 @@ class AdresseService(
             }
         }
     }
+
+    val EuxRinaApiDokument.Adresse.validertAdresse: Adresse
+        get() = adresse().validertAdresse()
 
     fun EuxRinaApiDokument.Adresse.adresse(): Adresse =
         Adresse(
