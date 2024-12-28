@@ -17,5 +17,6 @@ class EuxRinaApiClient(
         .accept(APPLICATION_JSON)
         .retrieve()
         .body<EuxRinaApiDokument>()
+        ?: throw RuntimeException("Dokument ikke funnet")
 
 }

@@ -14,19 +14,19 @@ data class PdlUtenlandskAdresse(
     data class Personopplysning(
         val endringsmelding: Endringsmelding,
         val ident: String,
-        val endringstype: String = "OPPRETT",
-        val opplysningstype: String = "KONTAKTADRESSE"
+        val endringstype: String,
+        val opplysningstype: String,
     )
 
     data class Endringsmelding(
         val kilde: String,
         @JsonProperty("@type")
-        val type: String = "KONTAKTADRESSE",
+        val type: String,
         @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-        val gyldigFraOgMed: LocalDate = LocalDate.now(),
+        val gyldigFraOgMed: LocalDate,
         @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-        val gyldigTilOgMed: LocalDate? = LocalDate.now().plusYears(5),
-        val adresse: Adresse
+        val gyldigTilOgMed: LocalDate?,
+        val adresse: Adresse,
     )
 
     data class Adresse(
@@ -37,7 +37,7 @@ data class PdlUtenlandskAdresse(
         val regionDistriktOmraade: String?,
         val landkode: String,
         @JsonProperty("@type")
-        val type: String = "UTENLANDSK_ADRESSE"
+        val type: String,
     )
 }
 
