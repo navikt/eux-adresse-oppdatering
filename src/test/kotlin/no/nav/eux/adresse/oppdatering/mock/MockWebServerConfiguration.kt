@@ -31,10 +31,11 @@ class MockWebServerConfiguration(
         override fun dispatch(request: RecordedRequest): MockResponse {
             log.info { "received ${request.method} ${request.requestUrl} with headers=${request.headers}" }
             val body = request.body.readUtf8()
-            if (requestBodies[request.uriEndsWith] == null)
+            val bodyList = requestBodies[request.uriEndsWith]
+            if (bodyList == null)
                 requestBodies[request.uriEndsWith] = mutableListOf(body)
             else
-                requestBodies[request.uriEndsWith]?.add(body)
+                bodyList.add(body)
             return mockResponse(request)
         }
     }

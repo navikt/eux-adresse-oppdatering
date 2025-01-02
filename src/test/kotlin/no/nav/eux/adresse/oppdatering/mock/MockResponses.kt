@@ -24,6 +24,7 @@ fun mockResponseGet(request: RecordedRequest) =
     when (request.uriEndsWith) {
         "/cpi/buc/1/sed/1?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-dokument.json"
         "/v3/buc/1/oversikt?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-rinasak.json"
+        "/endringsstatus" -> okMockResponse medBody "/dataset/endringsstatus.json"
         else -> defaultResponse
     }
 

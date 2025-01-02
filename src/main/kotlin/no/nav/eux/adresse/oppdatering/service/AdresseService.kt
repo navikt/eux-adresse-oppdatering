@@ -23,7 +23,7 @@ class AdresseService(
         log.info { "Dokument hentet fra Rina" }
         println(dokument)
         val rinasak = euxRinaApiClient.rinasak(rinasakId)
-        val identNor = dokument.identNor ?: rinasak.fnr
+        val identNor = identNor(dokument, rinasak)
         if (identNor.isNullOrEmpty()) {
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av kontaktadresser" }
             return
