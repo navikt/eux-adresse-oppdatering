@@ -1,7 +1,6 @@
 package no.nav.eux.adresse.oppdatering
 
 import no.nav.eux.adresse.oppdatering.mock.RequestBodies
-import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.core.KafkaTemplate
@@ -48,7 +47,11 @@ abstract class AbstractTest {
     @Autowired
     lateinit var kafkaTemplate: KafkaTemplate<String, Any>
 
-    fun verifiserEksekvert(uri: String) {
-        assertThat(requestBodies[uri]).isNotNull()
+    infix fun String.requestNumber(number: Int) =
+        requestBodies[this]!![number]
+
+    fun skrivUtEksterneKall() {
+        println("Følgende requests ble utført i prosessen:")
+        requestBodies.forEach { println("Path: ${it.key}, body: ${it.value}") }
     }
 }

@@ -3,22 +3,22 @@
     {
       "endringsmelding": {
         "kilde": "NAV",
-        "@type": "BOSTEDSADRESSE",
+        "@type": "OPPHOLDSADRESSE",
         "gyldigFraOgMed": "2025-01-02",
         "gyldigTilOgMed": null,
         "adresse": {
-          "adressenavnNummer": "Veien (bosted)",
+          "adressenavnNummer": "Vien (opphold)",
           "bygningEtasjeLeilighet": null,
           "postboksNummerNavn": null,
           "postkode": "0194",
           "regionDistriktOmraade": "Osloregion",
-          "landkode": "NOR",
+          "landkode": "SWE",
           "@type": "UTENLANDSK_ADRESSE"
         }
       },
       "ident": "25105327164",
       "endringstype": "OPPRETT",
-      "opplysningstype": "BOSTEDSADRESSE"
+      "opplysningstype": "OPPHOLDSADRESSE"
     }
   ]
 }
