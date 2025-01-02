@@ -9,32 +9,32 @@
           "by": "Oslo",
           "postnummer": "0194",
           "landkode": "NOR",
-          "gate": "Veien (bosted)",
-          "region": "Osloregion"
+          "gate": "Gatenavn (bosted)",
+          "region": "Oslo"
         },
         {
           "landkode": "SWE",
           "type": "opphold",
-          "by": "Oslo",
-          "gate": "Vien (opphold)",
+          "by": "Stockholm",
+          "gate": "Gatenavn (opphold)",
           "bygning": "2a",
           "postnummer": "0194",
-          "region": "Osloregion",
+          "region": "Stockholm County",
           "land": "SE"
         },
         {
-          "by": "Oslo",
+          "by": "Copenhagen",
           "land": "DK",
-          "gate": "Veien (kontakt)",
+          "gate": "Gatenavn (kontakt)",
           "postnummer": "0194",
-          "region": "Osloregion",
+          "region": "Københavns Kommune",
           "type": "kontakt",
           "bygning": "3a",
           "landkode": "DNK"
         }
       ],
       "person": {
-        "fornavn": "VAKKER",
+        "fornavn": "John",
         "pin": [
           {
             "land": "NO",
@@ -54,7 +54,7 @@
           }
         ],
         "kjoenn": "M",
-        "etternavn": "DORULL",
+        "etternavn": "Doe",
         "foedselsdato": "1953-10-25"
       }
     }

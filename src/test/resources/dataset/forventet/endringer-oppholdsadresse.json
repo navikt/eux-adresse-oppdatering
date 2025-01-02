@@ -7,11 +7,11 @@
         "gyldigFraOgMed": "2025-01-02",
         "gyldigTilOgMed": null,
         "adresse": {
-          "adressenavnNummer": "Vien (opphold)",
+          "adressenavnNummer": "Gatenavn (opphold)",
           "bygningEtasjeLeilighet": "2a",
           "postboksNummerNavn": null,
           "postkode": "0194",
-          "regionDistriktOmraade": "Osloregion",
+          "regionDistriktOmraade": "Stockholm County",
           "landkode": "SWE",
           "@type": "UTENLANDSK_ADRESSE"
         }

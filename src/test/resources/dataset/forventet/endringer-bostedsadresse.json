@@ -7,11 +7,11 @@
         "gyldigFraOgMed": "2025-01-02",
         "gyldigTilOgMed": null,
         "adresse": {
-          "adressenavnNummer": "Veien (bosted)",
+          "adressenavnNummer": "Gatenavn (bosted)",
           "bygningEtasjeLeilighet": "1a",
           "postboksNummerNavn": null,
           "postkode": "0194",
-          "regionDistriktOmraade": "Osloregion",
+          "regionDistriktOmraade": "Oslo",
           "landkode": "NOR",
           "@type": "UTENLANDSK_ADRESSE"
         }
