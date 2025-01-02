@@ -24,15 +24,6 @@ class PdlService(
         log.info { "Endringsmelding for kontaktadresse sendt til PDL" }
     }
 
-    fun oppdaterBostedsadresse(adresse: Adresse, kilde: String, ident: String) {
-        pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
-            kilde = kilde,
-            ident = ident,
-            type = "BOSTEDSADRESSE"
-        )
-        log.info { "Endringsmelding for bostedsadresse sendt til PDL" }
-    }
-
     fun oppdaterOppholdsadresse(adresse: Adresse, kilde: String, ident: String) {
         pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
             kilde = kilde,
@@ -40,5 +31,29 @@ class PdlService(
             type = "OPPHOLDSADRESSE"
         )
         log.info { "Endringsmelding for oppholdsadresse sendt til PDL" }
+    }
+
+    fun oppdaterBostedsadresse(
+        adresse: Adresse,
+        kilde: String,
+        ident: String,
+        motpartLandkode: String?
+    ) {
+        when {
+            motpartLandkode == null ->
+                log.info { "Bostedsadresse er ikke sendt til PDL, da motpartLandkode er null" }
+
+            motpartLandkode != adresse.landkode ->
+                log.info { "Bostedsadresse er ikke sendt til PDL, da landkode ikke er lik motpartLandkode" }
+
+            else -> {
+                pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
+                    kilde = kilde,
+                    ident = ident,
+                    type = "BOSTEDSADRESSE"
+                )
+                log.info { "Endringsmelding for bostedsadresse sendt til PDL" }
+            }
+        }
     }
 }

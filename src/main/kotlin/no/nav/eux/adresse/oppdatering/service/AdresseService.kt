@@ -22,7 +22,8 @@ class AdresseService(
         )
         log.info { "Dokument hentet fra Rina" }
         println(dokument)
-        val identNor = dokument.identNor ?: identNor(rinasakId)
+        val rinasak = euxRinaApiClient.rinasak(rinasakId)
+        val identNor = dokument.identNor ?: rinasak.fnr
         if (identNor.isNullOrEmpty()) {
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av kontaktadresser" }
             return
@@ -33,16 +34,12 @@ class AdresseService(
                 oppdaterPdl(
                     adresse = it,
                     kilde = kafkaRinaDocument.kilde,
-                    ident = identNor
+                    ident = identNor,
+                    motpartLandkode = rinasak.motpartLandkode
                 )
             }
             ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
         log.info { "Oppdatering av kontaktadresser ferdig" }
-    }
-
-    private fun identNor(rinasakId: Long): String? {
-        log.info { "Henter identNor fra Rinasak" }
-        return null
     }
 
     fun EuxRinaApiDokument.Adresse.kanSendesTilPdl(): Boolean =
@@ -59,19 +56,12 @@ class AdresseService(
     fun oppdaterPdl(
         adresse: EuxRinaApiDokument.Adresse,
         kilde: String,
-        ident: String
+        ident: String,
+        motpartLandkode: String?
     ) {
         when (adresse.type) {
             "kontakt" -> {
                 pdlService.oppdaterKontaktadresse(
-                    adresse = adresse.validertAdresse,
-                    kilde = kilde,
-                    ident = ident
-                )
-            }
-
-            "bosted" -> {
-                pdlService.oppdaterBostedsadresse(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident
@@ -83,6 +73,15 @@ class AdresseService(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident
+                )
+            }
+
+            "bosted" -> {
+                pdlService.oppdaterBostedsadresse(
+                    adresse = adresse.validertAdresse,
+                    kilde = kilde,
+                    ident = ident,
+                    motpartLandkode = motpartLandkode
                 )
             }
 
