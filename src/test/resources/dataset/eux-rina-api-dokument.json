@@ -3,7 +3,7 @@
     "bruker": {
       "adresse": [
         {
-          "bygning": "1",
+          "bygning": "1a",
           "type": "bosted",
           "land": "NO",
           "by": "Oslo",
@@ -17,7 +17,7 @@
           "type": "opphold",
           "by": "Oslo",
           "gate": "Vien (opphold)",
-          "bygning": "2",
+          "bygning": "2a",
           "postnummer": "0194",
           "region": "Osloregion",
           "land": "SE"
@@ -29,7 +29,7 @@
           "postnummer": "0194",
           "region": "Osloregion",
           "type": "kontakt",
-          "bygning": "3",
+          "bygning": "3a",
           "landkode": "DNK"
         }
       ],

@@ -8,7 +8,7 @@
         "gyldigTilOgMed": null,
         "adresse": {
           "adressenavnNummer": "Veien (bosted)",
-          "bygningEtasjeLeilighet": null,
+          "bygningEtasjeLeilighet": "1a",
           "postboksNummerNavn": null,
           "postkode": "0194",
           "regionDistriktOmraade": "Osloregion",

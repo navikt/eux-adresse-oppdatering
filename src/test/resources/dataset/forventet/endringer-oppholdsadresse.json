@@ -8,7 +8,7 @@
         "gyldigTilOgMed": null,
         "adresse": {
           "adressenavnNummer": "Vien (opphold)",
-          "bygningEtasjeLeilighet": null,
+          "bygningEtasjeLeilighet": "2a",
           "postboksNummerNavn": null,
           "postkode": "0194",
           "regionDistriktOmraade": "Osloregion",

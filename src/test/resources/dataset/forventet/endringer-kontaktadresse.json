@@ -8,7 +8,7 @@
         "gyldigTilOgMed": "2030-01-02",
         "adresse": {
           "adressenavnNummer": "Veien (kontakt)",
-          "bygningEtasjeLeilighet": null,
+          "bygningEtasjeLeilighet": "3a",
           "postboksNummerNavn": null,
           "postkode": "0194",
           "regionDistriktOmraade": "Osloregion",
