@@ -15,13 +15,14 @@ class PdlMottakClient(
 
     infix fun endringsmeld(pdlUtenlandskAdresse: PdlUtenlandskAdresse) {
         log.info { "sender til pdl: $pdlUtenlandskAdresse" }
-        pdlMottakRestClient
+        val entity = pdlMottakRestClient
             .post()
             .uri("/api/v1/endringer")
             .contentType(APPLICATION_JSON)
             .body(pdlUtenlandskAdresse)
             .retrieve()
             .toBodilessEntity()
+        log.info { "Headers: ${entity.headers}" }
     }
 
 }
