@@ -1,0 +1,36 @@
+
+kafka:
+  topics:
+    eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1
+  properties:
+    security:
+      protocol: PLAINTEXT
+
+spring:
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+             packages: no.nav.eux.avslutt.rinasaker
+
+client:
+  id: 1
+  secret: secret
+  tokenEndpoint: http://localhost:9500/mock/oauth2/v2.0/token
+  pdlApi:
+    url: http://localhost:9500/mock/
+    scope: scope-pdl-api
+  pdlMottak:
+    url: http://localhost:9500/mock/
+    scope: scope-pdl-mottak
+  euxRinaApi:
+    url: http://localhost:9500/mock/
+    scope: scope-eux-rina-api

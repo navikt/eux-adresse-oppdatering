@@ -24,24 +24,28 @@ class EuxRinaCaseEventsKafkaListener(
     fun document(
         consumerRecord: ConsumerRecord<String, KafkaRinaDocument>
     ) {
-        val kafkaRinaDocument = consumerRecord.value()
-        val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
-        val documentEventType = kafkaRinaDocument.documentEventType
-        val caseId = documentMetadata.caseId
-        val bucType = kafkaRinaDocument.buc
-        mdc(
-            rinasakId = caseId.toInt(),
-            bucType = bucType,
-            sedType = documentMetadata.type
-        )
-        if (bucTilBehandling(bucType)) {
-            log.info { "Mottok dokument fra Kafka av type $documentEventType" }
-            adresseService.oppdaterPdl(kafkaRinaDocument)
-            log.info { "Adresseoppdatering for dokument ferdigstillt" }
-        } else {
-            log.info { "BUC type behandles ikke" }
+        try {
+            val kafkaRinaDocument = consumerRecord.value()
+            val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
+            val documentEventType = kafkaRinaDocument.documentEventType
+            val caseId = documentMetadata.caseId
+            val bucType = kafkaRinaDocument.buc
+            mdc(
+                rinasakId = caseId.toInt(),
+                bucType = bucType,
+                sedType = documentMetadata.type
+            )
+            if (bucTilBehandling(bucType)) {
+                log.info { "Mottok dokument fra Kafka av type $documentEventType" }
+                adresseService.oppdaterPdl(kafkaRinaDocument)
+                log.info { "Adresseoppdatering for dokument ferdigstillt" }
+            } else {
+                log.info { "BUC type behandles ikke" }
+            }
+            clearLocalMdc()
+        } catch (e: Exception) {
+            log.error(e) { "Feil ved behandling av dokument" }
         }
-        clearLocalMdc()
     }
 
     fun bucTilBehandling(bucType: String): Boolean =

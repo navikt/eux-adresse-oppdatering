@@ -1,0 +1,24 @@
+{
+  "personopplysninger": [
+    {
+      "endringsmelding": {
+        "kilde": "NAV",
+        "@type": "BOSTEDSADRESSE",
+        "gyldigFraOgMed": "2025-01-02",
+        "gyldigTilOgMed": null,
+        "adresse": {
+          "adressenavnNummer": "Veien (bosted)",
+          "bygningEtasjeLeilighet": null,
+          "postboksNummerNavn": null,
+          "postkode": "0194",
+          "regionDistriktOmraade": "Osloregion",
+          "landkode": "NOR",
+          "@type": "UTENLANDSK_ADRESSE"
+        }
+      },
+      "ident": "25105327164",
+      "endringstype": "OPPRETT",
+      "opplysningstype": "BOSTEDSADRESSE"
+    }
+  ]
+}
