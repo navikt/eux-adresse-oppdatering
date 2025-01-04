@@ -1,6 +1,6 @@
 package no.nav.eux.adresse.oppdatering.integration.client.pdl.model
 
-data class HentPerson(
+data class PdlPerson(
     val adressebeskyttelse: List<Adressebeskyttelse>?,
     val bostedsadresse: List<Bostedsadresse>?,
     val oppholdsadresse: List<Oppholdsadresse>?,

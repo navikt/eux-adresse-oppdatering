@@ -1,1 +1,25 @@
-{}
+[
+  {
+    "status": {
+      "endringId": 50006169,
+      "grunnlagId": 10035609,
+      "statusType": "DONE",
+      "substatus": [
+        {
+          "referanse": "ba461bd9-4270-45b5-b2e2-559fd7a9da55",
+          "domene": "PDL"
+        },
+        {
+          "referanse": "ba461bd9-4270-45b5-b2e2-559fd7a9da55",
+          "domene": "FREG"
+        }
+      ]
+    },
+    "ident": "25105327164",
+    "endringstype": "OPPRETT",
+    "opplysningstype": "KONTAKTADRESSE",
+    "opprettet": "2025-01-04T13:44:18.662919",
+    "innmeldtEndring": "{\"@type\": \"KONTAKTADRESSE\", \"kilde\": \"NAV ACC 07\", \"adresse\": {\"@type\": \"UTENLANDSK_ADRESSE\", \"landkode\": \"SWE\", \"postkode\": \"0194\", \"adressenavnNummer\": \"aa kontakt\", \"regionDistriktOmraade\": \"oslo\", \"bygningEtasjeLeilighet\": \"1a\"}, \"gyldigFraOgMed\": \"2025-01-04\", \"gyldigTilOgMed\": \"2030-01-04\"}",
+    "sendt": false
+  }
+]

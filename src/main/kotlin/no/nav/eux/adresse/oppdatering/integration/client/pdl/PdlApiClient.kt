@@ -1,7 +1,7 @@
 package no.nav.eux.adresse.oppdatering.integration.client.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
-import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.HentPerson
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.integration.config.GraphqlSpecs
 import org.springframework.graphql.client.HttpSyncGraphQlClient
 import org.springframework.stereotype.Component
@@ -20,7 +20,7 @@ class PdlApiClient(
         val response = pdlHttpSyncGraphQlClient.document(query)
             .variable("ident", personId)
             .retrieveSync("hentPerson")
-            .toEntity(HentPerson::class.java)
+            .toEntity(PdlPerson::class.java)
         log.info { "Response: $response" }
         return response?.toString() ?: "No data"
     }
