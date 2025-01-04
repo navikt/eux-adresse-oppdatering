@@ -4,8 +4,6 @@
       "endringsmelding": {
         "kilde": "NAV",
         "@type": "KONTAKTADRESSE",
-        "gyldigFraOgMed": "2025-01-02",
-        "gyldigTilOgMed": "2030-01-02",
         "adresse": {
           "adressenavnNummer": "Gatenavn (kontakt)",
           "bygningEtasjeLeilighet": "3a",

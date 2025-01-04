@@ -17,6 +17,7 @@ fun mockResponsePost(request: RecordedRequest) =
     when (request.uriEndsWith) {
         "/oauth2/v2.0/token" -> tokenResponse()
         "/api/v1/endringer" -> createdEndringResponse
+        "/graphql" -> okMockResponse medBody "/dataset/pdl-api-adresser.json"
         else -> defaultResponse
     }
 

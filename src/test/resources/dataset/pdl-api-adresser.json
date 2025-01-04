@@ -1,0 +1,140 @@
+{
+  "data": {
+    "hentPerson": {
+      "adressebeskyttelse": [
+        {
+          "gradering": "STRENGT_FORTROLIG"
+        }
+      ],
+      "bostedsadresse": [
+        {
+          "vegadresse": {
+            "husbokstav": "A",
+            "husnummer": "12",
+            "adressenavn": "Testveien",
+            "postnummer": "1234",
+            "kommunenummer": "5678",
+            "bydelsnummer": "910"
+          },
+          "utenlandskAdresse": {
+            "adressenavnNummer": "Test Street 1",
+            "bygningEtasjeLeilighet": "2nd Floor",
+            "postboksNummerNavn": "PO Box 123",
+            "postkode": "56789",
+            "bySted": "Test City",
+            "regionDistriktOmraade": "Test Region",
+            "landkode": "NO"
+          },
+          "gyldigFraOgMed": "2023-01-01",
+          "gyldigTilOgMed": "2023-12-31",
+          "metadata": {
+            "endringer": [
+              {
+                "kilde": "Test Source",
+                "registrert": "2023-01-01T12:00:00",
+                "registrertAv": "Test User",
+                "systemkilde": "Test System",
+                "type": "Test Type"
+              }
+            ],
+            "master": "Test Master",
+            "opplysningsId": "123456",
+            "historisk": false
+          }
+        }
+      ],
+      "oppholdsadresse": [
+        {
+          "vegadresse": {
+            "husbokstav": "B",
+            "husnummer": "34",
+            "adressenavn": "Oppholdsveien",
+            "postnummer": "5678",
+            "kommunenummer": "1234",
+            "bydelsnummer": "1112"
+          },
+          "utenlandskAdresse": {
+            "adressenavnNummer": "Stay Street 2",
+            "bygningEtasjeLeilighet": "3rd Floor",
+            "postboksNummerNavn": "PO Box 456",
+            "postkode": "67890",
+            "bySted": "Stay City",
+            "regionDistriktOmraade": "Stay Region",
+            "landkode": "SE"
+          },
+          "gyldigFraOgMed": "2023-02-01",
+          "metadata": {
+            "endringer": [
+              {
+                "kilde": "Stay Source",
+                "registrert": "2023-02-01T12:00:00",
+                "registrertAv": "Stay User",
+                "systemkilde": "Stay System",
+                "type": "Stay Type"
+              }
+            ],
+            "master": "Stay Master",
+            "opplysningsId": "654321",
+            "historisk": true
+          }
+        }
+      ],
+      "kontaktadresse": [
+        {
+          "coAdressenavn": "C/O Test",
+          "type": "Test Type",
+          "gyldigFraOgMed": "2023-03-01",
+          "gyldigTilOgMed": "2023-11-30",
+          "folkeregistermetadata": {
+            "gyldighetstidspunkt": "2023-03-01T12:00:00"
+          },
+          "metadata": {
+            "endringer": [
+              {
+                "kilde": "Contact Source",
+                "registrert": "2023-03-01T12:00:00",
+                "registrertAv": "Contact User",
+                "systemkilde": "Contact System",
+                "type": "Contact Type"
+              }
+            ],
+            "master": "Contact Master",
+            "opplysningsId": "789012",
+            "historisk": false
+          },
+          "postadresseIFrittFormat": {
+            "adresselinje1": "Line 1",
+            "adresselinje2": "Line 2",
+            "adresselinje3": "Line 3",
+            "postnummer": "3456"
+          },
+          "vegadresse": {
+            "husbokstav": "C",
+            "husnummer": "56",
+            "adressenavn": "Contactveien",
+            "postnummer": "7890",
+            "kommunenummer": "4321",
+            "bydelsnummer": "1314"
+          },
+          "utenlandskAdresse": {
+            "adressenavnNummer": "Contact Street 3",
+            "bygningEtasjeLeilighet": "4th Floor",
+            "postboksNummerNavn": "PO Box 789",
+            "postkode": "78901",
+            "bySted": "Contact City",
+            "regionDistriktOmraade": "Contact Region",
+            "landkode": "DK"
+          },
+          "utenlandskAdresseIFrittFormat": {
+            "adresselinje1": "Line 1",
+            "adresselinje2": "Line 2",
+            "adresselinje3": "Line 3",
+            "byEllerStedsnavn": "Contact City",
+            "landkode": "FI",
+            "postkode": "89012"
+          }
+        }
+      ]
+    }
+  }
+}

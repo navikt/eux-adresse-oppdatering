@@ -4,7 +4,6 @@
       "endringsmelding": {
         "kilde": "NAV",
         "@type": "OPPHOLDSADRESSE",
-        "gyldigFraOgMed": "2025-01-02",
         "gyldigTilOgMed": null,
         "adresse": {
           "adressenavnNummer": "Gatenavn (opphold)",

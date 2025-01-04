@@ -3,6 +3,7 @@ package no.nav.eux.adresse.oppdatering.service
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.EuxRinaApiClient
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaApiDokument
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlApiClient
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.springframework.stereotype.Service
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service
 class AdresseService(
     val euxRinaApiClient: EuxRinaApiClient,
     val pdlService: PdlService,
+    val pdlApiClient: PdlApiClient,
 ) {
 
     val log = logger {}
@@ -28,6 +30,7 @@ class AdresseService(
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av kontaktadresser" }
             return
         }
+        pdlApiClient.hentAdresser(identNor)
         dokument.nav.bruker.adresse
             ?.filter { it.kanSendesTilPdl() }
             ?.forEach {

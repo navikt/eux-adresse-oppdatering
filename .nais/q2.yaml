@@ -9,7 +9,7 @@ kafka:
 application:
   pdl-api:
     host: pdl-api.dev-fss-pub.nais.io
-    url: https://pdl-api.dev-fss-pub.nais.io/graphql
+    url: https://pdl-api.dev-fss-pub.nais.io
     scope: api://dev-fss.pdl.pdl-api/.default
 
   pdl-mottak:
