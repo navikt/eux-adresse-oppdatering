@@ -15,6 +15,7 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer
 import org.springframework.http.client.ClientHttpRequestInterceptor
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
+import java.util.*
 
 @Configuration
 class IntegrationConfig {
@@ -56,6 +57,8 @@ class IntegrationConfig {
         .builder()
         .baseUrl("${clientProperties.pdlApi.url}/graphql")
         .requestInterceptor(bearerTokenService interceptorFor PDL_API)
+        .defaultHeader("Behandlingsnummer", "B139,B271,B284,B286,B287,B299")
+        .defaultHeader("Nav-Call-Id", UUID.randomUUID().toString())
         .build()
 
     infix fun BearerTokenService.interceptorFor(
