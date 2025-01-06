@@ -19,7 +19,8 @@ val kafkaRinaDocumentMetadata = KafkaRinaDocumentMetadata(
     caseId = 1,
     versions = listOf(kafkaRinaDocumentVersions),
     creationDate = OffsetDateTime.now(),
-    creator = kafkaRinaDocumentCreator
+    creator = kafkaRinaDocumentCreator,
+    status = "received"
 )
 
 val kafkaRinaDocumentPayload = KafkaRinaDocumentPayload(
