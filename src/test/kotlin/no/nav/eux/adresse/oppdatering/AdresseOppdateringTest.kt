@@ -20,4 +20,11 @@ class AdresseOppdateringTest : AbstractTest() {
         "/api/v1/endringer" requestNumber 1 shouldEqual "/dataset/forventet/endringer-oppholdsadresse.json"
         "/api/v1/endringer" requestNumber 2 shouldEqual "/dataset/forventet/endringer-kontaktadresse.json"
     }
+
+    @Test
+    fun test() {
+        for (i in 1..60) {
+            println(i % 5 == 1)
+        }
+    }
 }

@@ -35,12 +35,12 @@ class EuxRinaCaseEventsKafkaListener(
                 bucType = bucType,
                 sedType = documentMetadata.type
             )
-            if (bucTilBehandling(bucType)) {
+            if (bucTilBehandling(bucType) && documentEventType == "RECEIVE_DOCUMENT") {
                 log.info { "Mottok dokument fra Kafka av type $documentEventType" }
                 adresseService.oppdaterPdl(kafkaRinaDocument)
                 log.info { "Adresseoppdatering for dokument ferdigstillt" }
             } else {
-                log.info { "BUC type behandles ikke" }
+                log.info { "Dokument behandles ikke" }
             }
             clearLocalMdc()
         } catch (e: Exception) {
@@ -48,12 +48,9 @@ class EuxRinaCaseEventsKafkaListener(
         }
     }
 
-    fun bucTilBehandling(bucType: String): Boolean =
+    fun bucTilBehandling(bucType: String) =
         when (bucType.split("_").first()) {
-            "H" -> true
-            "UB" -> true
-            "FB" -> true
-            "S" -> true
+            "H", "UB", "FB", "S" -> true
             else -> false
         }
 

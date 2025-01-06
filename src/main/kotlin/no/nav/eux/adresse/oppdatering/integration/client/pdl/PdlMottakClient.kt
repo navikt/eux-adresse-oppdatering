@@ -54,7 +54,7 @@ class PdlMottakClient(
             when (val status = entity.status.statusType) {
                 "PENDING" -> verifiser(attempt, maxAttempts, status, location)
                 "ERROR" -> log.error { "Feil ved verifisering: $entity" }
-                "DONE" -> log.info { "Endringsmelding verifisert" }
+                "DONE" -> log.info { "Endringsmelding verifisert (forsøk: $attempt)" }
                 else -> log.error { "Ukjent status: $status" }
             }
             log.info { "Status på verifisering: ${entity.status.statusType}" }
@@ -70,7 +70,7 @@ class PdlMottakClient(
         location: String
     ) {
         if (attempt < maxAttempts) {
-            log.info { "Status på verifisering: $status, forsøker igjen om 1 sekund" }
+            if (attempt % 5 == 1) log.info { "Status på verifisering: $status, forsøker igjen om 1 sekund" }
             sleep(1000)
             verifiser(location, attempt + 1)
         } else {
