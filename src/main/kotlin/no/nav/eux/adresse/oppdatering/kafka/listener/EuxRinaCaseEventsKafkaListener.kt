@@ -35,8 +35,8 @@ class EuxRinaCaseEventsKafkaListener(
                 bucType = bucType,
                 sedType = documentMetadata.type
             )
-            if (documentMetadata.status != "received") {
-                log.info { "Dokumentstatus er ikke 'received', dokumentet behandles ikke" }
+            if (documentMetadata.direction != "IN") {
+                log.info { "Dokument har ikke direction 'IN', avslutter behandling" }
             } else if (bucTilBehandling(bucType)) {
                 log.info { "Mottok dokument fra Kafka av type $documentEventType" }
                 adresseService.oppdaterPdl(kafkaRinaDocument)

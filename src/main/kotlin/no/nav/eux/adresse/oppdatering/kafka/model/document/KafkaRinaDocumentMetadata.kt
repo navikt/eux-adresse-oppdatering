@@ -10,4 +10,5 @@ data class KafkaRinaDocumentMetadata(
     val creationDate: OffsetDateTime,
     val creator: KafkaRinaDocumentCreator,
     val status: String,
+    val direction: String,
 )
