@@ -30,7 +30,7 @@ class AdresseService(
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av kontaktadresser" }
             return
         }
-        pdlApiClient.hentAdresser(identNor)
+        pdlApiClient.hentAdresser(identNor, kafkaRinaDocument.buc)
         dokument.nav.bruker.adresse
             ?.filter { it.kanSendesTilPdl() }
             ?.forEach {
