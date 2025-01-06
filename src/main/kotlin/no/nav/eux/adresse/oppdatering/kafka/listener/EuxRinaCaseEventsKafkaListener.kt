@@ -49,9 +49,12 @@ class EuxRinaCaseEventsKafkaListener(
     }
 
     fun bucTilBehandling(bucType: String): Boolean =
-        listOf(
-            "H_BUC_01"
-        )
-            .contains(bucType)
+        when (bucType.split("_").first()) {
+            "H" -> true
+            "UB" -> true
+            "FB" -> true
+            "S" -> true
+            else -> false
+        }
 
 }

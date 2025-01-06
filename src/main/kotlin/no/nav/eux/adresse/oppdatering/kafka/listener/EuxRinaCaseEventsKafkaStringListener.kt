@@ -13,6 +13,5 @@ class EuxRinaCaseEventsKafkaStringListener {
         containerFactory = "rinaDocumentKafkaListenerContainerFactoryString"
     )
     fun document(consumerRecord: ConsumerRecord<String, String>) {
-        println(consumerRecord.value())
     }
 }
