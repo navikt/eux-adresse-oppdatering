@@ -34,6 +34,7 @@ data class PdlUtenlandskAdresse(
         val bygningEtasjeLeilighet: String?,
         val postboksNummerNavn: String? = null,
         val postkode: String,
+        val bySted: String?,
         val regionDistriktOmraade: String?,
         val landkode: String,
         @JsonProperty("@type")
@@ -73,5 +74,6 @@ private val Adresse.adresse
         regionDistriktOmraade = regionDistriktOmraade,
         landkode = landkode
             ?: throw IllegalArgumentException("Kan ikke opprette utenlandsk adresse uten landkode"),
-        type = "UTENLANDSK_ADRESSE"
+        type = "UTENLANDSK_ADRESSE",
+        bySted = bySted,
     )
