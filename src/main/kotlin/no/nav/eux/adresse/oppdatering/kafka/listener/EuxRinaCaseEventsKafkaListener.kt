@@ -40,7 +40,7 @@ class EuxRinaCaseEventsKafkaListener(
                 adresseService.oppdaterPdl(kafkaRinaDocument)
                 log.info { "Adresseoppdatering for dokument ferdigstillt" }
             } else {
-                log.info { "Dokument behandles ikke" }
+                log.info { "Dokument behandles ikke ($documentEventType)" }
             }
             clearLocalMdc()
         } catch (e: Exception) {
