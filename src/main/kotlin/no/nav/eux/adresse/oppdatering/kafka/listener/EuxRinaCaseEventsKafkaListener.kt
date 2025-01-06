@@ -35,7 +35,9 @@ class EuxRinaCaseEventsKafkaListener(
                 bucType = bucType,
                 sedType = documentMetadata.type
             )
-            if (bucTilBehandling(bucType) && documentEventType in listOf("RECEIVE_DOCUMENT", "UPDATE_DOCUMENT")) {
+            if (documentMetadata.status != "received") {
+                log.info { "Dokumentstatus er ikke 'received', dokumentet behandles ikke" }
+            } else if (bucTilBehandling(bucType)) {
                 log.info { "Mottok dokument fra Kafka av type $documentEventType" }
                 adresseService.oppdaterPdl(kafkaRinaDocument)
                 log.info { "Adresseoppdatering for dokument ferdigstillt" }

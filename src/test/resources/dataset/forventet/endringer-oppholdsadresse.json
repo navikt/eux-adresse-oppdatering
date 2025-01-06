@@ -10,6 +10,7 @@
           "bygningEtasjeLeilighet": "2a",
           "postboksNummerNavn": null,
           "postkode": "0194",
+          "bySted": "Stockholm",
           "regionDistriktOmraade": "Stockholm County",
           "landkode": "SWE",
           "@type": "UTENLANDSK_ADRESSE"

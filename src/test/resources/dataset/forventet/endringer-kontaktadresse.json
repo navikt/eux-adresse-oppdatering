@@ -9,6 +9,7 @@
           "bygningEtasjeLeilighet": "3a",
           "postboksNummerNavn": null,
           "postkode": "0194",
+          "bySted": "Copenhagen",
           "regionDistriktOmraade": "Københavns Kommune",
           "landkode": "DNK",
           "@type": "UTENLANDSK_ADRESSE"

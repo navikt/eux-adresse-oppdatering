@@ -10,6 +10,7 @@
           "bygningEtasjeLeilighet": "1a",
           "postboksNummerNavn": null,
           "postkode": "0194",
+          "bySted": "Oslo",
           "regionDistriktOmraade": "Oslo",
           "landkode": "NOR",
           "@type": "UTENLANDSK_ADRESSE"
