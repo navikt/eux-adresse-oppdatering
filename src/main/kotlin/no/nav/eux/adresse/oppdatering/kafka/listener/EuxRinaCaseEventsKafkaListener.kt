@@ -44,9 +44,10 @@ class EuxRinaCaseEventsKafkaListener(
             } else {
                 log.info { "Dokument behandles ikke ($documentEventType)" }
             }
-            clearLocalMdc()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
+        } finally {
+            clearLocalMdc()
         }
     }
 

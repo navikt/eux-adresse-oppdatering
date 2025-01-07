@@ -117,4 +117,5 @@ fun Adresse.regionDistriktOmraadeValidert(): String? =
 fun Adresse.flyttAdressenavnNummerTilPostboksNummerNavn(): Adresse =
     if (adressenavnNummer != null && ordForPostboks.any { it in adressenavnNummer })
         copy(adressenavnNummer = null, postboksNummerNavn = adressenavnNummer)
-    else this
+    else
+        this

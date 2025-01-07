@@ -40,15 +40,15 @@ data class EuxRinaApiDokument(
     )
 
     data class Horisontal(
-        val anmodningominformasjon: AnmodningOmInformasjon
+        val anmodningominformasjon: AnmodningOmInformasjon?
     )
 
     data class AnmodningOmInformasjon(
-        val fastslaabosted: FastslaBosted
+        val fastslaabosted: FastslaBosted?
     )
 
     data class FastslaBosted(
-        val bruker: Bruker
+        val bruker: Bruker?
     ) {
         data class Bruker(
             val adresse: List<Adresse>?
