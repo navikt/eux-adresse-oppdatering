@@ -7,10 +7,10 @@ data class PdlPerson(
     val bostedsadresse: List<Bostedsadresse>?,
     val oppholdsadresse: List<Oppholdsadresse>?,
     val kontaktadresse: List<Kontaktadresse>?,
-    val doedsfall: Doedsfall?,
+    val doedsfall: List<Doedsfall>?,
 ) {
 
-    val dead get() = doedsfall?.doedsdato != null
+    val dead get() = doedsfall?.firstOrNull()?.doedsdato != null
 
     data class Adressebeskyttelse(
         val gradering: String

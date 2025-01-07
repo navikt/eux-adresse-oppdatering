@@ -1,0 +1,43 @@
+{
+  "horisontal": {
+    "anmodningominformasjon": {
+      "fastslaabosted": {
+        "bruker": {
+          "adresse": [
+            {
+              "postnummer": "4325",
+              "bygning": "hfg",
+              "landkode": "AUT",
+              "land": "AT",
+              "gate": "efgegd",
+              "by": "gergw",
+              "type": "kontakt",
+              "region": "df"
+            }
+          ]
+        }
+      },
+      "detaljer": "sdgfrfg"
+    }
+  },
+  "nav": {
+    "bruker": {
+      "person": {
+        "kjoenn": "M",
+        "etternavn": "gdsfg",
+        "fornavn": "gdf",
+        "foedselsdato": "2003-02-05",
+        "pin": [
+          {
+            "land": "NO",
+            "landkode": "NOR",
+            "identifikator": "21028915338"
+          }
+        ]
+      }
+    }
+  },
+  "sedGVer": "4",
+  "sedVer": "3",
+  "sed": "H005"
+}

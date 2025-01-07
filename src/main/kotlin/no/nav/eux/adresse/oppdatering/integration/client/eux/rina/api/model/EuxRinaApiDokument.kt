@@ -2,6 +2,7 @@ package no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model
 
 data class EuxRinaApiDokument(
     val nav: Nav,
+    val horisontal: Horisontal?,
     val sed: String,
     val sedGVer: String,
     val sedVer: String
@@ -37,6 +38,22 @@ data class EuxRinaApiDokument(
         val identifikator: String,
         val landkode: String,
     )
+
+    data class Horisontal(
+        val anmodningominformasjon: AnmodningOmInformasjon
+    )
+
+    data class AnmodningOmInformasjon(
+        val fastslaabosted: FastslaBosted
+    )
+
+    data class FastslaBosted(
+        val bruker: Bruker
+    ) {
+        data class Bruker(
+            val adresse: List<Adresse>?
+        )
+    }
 
     val identNor: String?
         get() = nav.bruker.person.pin.firstOrNull { it.landkode == "NOR" }?.identifikator

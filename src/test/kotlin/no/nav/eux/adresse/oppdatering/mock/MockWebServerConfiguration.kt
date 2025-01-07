@@ -36,7 +36,7 @@ class MockWebServerConfiguration(
                 requestBodies[request.uriEndsWith] = mutableListOf(body)
             else
                 bodyList.add(body)
-            return mockResponse(request)
+            return mockResponse(request, body)
         }
     }
 }

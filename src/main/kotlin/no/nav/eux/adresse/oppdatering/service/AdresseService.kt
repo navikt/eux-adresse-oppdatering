@@ -66,39 +66,31 @@ class AdresseService(
         pdlPerson: PdlPerson
     ) {
         when (adresse.type) {
-            "kontakt" -> {
-                pdlService.oppdaterKontaktadresse(
-                    adresse = adresse.validertAdresse,
-                    kilde = kilde,
-                    ident = ident,
-                    eksisterendeKontaktadresser = pdlPerson.kontaktadresse
-                )
-            }
+            "kontakt" -> pdlService.oppdaterKontaktadresse(
+                adresse = adresse.validertAdresse,
+                kilde = kilde,
+                ident = ident,
+                eksisterendeKontaktadresser = pdlPerson.kontaktadresse
+            )
 
-            "opphold" -> {
-                pdlService.oppdaterOppholdsadresse(
-                    adresse = adresse.validertAdresse,
-                    kilde = kilde,
-                    ident = ident,
-                    eksisterendeOppholdsadresser = pdlPerson.oppholdsadresse,
-                    pdlPerson.dead
-                )
-            }
+            "opphold" -> pdlService.oppdaterOppholdsadresse(
+                adresse = adresse.validertAdresse,
+                kilde = kilde,
+                ident = ident,
+                eksisterendeOppholdsadresser = pdlPerson.oppholdsadresse,
+                pdlPerson.dead
+            )
 
-            "bosted" -> {
-                pdlService.oppdaterBostedsadresse(
-                    adresse = adresse.validertAdresse,
-                    kilde = kilde,
-                    ident = ident,
-                    motpartLandkode = motpartLandkode,
-                    eksisterendeBostedsadresser = pdlPerson.bostedsadresse,
-                    pdlPerson.dead
-                )
-            }
+            "bosted" -> pdlService.oppdaterBostedsadresse(
+                adresse = adresse.validertAdresse,
+                kilde = kilde,
+                ident = ident,
+                motpartLandkode = motpartLandkode,
+                eksisterendeBostedsadresser = pdlPerson.bostedsadresse,
+                pdlPerson.dead
+            )
 
-            else -> {
-                log.info { "Ukjent adresse type ${adresse.type}, adresse blir ikke sendt til PDL" }
-            }
+            else -> log.info { "Ukjent adresse type ${adresse.type}, adresse blir ikke sendt til PDL" }
         }
     }
 
