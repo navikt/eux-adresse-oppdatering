@@ -14,7 +14,7 @@ class PdlApiClient(
 
     val log = logger {}
 
-    fun hentAdresser(personId: String, buc: String): String {
+    fun hentAdresser(personId: String, buc: String): PdlPerson {
         val query = graphqlSpecs.read("pdl-adresser-query.graphql")
         val response = pdlHttpSyncGraphQlClient
             .mutate()
@@ -24,8 +24,9 @@ class PdlApiClient(
             .variable("ident", personId)
             .retrieveSync("hentPerson")
             .toEntity(PdlPerson::class.java)
+            ?: throw RuntimeException("Fant ikke person i PDL")
         log.info { "Response: $response" }
-        return response?.toString() ?: "No data"
+        return response
     }
 
     private val String.behandlingsnummer

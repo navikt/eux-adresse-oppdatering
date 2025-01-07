@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.EuxRinaApiClient
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaApiDokument
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlApiClient
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.springframework.stereotype.Service
 
@@ -30,7 +31,7 @@ class AdresseService(
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av kontaktadresser" }
             return
         }
-        pdlApiClient.hentAdresser(identNor, kafkaRinaDocument.buc)
+        val eksisterendeAdresser = pdlApiClient.hentAdresser(identNor, kafkaRinaDocument.buc)
         dokument.nav.bruker.adresse
             ?.filter { it.kanSendesTilPdl() }
             ?.forEach {
@@ -38,7 +39,8 @@ class AdresseService(
                     adresse = it,
                     kilde = kafkaRinaDocument.kilde,
                     ident = identNor,
-                    motpartLandkode = rinasak.motpartLandkode
+                    motpartLandkode = rinasak.motpartLandkode,
+                    eksisterendeAdresser = eksisterendeAdresser
                 )
             }
             ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
@@ -60,14 +62,16 @@ class AdresseService(
         adresse: EuxRinaApiDokument.Adresse,
         kilde: String,
         ident: String,
-        motpartLandkode: String?
+        motpartLandkode: String?,
+        eksisterendeAdresser: PdlPerson
     ) {
         when (adresse.type) {
             "kontakt" -> {
                 pdlService.oppdaterKontaktadresse(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
-                    ident = ident
+                    ident = ident,
+                    eksisterendeKontaktadresser = eksisterendeAdresser.kontaktadresse
                 )
             }
 
@@ -75,7 +79,8 @@ class AdresseService(
                 pdlService.oppdaterOppholdsadresse(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
-                    ident = ident
+                    ident = ident,
+                    eksisterendeOppholdsadresser = eksisterendeAdresser.oppholdsadresse
                 )
             }
 
@@ -84,7 +89,8 @@ class AdresseService(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident,
-                    motpartLandkode = motpartLandkode
+                    motpartLandkode = motpartLandkode,
+                    eksisterendeBostedsadresser = eksisterendeAdresser.bostedsadresse
                 )
             }
 
