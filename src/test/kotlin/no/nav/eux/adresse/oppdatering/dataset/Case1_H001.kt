@@ -1,19 +1,19 @@
 package no.nav.eux.adresse.oppdatering.dataset
 
-import no.nav.eux.adresse.oppdatering.kafka.model.document.*
+import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import java.time.OffsetDateTime
 
-val kafkaRinaDocumentVersions = KafkaRinaDocumentVersions(
+val kafkaRinaDocumentVersions = KafkaRinaDocument.Version(
     id = 1
 )
 
-val kafkaRinaDocumentCreator = KafkaRinaDocumentCreator(
-    organisation = KafkaRinaDocumentCreator.Organisation(
+val kafkaRinaDocumentCreator = KafkaRinaDocument.Creator(
+    organisation = KafkaRinaDocument.Creator.Organisation(
         name = "NAV"
     )
 )
 
-val kafkaRinaDocumentMetadata = KafkaRinaDocumentMetadata(
+val kafkaRinaDocumentMetadata = KafkaRinaDocument.Metadata(
     id = "1",
     type = "H001",
     caseId = 1,
@@ -24,7 +24,7 @@ val kafkaRinaDocumentMetadata = KafkaRinaDocumentMetadata(
     direction = "IN",
 )
 
-val kafkaRinaDocumentPayload = KafkaRinaDocumentPayload(
+val kafkaRinaDocumentPayload = KafkaRinaDocument.Payload(
     documentMetadata = kafkaRinaDocumentMetadata
 )
 
