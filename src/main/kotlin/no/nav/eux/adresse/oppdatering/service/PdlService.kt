@@ -22,6 +22,8 @@ class PdlService(
         eksisterendeKontaktadresser: List<PdlPerson.Kontaktadresse>?
     ) {
         when {
+            adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal kontaktadresse er ikke implementert" }
+
             adresse finnesIKontaktadresserI eksisterendeKontaktadresser ->
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
@@ -44,6 +46,8 @@ class PdlService(
         eksisterendeOppholdsadresser: List<PdlPerson.Oppholdsadresse>?
     ) {
         when {
+            adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal kontaktadresse er ikke implementert" }
+
             adresse finnesIOppholdsadresserI eksisterendeOppholdsadresser ->
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
@@ -66,6 +70,8 @@ class PdlService(
         eksisterendeBostedsadresser: List<PdlPerson.Bostedsadresse>?
     ) {
         when {
+            adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal kontaktadresse er ikke implementert" }
+
             adresse finnesIBostedsadresserI eksisterendeBostedsadresser ->
                 log.info { "Bostedsadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
