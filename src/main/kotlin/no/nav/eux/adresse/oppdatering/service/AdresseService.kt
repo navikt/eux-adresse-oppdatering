@@ -40,7 +40,7 @@ class AdresseService(
                     kilde = kafkaRinaDocument.kilde,
                     ident = identNor,
                     motpartLandkode = rinasak.motpartLandkode,
-                    eksisterendeAdresser = eksisterendeAdresser
+                    pdlPerson = eksisterendeAdresser
                 )
             }
             ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
@@ -63,7 +63,7 @@ class AdresseService(
         kilde: String,
         ident: String,
         motpartLandkode: String?,
-        eksisterendeAdresser: PdlPerson
+        pdlPerson: PdlPerson
     ) {
         when (adresse.type) {
             "kontakt" -> {
@@ -71,7 +71,7 @@ class AdresseService(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident,
-                    eksisterendeKontaktadresser = eksisterendeAdresser.kontaktadresse
+                    eksisterendeKontaktadresser = pdlPerson.kontaktadresse
                 )
             }
 
@@ -80,7 +80,8 @@ class AdresseService(
                     adresse = adresse.validertAdresse,
                     kilde = kilde,
                     ident = ident,
-                    eksisterendeOppholdsadresser = eksisterendeAdresser.oppholdsadresse
+                    eksisterendeOppholdsadresser = pdlPerson.oppholdsadresse,
+                    pdlPerson.dead
                 )
             }
 
@@ -90,7 +91,8 @@ class AdresseService(
                     kilde = kilde,
                     ident = ident,
                     motpartLandkode = motpartLandkode,
-                    eksisterendeBostedsadresser = eksisterendeAdresser.bostedsadresse
+                    eksisterendeBostedsadresser = pdlPerson.bostedsadresse,
+                    pdlPerson.dead
                 )
             }
 

@@ -43,9 +43,12 @@ class PdlService(
         adresse: Adresse,
         kilde: String,
         ident: String,
-        eksisterendeOppholdsadresser: List<PdlPerson.Oppholdsadresse>?
+        eksisterendeOppholdsadresser: List<PdlPerson.Oppholdsadresse>?,
+        dead: Boolean
     ) {
         when {
+            dead -> log.info { "Oppdaterer ikke oppholdsadresse for død person" }
+
             adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal oppholdsadresse er ikke implementert" }
 
             adresse finnesIOppholdsadresserI eksisterendeOppholdsadresser ->
@@ -67,10 +70,13 @@ class PdlService(
         kilde: String,
         ident: String,
         motpartLandkode: String?,
-        eksisterendeBostedsadresser: List<PdlPerson.Bostedsadresse>?
+        eksisterendeBostedsadresser: List<PdlPerson.Bostedsadresse>?,
+        dead: Boolean
     ) {
         when {
-            adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal bostedsadresse er ikke implementert" }
+            dead -> log.info { "Oppdaterer ikke bostedsadresse for død person" }
+
+            adresse.landkode == "NOR" -> log.info { "Oppdaterer ikke norsk bostedsadresse" }
 
             adresse finnesIBostedsadresserI eksisterendeBostedsadresser ->
                 log.info { "Bostedsadresse er ikke sendt til PDL, da adresse allerede er registrert" }

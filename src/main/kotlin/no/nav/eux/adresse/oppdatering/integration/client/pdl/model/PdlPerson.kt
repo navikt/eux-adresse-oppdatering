@@ -1,11 +1,17 @@
 package no.nav.eux.adresse.oppdatering.integration.client.pdl.model
 
+import java.time.LocalDate
+
 data class PdlPerson(
     val adressebeskyttelse: List<Adressebeskyttelse>?,
     val bostedsadresse: List<Bostedsadresse>?,
     val oppholdsadresse: List<Oppholdsadresse>?,
-    val kontaktadresse: List<Kontaktadresse>?
+    val kontaktadresse: List<Kontaktadresse>?,
+    val doedsfall: Doedsfall?,
 ) {
+
+    val dead get() = doedsfall?.doedsdato != null
+
     data class Adressebeskyttelse(
         val gradering: String
     )
@@ -90,5 +96,11 @@ data class PdlPerson(
         val byEllerStedsnavn: String?,
         val landkode: String?,
         val postkode: String?
+    )
+
+    data class Doedsfall(
+        val doedsdato: LocalDate? = null,
+        val folkeregistermetadata: Folkeregistermetadata? = null,
+        val metadata: Metadata
     )
 }

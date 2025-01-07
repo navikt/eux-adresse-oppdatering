@@ -52,6 +52,12 @@ query($ident: ID!) {
                 ...utenlandskAdresseIFrittFormat
             }
         }
+        doedsfall {
+            doedsdato
+            metadata {
+                ...metadataDetails
+            }
+        }
     }
 }
 
