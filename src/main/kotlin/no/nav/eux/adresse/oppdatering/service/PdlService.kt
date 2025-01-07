@@ -69,6 +69,7 @@ class PdlService(
         motpartLandkode: String?,
         eksisterendeBostedsadresser: List<PdlPerson.Bostedsadresse>?
     ) {
+        log.info { "landkode: ${adresse.landkode}, type: bosted2" }
         when {
             adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal bostedsadresse er ikke implementert" }
 

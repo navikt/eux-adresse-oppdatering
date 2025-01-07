@@ -11,12 +11,14 @@ class AdresseOppdateringTest : AbstractTest() {
     @Test
     fun adresseOppdatering() {
         kafkaTopicRinaDocumentEvents send case1H001
-        await until { requestBodies["/api/v1/endringer"]?.size == 2 }
+        await until { requestBodies["/api/v1/endringer"]?.size == 3 }
         skrivUtEksterneKall()
         println("/api/v1/endringer" requestNumber 0)
         println("/api/v1/endringer" requestNumber 1)
-        "/api/v1/endringer" requestNumber 0 shouldEqual "/dataset/forventet/endringer-oppholdsadresse.json"
-        "/api/v1/endringer" requestNumber 1 shouldEqual "/dataset/forventet/endringer-kontaktadresse.json"
+        println("/api/v1/endringer" requestNumber 2)
+        "/api/v1/endringer" requestNumber 0 shouldEqual "/dataset/forventet/endringer-bostedsadresse.json"
+        "/api/v1/endringer" requestNumber 1 shouldEqual "/dataset/forventet/endringer-oppholdsadresse.json"
+        "/api/v1/endringer" requestNumber 2 shouldEqual "/dataset/forventet/endringer-kontaktadresse.json"
     }
 
 }

@@ -21,11 +21,11 @@
   "sistEndretDato": "2024-12-27",
   "motparter": [
     {
-      "formatertNavn": "NAV ACC 06 (Norge)",
+      "formatertNavn": "NAV ACC 06 (Sverige)",
       "motpartId": "NO:NAVAT06",
       "motpartNavn": "NAV ACC 06",
-      "motpartLand": "NO",
-      "motpartLandkode": "NOR"
+      "motpartLand": "SE",
+      "motpartLandkode": "SWE"
     }
   ],
   "sakshandlinger": [

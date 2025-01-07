@@ -65,6 +65,7 @@ class AdresseService(
         motpartLandkode: String?,
         eksisterendeAdresser: PdlPerson
     ) {
+        log.info { "landkode: ${adresse.landkode}, type: ${adresse.type}" }
         when (adresse.type) {
             "kontakt" -> {
                 pdlService.oppdaterKontaktadresse(
