@@ -31,7 +31,9 @@ fun mockResponsePostGraphql(body: String) =
 fun mockResponseGet(request: RecordedRequest) =
     when (request.uriEndsWith) {
         "/cpi/buc/1/sed/1?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-dokument-h001.json"
+        "/cpi/buc/2/sed/2?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-dokument-h005.json"
         "/v3/buc/1/oversikt?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-rinasak.json"
+        "/v3/buc/2/oversikt?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-rinasak.json"
         "/endringsstatus" -> okMockResponse medBody "/dataset/endringsstatus.json"
         else -> defaultResponse
     }

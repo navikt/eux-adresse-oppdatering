@@ -44,6 +44,18 @@ class AdresseService(
                 )
             }
             ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
+        dokument.horisontal?.anmodningominformasjon?.fastslaabosted?.bruker?.adresse
+            ?.filter { it.kanSendesTilPdl() }
+            ?.forEach {
+                oppdaterPdl(
+                    adresse = it,
+                    kilde = kafkaRinaDocument.kilde,
+                    ident = identNor,
+                    motpartLandkode = rinasak.motpartLandkode,
+                    pdlPerson = eksisterendeAdresser
+                )
+            }
+            ?: log.info { "Ingen adresser å oppdatere på horisontal/anmodningominformasjon/fastslaabosted" }
         log.info { "Oppdatering av kontaktadresser ferdig" }
     }
 

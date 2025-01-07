@@ -5,14 +5,14 @@
         "bruker": {
           "adresse": [
             {
-              "postnummer": "4325",
-              "bygning": "hfg",
-              "landkode": "AUT",
-              "land": "AT",
-              "gate": "efgegd",
-              "by": "gergw",
+              "by": "Copenhagen",
+              "land": "DK",
+              "gate": "Gatenavn fastslå (kontakt)",
+              "postnummer": "0194",
+              "region": "Københavns Kommune",
               "type": "kontakt",
-              "region": "df"
+              "bygning": "3a",
+              "landkode": "DNK"
             }
           ]
         }
@@ -31,7 +31,7 @@
           {
             "land": "NO",
             "landkode": "NOR",
-            "identifikator": "21028915338"
+            "identifikator": "25105327165"
           }
         ]
       }

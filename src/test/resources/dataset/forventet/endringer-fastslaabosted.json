@@ -1,0 +1,23 @@
+{
+  "personopplysninger": [
+    {
+      "endringsmelding": {
+        "kilde": "NAV",
+        "@type": "KONTAKTADRESSE",
+        "adresse": {
+          "adressenavnNummer": "Gatenavn fastslå (kontakt)",
+          "bygningEtasjeLeilighet": "3a",
+          "postboksNummerNavn": null,
+          "postkode": "0194",
+          "bySted": "Copenhagen",
+          "regionDistriktOmraade": "Københavns Kommune",
+          "landkode": "DNK",
+          "@type": "UTENLANDSK_ADRESSE"
+        }
+      },
+      "ident": "25105327165",
+      "endringstype": "OPPRETT",
+      "opplysningstype": "KONTAKTADRESSE"
+    }
+  ]
+}
