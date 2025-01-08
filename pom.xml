@@ -11,7 +11,7 @@
     <parent>
         <groupId>no.nav.eux</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.0.28</version>
+        <version>1.0.29</version>
     </parent>
 
     <properties>
@@ -140,7 +140,6 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.12.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>

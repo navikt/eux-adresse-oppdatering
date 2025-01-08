@@ -24,7 +24,6 @@ class AdresseService(
             sedId = kafkaRinaDocument.payLoad.documentMetadata.id
         )
         log.info { "Dokument hentet fra Rina" }
-        println(dokument)
         val rinasak = euxRinaApiClient.rinasak(rinasakId)
         val identNor = identNor(dokument, rinasak)
         if (identNor.isNullOrEmpty()) {
