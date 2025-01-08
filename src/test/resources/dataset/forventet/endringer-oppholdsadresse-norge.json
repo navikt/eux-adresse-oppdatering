@@ -1,0 +1,24 @@
+{
+  "personopplysninger": [
+    {
+      "endringsmelding": {
+        "kilde": "NAV",
+        "@type": "OPPHOLDSADRESSE",
+        "gyldigTilOgMed": null,
+        "adresse": {
+          "matrikkelId": null,
+          "bruksenhetsnummer": null,
+          "adressenavn": "Gatenavn (opphold)",
+          "husnummer": null,
+          "husbokstav": null,
+          "tilleggsnavn": "1a",
+          "postnummer": "0194",
+          "@type": "VEGADRESSE"
+        }
+      },
+      "ident": "25105327166",
+      "endringstype": "OPPRETT",
+      "opplysningstype": "OPPHOLDSADRESSE"
+    }
+  ]
+}

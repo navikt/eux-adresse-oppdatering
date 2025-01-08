@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlMottakClient
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlUtenlandskAdresse
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlVegadresse
 import no.nav.eux.adresse.oppdatering.model.Adresse
 import org.springframework.stereotype.Service
 import java.time.LocalDate.now
@@ -22,10 +23,18 @@ class PdlService(
         eksisterendeKontaktadresser: List<PdlPerson.Kontaktadresse>?
     ) {
         when {
-            adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal kontaktadresse er ikke implementert" }
-
             adresse finnesIKontaktadresserI eksisterendeKontaktadresser ->
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
+
+            adresse.landkode == "NOR" -> {
+                pdlMottakClient endringsmeld adresse.toPdlVegadresse(
+                    kilde = kilde,
+                    ident = ident,
+                    type = "KONTAKTADRESSE",
+                    gyldigTilOgMed = now().plusYears(5)
+                )
+                log.info { "Endringsmelding for kontaktadresse sendt til PDL" }
+            }
 
             else -> {
                 pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
@@ -49,10 +58,17 @@ class PdlService(
         when {
             dead -> log.info { "Oppdaterer ikke oppholdsadresse for død person" }
 
-            adresse.landkode == "NOR" -> log.info { "Oppdatering av nasjonal oppholdsadresse er ikke implementert" }
-
             adresse finnesIOppholdsadresserI eksisterendeOppholdsadresser ->
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
+
+            adresse.landkode == "NOR" -> {
+                pdlMottakClient endringsmeld adresse.toPdlVegadresse(
+                    kilde = kilde,
+                    ident = ident,
+                    type = "OPPHOLDSADRESSE"
+                )
+                log.info { "Endringsmelding for norsk oppholdsadresse sendt til PDL" }
+            }
 
             else -> {
                 pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
@@ -60,7 +76,7 @@ class PdlService(
                     ident = ident,
                     type = "OPPHOLDSADRESSE"
                 )
-                log.info { "Endringsmelding for oppholdsadresse sendt til PDL" }
+                log.info { "Endringsmelding for utenlandsk oppholdsadresse sendt til PDL" }
             }
         }
     }

@@ -23,18 +23,21 @@ fun mockResponsePost(request: RecordedRequest, body: String) =
 
 fun mockResponsePostGraphql(body: String) =
     when {
-        body.contains("25105327164") -> okMockResponse medBody "/dataset/pdl-api-adresser-25105327164.json"
-        body.contains("25105327165") -> okMockResponse medBody "/dataset/pdl-api-adresser-25105327165.json"
+        body.contains("25105327164") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-25105327164.json"
+        body.contains("25105327165") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-25105327165.json"
+        body.contains("25105327166") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-25105327166.json"
         else -> defaultResponse
     }
 
 fun mockResponseGet(request: RecordedRequest) =
     when (request.uriEndsWith) {
-        "/cpi/buc/1/sed/1?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-dokument-h001.json"
-        "/cpi/buc/2/sed/2?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-dokument-h005.json"
-        "/v3/buc/1/oversikt?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-rinasak.json"
-        "/v3/buc/2/oversikt?domene=nav" -> okMockResponse medBody "/dataset/eux-rina-api-rinasak.json"
-        "/endringsstatus" -> okMockResponse medBody "/dataset/endringsstatus.json"
+        "/cpi/buc/1/sed/1?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-h001.json"
+        "/cpi/buc/2/sed/2?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-h005.json"
+        "/cpi/buc/3/sed/3?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-h001-norge.json"
+        "/v3/buc/1/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
+        "/v3/buc/2/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
+        "/v3/buc/3/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
+        "/endringsstatus" -> okMockResponse medBody "/dataset/mock/endringsstatus.json"
         else -> defaultResponse
     }
 

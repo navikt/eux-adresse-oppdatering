@@ -2,7 +2,6 @@ package no.nav.eux.adresse.oppdatering.integration.client.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlEndringsstatus
-import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlUtenlandskAdresse
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
@@ -16,13 +15,13 @@ class PdlMottakClient(
 
     val log = logger {}
 
-    infix fun endringsmeld(pdlUtenlandskAdresse: PdlUtenlandskAdresse) {
-        log.info { "sender til pdl: $pdlUtenlandskAdresse" }
+    infix fun endringsmeld(adresse: Any) {
+        log.info { "sender til pdl: $adresse" }
         val entity = pdlMottakRestClient
             .post()
             .uri("/api/v1/endringer")
             .contentType(APPLICATION_JSON)
-            .body(pdlUtenlandskAdresse)
+            .body(adresse)
             .retrieve()
             .toBodilessEntity()
         log.info { "Headers: ${entity.headers}" }
