@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlMottakClient
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlUtenlandskAdresse
-import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlVegadresse
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlVegadresseOrNull
 import no.nav.eux.adresse.oppdatering.model.Adresse
 import org.springframework.stereotype.Service
 import java.time.LocalDate.now
@@ -27,13 +27,18 @@ class PdlService(
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
             adresse.landkode == "NOR" -> {
-                pdlMottakClient endringsmeld adresse.toPdlVegadresse(
+                val vegadresse = adresse.toPdlVegadresseOrNull(
                     kilde = kilde,
                     ident = ident,
                     type = "KONTAKTADRESSE",
                     gyldigTilOgMed = now().plusYears(5)
                 )
-                log.info { "Endringsmelding for kontaktadresse sendt til PDL" }
+                if (vegadresse != null) {
+                    pdlMottakClient endringsmeld vegadresse
+                    log.info { "Endringsmelding for norsk kontaktadresse sendt til PDL" }
+                } else {
+                    log.info { "Kunne ikke mappe norsk kontaktadresse til vegadresse" }
+                }
             }
 
             else -> {
@@ -62,12 +67,17 @@ class PdlService(
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
             adresse.landkode == "NOR" -> {
-                pdlMottakClient endringsmeld adresse.toPdlVegadresse(
+                val vegadresse = adresse.toPdlVegadresseOrNull(
                     kilde = kilde,
                     ident = ident,
                     type = "OPPHOLDSADRESSE"
                 )
-                log.info { "Endringsmelding for norsk oppholdsadresse sendt til PDL" }
+                if (vegadresse != null) {
+                    pdlMottakClient endringsmeld vegadresse
+                    log.info { "Endringsmelding for norsk oppholdsadresse sendt til PDL" }
+                } else {
+                    log.info { "Kunne ikke mappe norsk oppholdsadresse til vegadresse" }
+                }
             }
 
             else -> {

@@ -42,13 +42,14 @@ data class PdlVegadresse(
     )
 }
 
-fun Adresse.toPdlVegadresse(
+fun Adresse.toPdlVegadresseOrNull(
     kilde: String,
     ident: String,
     type: String,
     gyldigTilOgMed: LocalDate? = null,
-) =
-    PdlVegadresse(
+): PdlVegadresse? {
+    val adresse = adresseOrNull() ?: return null
+    return PdlVegadresse(
         personopplysninger = listOf(
             PdlVegadresse.Personopplysning(
                 ident = ident,
@@ -64,15 +65,94 @@ fun Adresse.toPdlVegadresse(
             )
         )
     )
+}
 
-private val Adresse.adresse
-    get() = PdlVegadresse.Adresse(
+private fun Adresse.adresseOrNull(): PdlVegadresse.Adresse? {
+    val adressenavn = adressenavnOrNull(adressenavnNummer ?: postboksNummerNavn)
+    val husnummer = husnummerOrNull(adressenavnNummer)
+    val husbokstav = husbokstavOrNull(adressenavnNummer)
+    val tilleggsnavn = tilleggsnavnOrNull(bygningEtasjeLeilighet)
+    if (adressenavn == null || husnummer == null)
+        return null
+    return PdlVegadresse.Adresse(
         matrikkelId = null,
         bruksenhetsnummer = null,
-        adressenavn = adressenavnNummer,
-        husnummer = null,
-        husbokstav = null,
-        tilleggsnavn = bygningEtasjeLeilighet,
+        adressenavn = adressenavn,
+        husnummer = husnummer,
+        husbokstav = husbokstav,
+        tilleggsnavn = tilleggsnavn,
         postnummer = postkode,
         type = "VEGADRESSE",
     )
+}
+
+fun tilleggsnavnOrNull(bygningEtasjeLeilighet: String?): String? {
+    if (bygningEtasjeLeilighet.isNullOrBlank())
+        return null
+    return bygningEtasjeLeilighet
+        .trim()
+        .replace("\\s+".toRegex(), " ")
+        .map { if (it.isLetter()) it else "" }
+        .joinToString(separator = "")
+        .ifEmpty { null }
+}
+
+fun adressenavnOrNull(adressenavn: String?): String? {
+    if (adressenavn.isNullOrBlank())
+        return null
+    return adressenavn
+        .trim()
+        .replace("\\s+".toRegex(), " ")
+        .split(" ")
+        .takeWhile { it.all { c -> c.isLetter() } }
+        .joinToString(separator = " ")
+}
+
+fun husbokstavOrNull(adressenavnNummer: String?): String? {
+    if (adressenavnNummer.isNullOrBlank())
+        return null
+    val lastTwo = adressenavnNummer
+        .trim()
+        .replace("\\s+".toRegex(), " ")
+        .split(" ")
+        .takeLast(2)
+    if (lastTwo.size < 2)
+        return null
+    val lastHasDigit = lastTwo.last().any { it.isDigit() }
+    if (lastHasDigit)
+        return lastTwo
+            .last()
+            .map { if (it.isLetter()) it else "" }
+            .joinToString(separator = "")
+            .ifEmpty { null }
+    val secondLastHasDigit = lastTwo.first().any { it.isDigit() }
+    if (secondLastHasDigit)
+        return lastTwo
+            .first()
+            .map<Any> { if (it.isLetter()) it else "" }
+            .joinToString(separator = "")
+            .ifEmpty { null } ?: lastTwo.lastOrNull()
+    return null
+}
+
+fun husnummerOrNull(adressenavnNummer: String?): String? {
+    if (adressenavnNummer.isNullOrBlank())
+        return null
+    val lastTwo = adressenavnNummer
+        .trim()
+        .replace("\\s+".toRegex(), " ")
+        .split(" ")
+        .takeLast(2)
+    val last = lastTwo.last()
+    if (last.all { it.isDigit() })
+        return last
+    if (last.any { it.isDigit() })
+        return last
+            .map { if (it.isDigit()) it else "" }
+            .joinToString(separator = "")
+            .ifEmpty { null }
+    val secondLast = lastTwo.first()
+    if (secondLast.all { it.isDigit() })
+        return secondLast
+    return null
+}

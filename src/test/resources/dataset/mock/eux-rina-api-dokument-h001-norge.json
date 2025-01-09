@@ -9,7 +9,7 @@
           "by": "Oslo",
           "postnummer": "0194",
           "landkode": "NOR",
-          "gate": "Gatenavn (bosted)",
+          "gate": "Gatenavn 4",
           "region": "Oslo"
         },
         {
@@ -19,7 +19,7 @@
           "by": "Oslo",
           "postnummer": "0194",
           "landkode": "NOR",
-          "gate": "Gatenavn (opphold)",
+          "gate": "Gatenavn 5",
           "region": "Oslo"
         },
         {
@@ -29,7 +29,7 @@
           "by": "Oslo",
           "postnummer": "0194",
           "landkode": "NOR",
-          "gate": "Gatenavn (kontakt)",
+          "gate": "Gatenavn 6",
           "region": "Oslo"
         }
       ],

@@ -8,10 +8,10 @@
         "adresse": {
           "matrikkelId": null,
           "bruksenhetsnummer": null,
-          "adressenavn": "Gatenavn (opphold)",
-          "husnummer": null,
+          "adressenavn": "Gatenavn",
+          "husnummer": "5",
           "husbokstav": null,
-          "tilleggsnavn": "1a",
+          "tilleggsnavn": "a",
           "postnummer": "0194",
           "@type": "VEGADRESSE"
         }
