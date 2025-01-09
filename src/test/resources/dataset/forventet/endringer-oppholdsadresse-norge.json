@@ -3,7 +3,7 @@
     {
       "endringsmelding": {
         "kilde": "NAV",
-        "@type": "OPPHOLDSADRESSE",
+        "@type": "KONTAKTADRESSE",
         "gyldigTilOgMed": null,
         "adresse": {
           "matrikkelId": null,
@@ -18,7 +18,7 @@
       },
       "ident": "25105327166",
       "endringstype": "OPPRETT",
-      "opplysningstype": "OPPHOLDSADRESSE"
+      "opplysningstype": "KONTAKTADRESSE"
     }
   ]
 }
