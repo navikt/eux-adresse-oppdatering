@@ -70,7 +70,7 @@ class PdlService(
                 val vegadresse = adresse.toPdlVegadresseOrNull(
                     kilde = kilde,
                     ident = ident,
-                    type = "OPPHOLDSADRESSE"
+                    type = "KONTAKTADRESSE"
                 )
                 if (vegadresse != null) {
                     pdlMottakClient endringsmeld vegadresse
