@@ -68,6 +68,7 @@ fun Adresse.toPdlUtenlandskAdresse(
 private val Adresse.adresse
     get() = PdlUtenlandskAdresse.Adresse(
         adressenavnNummer = adressenavnNummer,
+        postboksNummerNavn = postboksNummerNavn,
         bygningEtasjeLeilighet = bygningEtasjeLeilighet,
         postkode = postkode
             ?: throw IllegalArgumentException("Kan ikke opprette utenlandsk adresse uten postkode"),
