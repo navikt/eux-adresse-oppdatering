@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "bruker": {
+      "adresse": [
+        {
+          "bygning": "1a",
+          "type": "kontakt",
+          "land": "NO",
+          "by": "Oslo",
+          "postnummer": "0194",
+          "landkode": "NOR",
+          "gate": "Postboks 5",
+          "region": "Oslo"
+        }
+      ],
+      "person": {
+        "fornavn": "John",
+        "pin": [
+          {
+            "land": "NO",
+            "landkode": "NOR",
+            "identifikator": "25105327167"
+          },
+          {
+            "landkode": "GRC",
+            "land": "GR",
+            "identifikator": "123432"
+          }
+        ],
+        "statsborgerskap": [
+          {
+            "landkode": "NOR",
+            "land": "NO"
+          }
+        ],
+        "kjoenn": "M",
+        "etternavn": "Doe",
+        "foedselsdato": "1953-10-25"
+      }
+    }
+  },
+  "sedGVer": "4",
+  "sedVer": "3",
+  "sed": "H001"
+}

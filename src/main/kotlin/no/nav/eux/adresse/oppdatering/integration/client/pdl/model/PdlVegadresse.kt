@@ -68,7 +68,7 @@ fun Adresse.toPdlVegadresseOrNull(
 }
 
 private fun Adresse.adresseOrNull(): PdlVegadresse.Adresse? {
-    val adressenavn = adressenavnOrNull(adressenavnNummer ?: postboksNummerNavn)
+    val adressenavn = adressenavnOrNull(adressenavnNummer)
     val husnummer = husnummerOrNull(adressenavnNummer)
     val husbokstav = husbokstavOrNull(adressenavnNummer)
     val tilleggsnavn = tilleggsnavnOrNull(bygningEtasjeLeilighet)
@@ -86,27 +86,25 @@ private fun Adresse.adresseOrNull(): PdlVegadresse.Adresse? {
     )
 }
 
-fun tilleggsnavnOrNull(bygningEtasjeLeilighet: String?): String? {
+fun tilleggsnavnOrNull(bygningEtasjeLeilighet: String?): String? =
     if (bygningEtasjeLeilighet.isNullOrBlank())
-        return null
-    return bygningEtasjeLeilighet
+        null
+    else bygningEtasjeLeilighet
         .trim()
         .replace("\\s+".toRegex(), " ")
         .map { if (it.isLetter()) it else "" }
         .joinToString(separator = "")
         .ifEmpty { null }
-}
 
-fun adressenavnOrNull(adressenavn: String?): String? {
+fun adressenavnOrNull(adressenavn: String?): String? =
     if (adressenavn.isNullOrBlank())
-        return null
-    return adressenavn
+        null
+    else adressenavn
         .trim()
         .replace("\\s+".toRegex(), " ")
         .split(" ")
         .takeWhile { it.all { c -> c.isLetter() } }
         .joinToString(separator = " ")
-}
 
 fun husbokstavOrNull(adressenavnNummer: String?): String? {
     if (adressenavnNummer.isNullOrBlank())

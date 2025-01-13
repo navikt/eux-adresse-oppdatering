@@ -40,8 +40,8 @@ fun sammePerson(
 private infix fun String?.nestenLik(other: String?) =
     when {
         this == null || other == null -> true
-        else -> this.lowercase() levenshteinDistance other.lowercase() < 3
+        else -> this.lowercase() levenshteinDistance other.lowercase() > 2
     }
 
 private infix fun String.levenshteinDistance(other: String) =
-    LevenshteinDistance.getDefaultInstance().apply(this, other)
+    LevenshteinDistance.getDefaultInstance().apply(this, other).also { log.info { "Levenshtein distance: $it" } }

@@ -36,7 +36,7 @@ class AdresseService(
             ?.forEach {
                 oppdaterPdl(
                     adresse = it,
-                    kilde = kafkaRinaDocument.kilde,
+                    kilde = rinasak.motpartFormatertNavn,
                     ident = identNor,
                     motpartLandkode = rinasak.motpartLandkode,
                     pdlPerson = eksisterendeAdresser
@@ -48,7 +48,7 @@ class AdresseService(
             ?.forEach {
                 oppdaterPdl(
                     adresse = it,
-                    kilde = kafkaRinaDocument.kilde,
+                    kilde = rinasak.motpartFormatertNavn,
                     ident = identNor,
                     motpartLandkode = rinasak.motpartLandkode,
                     pdlPerson = eksisterendeAdresser

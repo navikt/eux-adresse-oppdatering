@@ -3,6 +3,7 @@ package no.nav.eux.adresse.oppdatering.service
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlMottakClient
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlPostboksadresseOrNull
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlUtenlandskAdresse
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.toPdlVegadresseOrNull
 import no.nav.eux.adresse.oppdatering.model.Adresse
@@ -26,7 +27,7 @@ class PdlService(
             adresse finnesIKontaktadresserI eksisterendeKontaktadresser ->
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
-            adresse.landkode == "NOR" -> {
+            adresse.landkode == "NOR" && adresse.adressenavnNummer != null -> {
                 val vegadresse = adresse.toPdlVegadresseOrNull(
                     kilde = kilde,
                     ident = ident,
@@ -38,6 +39,21 @@ class PdlService(
                     log.info { "Endringsmelding for norsk kontaktadresse sendt til PDL" }
                 } else {
                     log.info { "Kunne ikke mappe norsk kontaktadresse til vegadresse" }
+                }
+            }
+
+            adresse.landkode == "NOR" && adresse.postboksNummerNavn != null -> {
+                val postboksadresse = adresse.toPdlPostboksadresseOrNull(
+                    kilde = kilde,
+                    ident = ident,
+                    type = "KONTAKTADRESSE",
+                    gyldigTilOgMed = now().plusYears(5)
+                )
+                if (postboksadresse != null) {
+                    pdlMottakClient endringsmeld postboksadresse
+                    log.info { "Endringsmelding for norsk kontaktadresse av type postboksadresse sendt til PDL" }
+                } else {
+                    log.info { "Kunne ikke mappe norsk kontaktadresse til postboksadresse" }
                 }
             }
 
@@ -66,7 +82,7 @@ class PdlService(
             adresse finnesIOppholdsadresserI eksisterendeOppholdsadresser ->
                 log.info { "Kontaktadresse er ikke sendt til PDL, da adresse allerede er registrert" }
 
-            adresse.landkode == "NOR" -> {
+            adresse.landkode == "NOR" && adresse.adressenavnNummer != null -> {
                 val vegadresse = adresse.toPdlVegadresseOrNull(
                     kilde = kilde,
                     ident = ident,
@@ -77,6 +93,20 @@ class PdlService(
                     log.info { "Endringsmelding for norsk oppholdsadresse sendt til PDL" }
                 } else {
                     log.info { "Kunne ikke mappe norsk oppholdsadresse til vegadresse" }
+                }
+            }
+
+            adresse.landkode == "NOR" && adresse.postboksNummerNavn != null -> {
+                val postboksadresse = adresse.toPdlPostboksadresseOrNull(
+                    kilde = kilde,
+                    ident = ident,
+                    type = "KONTAKTADRESSE"
+                )
+                if (postboksadresse != null) {
+                    pdlMottakClient endringsmeld postboksadresse
+                    log.info { "Endringsmelding for norsk oppholdsadresse av type postboksadresse sendt til PDL" }
+                } else {
+                    log.info { "Kunne ikke mappe norsk oppholdsadresse til postboksadresse" }
                 }
             }
 

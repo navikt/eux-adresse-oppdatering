@@ -4,19 +4,13 @@
       "endringsmelding": {
         "kilde": "NAV ACC 06 (Sverige)",
         "@type": "KONTAKTADRESSE",
-        "gyldigTilOgMed": null,
         "adresse": {
-          "matrikkelId": null,
-          "bruksenhetsnummer": null,
-          "adressenavn": "Gatenavn",
-          "husnummer": "5",
-          "husbokstav": null,
-          "tilleggsnavn": "a",
+          "postboks": "Postboks 5",
           "postnummer": "0194",
-          "@type": "VEGADRESSE"
+          "@type": "POSTBOKSADRESSE"
         }
       },
-      "ident": "25105327166",
+      "ident": "25105327167",
       "endringstype": "OPPRETT",
       "opplysningstype": "KONTAKTADRESSE"
     }

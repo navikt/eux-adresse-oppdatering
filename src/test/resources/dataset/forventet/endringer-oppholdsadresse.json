@@ -2,7 +2,7 @@
   "personopplysninger": [
     {
       "endringsmelding": {
-        "kilde": "NAV",
+        "kilde": "NAV ACC 06 (Sverige)",
         "@type": "OPPHOLDSADRESSE",
         "gyldigTilOgMed": null,
         "adresse": {

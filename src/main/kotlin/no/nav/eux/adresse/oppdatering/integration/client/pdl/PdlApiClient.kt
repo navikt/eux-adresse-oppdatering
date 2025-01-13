@@ -25,7 +25,6 @@ class PdlApiClient(
             .retrieveSync("hentPerson")
             .toEntity(PdlPerson::class.java)
             ?: throw RuntimeException("Fant ikke person i PDL")
-        log.info { "Response: $response" }
         return response
     }
 
