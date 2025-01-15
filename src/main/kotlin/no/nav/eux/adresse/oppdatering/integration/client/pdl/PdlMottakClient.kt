@@ -69,7 +69,8 @@ class PdlMottakClient(
         location: String
     ) {
         if (attempt < maxAttempts) {
-            if (attempt % 10 == 1) log.info { "Status på verifisering: $status, forsøker igjen om 1 sekund" }
+            if (attempt % 10 == 5)
+                log.info { "Status på verifisering: $status, forsøker igjen om 1 sekund, forsøk: $attempt" }
             sleep(1000)
             verifiser(location, attempt + 1)
         } else {

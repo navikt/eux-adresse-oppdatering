@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.security.BearerTokenService.Client.*
 import org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestClient
@@ -19,6 +21,7 @@ class BearerTokenService(
 
     val log = logger {}
 
+    @Retryable(maxAttempts = 9, backoff = Backoff(delay = 1000, multiplier = 2.0))
     fun fetch(client: Client): BearerToken =
         try {
             val bearerToken = clientTokens[client]
