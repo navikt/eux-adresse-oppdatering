@@ -3,6 +3,7 @@ package no.nav.eux.adresse.oppdatering.service
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.EuxRinaApiClient
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaApiDokument
+import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaSakOversiktV3
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlApiClient
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
@@ -25,37 +26,60 @@ class AdresseService(
         )
         log.info { "Dokument hentet fra Rina" }
         val rinasak = euxRinaApiClient.rinasak(rinasakId)
+        oppdaterAdresseBruker(dokument, rinasak, kafkaRinaDocument.buc)
+        oppdaterAdresseEktefelle(dokument, rinasak, kafkaRinaDocument.buc)
+        oppdaterAdresseAnnenPerson(dokument, rinasak, kafkaRinaDocument.buc)
+        log.info { "Oppdatering av kontaktadresser ferdig" }
+    }
+
+    fun oppdaterAdresseBruker(
+        dokument: EuxRinaApiDokument,
+        rinasak: EuxRinaSakOversiktV3,
+        buc: String
+    ) {
         val identNor = identNor(dokument, rinasak)
         if (identNor.isNullOrEmpty()) {
-            log.info { "Ingen ident for norge funnet, avslutter oppdatering av kontaktadresser" }
-            return
+            log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for bruker" }
+        } else {
+            dokument.nav.bruker.adresse
+                ?.filter { it.kanSendesTilPdl() }
+                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
+            dokument.horisontal?.anmodningominformasjon?.fastslaabosted?.bruker?.adresse
+                ?.filter { it.kanSendesTilPdl() }
+                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                ?: log.info { "Ingen adresser å oppdatere på horisontal/anmodningominformasjon/fastslaabosted" }
         }
-        val eksisterendeAdresser = pdlApiClient.hentAdresser(identNor, kafkaRinaDocument.buc)
-        dokument.nav.bruker.adresse
-            ?.filter { it.kanSendesTilPdl() }
-            ?.forEach {
-                oppdaterPdl(
-                    adresse = it,
-                    kilde = rinasak.motpartFormatertNavn,
-                    ident = identNor,
-                    motpartLandkode = rinasak.motpartLandkode,
-                    pdlPerson = eksisterendeAdresser
-                )
-            }
-            ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
-        dokument.horisontal?.anmodningominformasjon?.fastslaabosted?.bruker?.adresse
-            ?.filter { it.kanSendesTilPdl() }
-            ?.forEach {
-                oppdaterPdl(
-                    adresse = it,
-                    kilde = rinasak.motpartFormatertNavn,
-                    ident = identNor,
-                    motpartLandkode = rinasak.motpartLandkode,
-                    pdlPerson = eksisterendeAdresser
-                )
-            }
-            ?: log.info { "Ingen adresser å oppdatere på horisontal/anmodningominformasjon/fastslaabosted" }
-        log.info { "Oppdatering av kontaktadresser ferdig" }
+    }
+
+    fun oppdaterAdresseEktefelle(
+        dokument: EuxRinaApiDokument,
+        rinasak: EuxRinaSakOversiktV3,
+        buc: String
+    ) {
+        val identNor = dokument.identNorEktefelle
+        if (identNor.isNullOrEmpty())
+            log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for ektefelle" }
+        else
+            dokument.nav.ektefelle?.adresse
+                ?.filter { it.kanSendesTilPdl() }
+                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                ?: log.info { "Ingen adresser å oppdatere på ektefelle" }
+    }
+
+    fun oppdaterAdresseAnnenPerson(
+        dokument: EuxRinaApiDokument,
+        rinasak: EuxRinaSakOversiktV3,
+        buc: String
+    ) {
+        val identNor = dokument.identNorAnnenPerson
+        if (identNor.isNullOrEmpty())
+            log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for annen person" }
+        else
+            dokument.nav.annenperson?.adresse
+                ?.filter { it.kanSendesTilPdl() }
+                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                ?: log.info { "Ingen adresser å oppdatere på annen person" }
     }
 
     fun EuxRinaApiDokument.Adresse.kanSendesTilPdl(): Boolean =
@@ -68,6 +92,21 @@ class AdresseService(
 
             else -> true
         }
+
+    fun oppdaterPdl(
+        adresse: EuxRinaApiDokument.Adresse,
+        rinasak: EuxRinaSakOversiktV3,
+        identNor: String
+    ) {
+        val eksisterendeAdresser = pdlApiClient.hentAdresser(identNor, rinasak.sakType)
+        oppdaterPdl(
+            adresse = adresse,
+            kilde = rinasak.motpartFormatertNavn,
+            ident = identNor,
+            motpartLandkode = rinasak.motpartLandkode,
+            pdlPerson = eksisterendeAdresser
+        )
+    }
 
     fun oppdaterPdl(
         adresse: EuxRinaApiDokument.Adresse,

@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "annenperson": {
+      "adresse": [
+        {
+          "by": "Tullebyen",
+          "type": "kontakt",
+          "landkode": "NOR",
+          "gate": "Gateveien 1",
+          "postnummer": "1405",
+          "land": "NO"
+        }
+      ],
+      "person": {
+        "kjoenn": "M",
+        "pin": [
+          {
+            "landkode": "NOR",
+            "identifikator": "25105327169",
+            "land": "NO"
+          }
+        ],
+        "fornavn": "Sekk",
+        "etternavn": "Luguber ",
+        "foedselsdato": "2007-12-10"
+      }
+    },
+    "barn": [
+      {
+        "person": {
+          "kjoenn": "M",
+          "fornavn": "Gutt",
+          "etternavn": "Gutt",
+          "foedselsdato": "2019-10-09"
+        }
+      }
+    ],
+    "ektefelle": {
+      "adresse": [
+        {
+          "type": "opphold",
+          "gate": "Tullegata 1",
+          "postnummer": "1405",
+          "by": "Tullebyen",
+          "landkode": "SWE",
+          "bygning": "Tull",
+          "land": "SE"
+        }
+      ],
+      "person": {
+        "pin": [
+          {
+            "land": "NO",
+            "landkode": "NOR",
+            "identifikator": "25105327170"
+          }
+        ],
+        "etternavn": "Snill",
+        "foedselsdato": "2006-09-11",
+        "kjoenn": "M",
+        "fornavn": "Gaselle"
+      }
+    },
+    "bruker": {
+      "person": {
+        "fornavn": "Lur",
+        "kjoenn": "M",
+        "etternavn": "Hatt",
+        "foedselsdato": "1956-12-09",
+        "pin": [
+          {
+            "landkode": "NOR",
+            "identifikator": "25105327168",
+            "land": "NO"
+          }
+        ]
+      },
+      "adresse": [
+        {
+          "land": "NO",
+          "by": "Tullebyen",
+          "postnummer": "1405",
+          "type": "bosted",
+          "landkode": "NOR",
+          "gate": "Tullegata 1",
+          "region": "Tullogtøys"
+        }
+      ]
+    }
+  },
+  "sedVer": "3",
+  "familie": {
+    "vedtak": {
+      "gjelderallebarnja": "ja"
+    }
+  },
+  "sedGVer": "4",
+  "sed": "F001"
+}
