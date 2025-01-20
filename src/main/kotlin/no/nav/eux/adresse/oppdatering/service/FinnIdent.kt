@@ -4,7 +4,6 @@ import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxR
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaSakOversiktV3
 import org.apache.commons.text.similarity.LevenshteinDistance
 
-
 fun identNor(
     dokument: EuxRinaApiDokument,
     rinasak: EuxRinaSakOversiktV3
@@ -24,12 +23,12 @@ fun sammePerson(
             false
         }
 
-        dokument.nav.bruker.person.etternavn nestenLik rinasak.etternavn -> {
+        dokument.nav.bruker.person.etternavn ikkeNestenLik rinasak.etternavn -> {
             log.info { "Etternavn stemmer ikke overens mellom dokument og rinasak" }
             false
         }
 
-        dokument.nav.bruker.person.fornavn nestenLik rinasak.fornavn -> {
+        dokument.nav.bruker.person.fornavn ikkeNestenLik rinasak.fornavn -> {
             log.info { "Fornavn stemmer ikke overens mellom dokument og rinasak" }
             false
         }
@@ -37,7 +36,7 @@ fun sammePerson(
         else -> true
     }
 
-private infix fun String?.nestenLik(other: String?) =
+private infix fun String?.ikkeNestenLik(other: String?) =
     when {
         this == null || other == null -> true
         else -> this.lowercase() levenshteinDistance other.lowercase() > 2

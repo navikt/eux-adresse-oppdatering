@@ -16,7 +16,6 @@ class PdlMottakClient(
     val log = logger {}
 
     infix fun endringsmeld(adresse: Any) {
-        log.info { "sender til pdl: $adresse" }
         val entity = pdlMottakRestClient
             .post()
             .uri("/api/v1/endringer")

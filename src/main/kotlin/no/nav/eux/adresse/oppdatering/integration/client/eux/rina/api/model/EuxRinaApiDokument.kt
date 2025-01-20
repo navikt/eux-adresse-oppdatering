@@ -30,7 +30,7 @@ data class EuxRinaApiDokument(
         val kjoenn: String,
         val etternavn: String,
         val fornavn: String,
-        val pin: List<Pin>,
+        val pin: List<Pin>?,
         val foedselsdato: String
     )
 
@@ -56,5 +56,5 @@ data class EuxRinaApiDokument(
     }
 
     val identNor: String?
-        get() = nav.bruker.person.pin.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav.bruker.person.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 }
