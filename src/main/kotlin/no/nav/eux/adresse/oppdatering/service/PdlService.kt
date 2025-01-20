@@ -144,12 +144,7 @@ class PdlService(
                 log.info { "Bostedsadresse er ikke sendt til PDL, da landkode ikke er lik motpartLandkode" }
 
             else -> {
-                pdlMottakClient endringsmeld adresse.toPdlUtenlandskAdresse(
-                    kilde = kilde,
-                    ident = ident,
-                    type = "BOSTEDSADRESSE"
-                )
-                log.info { "Endringsmelding for bostedsadresse sendt til PDL" }
+                log.info { "Sender ikke bostedsadresse til PDL" }
             }
         }
     }
