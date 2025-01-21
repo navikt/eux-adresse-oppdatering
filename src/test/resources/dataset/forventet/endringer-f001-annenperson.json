@@ -4,8 +4,6 @@
       "endringsmelding": {
         "kilde": "NAV ACC 06 (Sverige)",
         "@type": "KONTAKTADRESSE",
-        "gyldigFraOgMed": "2025-01-17",
-        "gyldigTilOgMed": "2030-01-17",
         "adresse": {
           "matrikkelId": null,
           "bruksenhetsnummer": null,

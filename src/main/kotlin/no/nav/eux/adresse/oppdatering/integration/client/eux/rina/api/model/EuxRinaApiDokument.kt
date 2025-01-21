@@ -8,9 +8,9 @@ data class EuxRinaApiDokument(
     val sedVer: String
 ) {
     data class Nav(
-        val bruker: Bruker,
+        val bruker: Bruker?,
         val annenperson: AnnenPerson?,
-        val ektefelle: Ektefelle?
+        val ektefelle: Ektefelle?,
     )
 
     data class Bruker(
@@ -42,7 +42,7 @@ data class EuxRinaApiDokument(
         val kjoenn: String,
         val etternavn: String,
         val fornavn: String,
-        val pin: List<Pin>,
+        val pin: List<Pin>?,
         val foedselsdato: String
     )
 
@@ -68,7 +68,7 @@ data class EuxRinaApiDokument(
     }
 
     val identNor: String?
-        get() = nav.bruker.person.pin.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav.bruker?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 
     val identNorEktefelle: String?
         get() = nav.annenperson?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator

@@ -41,7 +41,7 @@ class AdresseService(
         if (identNor.isNullOrEmpty()) {
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for bruker" }
         } else {
-            dokument.nav.bruker.adresse
+            dokument.nav.bruker?.adresse
                 ?.filter { it.kanSendesTilPdl() }
                 ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                 ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }

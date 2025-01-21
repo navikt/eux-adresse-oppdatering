@@ -1,0 +1,33 @@
+name: eux-adresse-oppdatering
+ingress: https://eux-adresse-oppdatering.intern.dev.nav.no
+
+kafka:
+  pool: nav-prod
+  topics:
+    eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1
+
+application:
+  pdl-api:
+    host: pdl-api.prod-fss-pub.nais.io
+    url: https://pdl-api.prod-fss-pub.nais.io
+    scope: api://prod-fss.pdl.pdl-api/.default
+
+  pdl-mottak:
+    host: pdl-mottak.prod-fss-pub.nais.io
+    url: https://pdl-mottak.prod-fss-pub.nais.io
+    scope: api://prod-fss.pdl.pdl-mottak/.default
+
+  eux-rina-api:
+    app: eux-rina-api
+    url: http://eux-rina-api
+    scope: api://prod-gcp.eessibasis.eux-rina-api/.default
+
+resources:
+  limits:
+    memory: 512Mi
+  requests:
+    memory: 512Mi
+
+replicas:
+  min: 2
+  max: 3
