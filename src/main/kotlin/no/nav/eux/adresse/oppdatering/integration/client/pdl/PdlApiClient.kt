@@ -3,6 +3,7 @@ package no.nav.eux.adresse.oppdatering.integration.client.pdl
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.integration.config.GraphqlSpecs
+import org.springframework.graphql.client.FieldAccessException
 import org.springframework.graphql.client.HttpSyncGraphQlClient
 import org.springframework.retry.annotation.Backoff
 import org.springframework.retry.annotation.Retryable
@@ -16,7 +17,11 @@ class PdlApiClient(
 
     val log = logger {}
 
-    @Retryable(maxAttempts = 9, backoff = Backoff(delay = 1000, multiplier = 2.0))
+    @Retryable(
+        maxAttempts = 9,
+        backoff = Backoff(delay = 1000, multiplier = 2.0),
+        noRetryFor = [FieldAccessException::class]
+    )
     fun hentAdresser(personId: String, buc: String): PdlPerson {
         val query = graphqlSpecs.read("pdl-adresser-query.graphql")
         val response = pdlHttpSyncGraphQlClient
