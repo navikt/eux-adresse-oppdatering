@@ -43,4 +43,4 @@ private infix fun String?.ikkeNestenLik(other: String?) =
     }
 
 private infix fun String.levenshteinDistance(other: String) =
-    LevenshteinDistance.getDefaultInstance().apply(this, other).also { log.info { "Levenshtein distance: $it" } }
+    LevenshteinDistance.getDefaultInstance().apply(this, other)
