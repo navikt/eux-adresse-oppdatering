@@ -1,0 +1,23 @@
+{
+  "personopplysninger": [
+    {
+      "endringsmelding": {
+        "kilde": "NAV ACC 06 (Sverige)",
+        "@type": "KONTAKTADRESSE",
+        "adresse": {
+          "matrikkelId": null,
+          "bruksenhetsnummer": null,
+          "adressenavn": "Gateveien",
+          "husnummer": "1",
+          "husbokstav": null,
+          "tilleggsnavn": null,
+          "postnummer": "1405",
+          "@type": "VEGADRESSE"
+        }
+      },
+      "ident": "25105327170",
+      "endringstype": "OPPRETT",
+      "opplysningstype": "KONTAKTADRESSE"
+    }
+  ]
+}

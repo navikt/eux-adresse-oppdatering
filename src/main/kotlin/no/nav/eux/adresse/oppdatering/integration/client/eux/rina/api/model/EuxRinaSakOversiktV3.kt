@@ -5,6 +5,7 @@ data class EuxRinaSakOversiktV3(
     val fornavn: String?,
     val etternavn: String?,
     val foedselsdato: String?,
+    val sakType: String,
     val motparter: List<Motpart>,
 ) {
     data class Motpart(
