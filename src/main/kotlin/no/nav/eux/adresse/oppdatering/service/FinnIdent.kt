@@ -18,17 +18,17 @@ fun sammePerson(
     rinasak: EuxRinaSakOversiktV3
 ): Boolean =
     when {
-        dokument.nav.bruker.person.foedselsdato != rinasak.foedselsdato -> {
+        dokument.nav.bruker?.person?.foedselsdato != rinasak.foedselsdato -> {
             log.info { "Fødselsdato stemmer ikke overens mellom dokument og rinasak" }
             false
         }
 
-        dokument.nav.bruker.person.etternavn ikkeNestenLik rinasak.etternavn -> {
+        dokument.nav.bruker?.person?.etternavn ikkeNestenLik rinasak.etternavn -> {
             log.info { "Etternavn stemmer ikke overens mellom dokument og rinasak" }
             false
         }
 
-        dokument.nav.bruker.person.fornavn ikkeNestenLik rinasak.fornavn -> {
+        dokument.nav.bruker?.person?.fornavn ikkeNestenLik rinasak.fornavn -> {
             log.info { "Fornavn stemmer ikke overens mellom dokument og rinasak" }
             false
         }

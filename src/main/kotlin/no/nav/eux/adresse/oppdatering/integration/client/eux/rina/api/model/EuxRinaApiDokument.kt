@@ -8,7 +8,7 @@ data class EuxRinaApiDokument(
     val sedVer: String
 ) {
     data class Nav(
-        val bruker: Bruker
+        val bruker: Bruker?
     )
 
     data class Bruker(
@@ -56,5 +56,5 @@ data class EuxRinaApiDokument(
     }
 
     val identNor: String?
-        get() = nav.bruker.person.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav.bruker?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 }

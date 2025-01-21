@@ -31,7 +31,7 @@ class AdresseService(
             return
         }
         val eksisterendeAdresser = pdlApiClient.hentAdresser(identNor, kafkaRinaDocument.buc)
-        dokument.nav.bruker.adresse
+        dokument.nav.bruker?.adresse
             ?.filter { it.kanSendesTilPdl() }
             ?.forEach {
                 oppdaterPdl(
