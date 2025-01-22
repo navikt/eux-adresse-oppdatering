@@ -117,14 +117,14 @@ class AdresseService(
     ) {
         when (adresse.type) {
             "kontakt" -> pdlService.oppdaterKontaktadresse(
-                adresse = adresse.validertAdresse,
+                adresse = adresse.transformertAdresse,
                 kilde = kilde,
                 ident = ident,
                 eksisterendeKontaktadresser = pdlPerson.kontaktadresse
             )
 
             "opphold" -> pdlService.oppdaterOppholdsadresse(
-                adresse = adresse.validertAdresse,
+                adresse = adresse.transformertAdresse,
                 kilde = kilde,
                 ident = ident,
                 eksisterendeOppholdsadresser = pdlPerson.oppholdsadresse,
@@ -132,7 +132,7 @@ class AdresseService(
             )
 
             "bosted" -> pdlService.oppdaterBostedsadresse(
-                adresse = adresse.validertAdresse,
+                adresse = adresse.transformertAdresse,
                 kilde = kilde,
                 ident = ident,
                 motpartLandkode = motpartLandkode,

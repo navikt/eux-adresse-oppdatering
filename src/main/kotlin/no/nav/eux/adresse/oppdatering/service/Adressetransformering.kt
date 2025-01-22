@@ -6,7 +6,7 @@ import no.nav.eux.adresse.oppdatering.model.Adresse
 
 val log = logger {}
 
-val EuxRinaApiDokument.Adresse.validertAdresse: Adresse
+val EuxRinaApiDokument.Adresse.transformertAdresse: Adresse
     get() = adresse().validert()
 
 fun EuxRinaApiDokument.Adresse.adresse(): Adresse =
@@ -28,10 +28,11 @@ fun Adresse.validert() =
         regionDistriktOmraade = regionDistriktOmraadeValidert(),
     )
         .flyttAdressenavnNummerTilPostboksNummerNavn()
+        .flyttBygningEtasjeLeilighetToAdresseNummer()
 
 fun Adresse.adressenavnNummerValidert(): String? =
     when {
-        adressenavnNummer in ordForUkjent -> {
+        adressenavnNummer?.lowercase() in ordForUkjent -> {
             log.info { "AdressenavnNummer definert som $adressenavnNummer, setter feltet til null" }
             null
         }
@@ -48,13 +49,13 @@ fun Adresse.adressenavnNummerValidert(): String? =
 
 fun Adresse.bygningEtasjeLeilighetValidert(): String? =
     when {
-        bygningEtasjeLeilighet in ordForUkjent -> {
+        bygningEtasjeLeilighet?.lowercase() in ordForUkjent -> {
             log.info { "BygningEtasjeLeilighet definert som $bygningEtasjeLeilighet, setter feltet til null" }
             null
         }
 
-        bygningEtasjeLeilighet?.none { it.isLetter() } == true -> {
-            log.info { "BygningEtasjeLeilighet har ingen bokstaver, setter feltet til null" }
+        bygningEtasjeLeilighet.isNullOrBlank() -> {
+            log.info { "BygningEtasjeLeilighet er tom, setter feltet til null" }
             null
         }
 
@@ -65,7 +66,7 @@ fun Adresse.bygningEtasjeLeilighetValidert(): String? =
 
 fun Adresse.byStedValidert(): String? =
     when {
-        bySted in ordForUkjent -> {
+        bySted?.lowercase() in ordForUkjent -> {
             log.info { "BySted definert som $bySted, setter feltet til null" }
             null
         }
@@ -82,7 +83,7 @@ fun Adresse.byStedValidert(): String? =
 
 fun Adresse.postkodeValidert(): String? =
     when {
-        postkode in ordForUkjent -> {
+        postkode?.lowercase() in ordForUkjent -> {
             log.info { "Postkode definert som $postkode, setter feltet til null" }
             null
         }
@@ -99,7 +100,7 @@ fun Adresse.postkodeValidert(): String? =
 
 fun Adresse.regionDistriktOmraadeValidert(): String? =
     when {
-        regionDistriktOmraade in ordForUkjent -> {
+        regionDistriktOmraade?.lowercase() in ordForUkjent -> {
             log.info { "RegionDistriktOmraade definert som $regionDistriktOmraade, setter feltet til null" }
             null
         }
@@ -117,5 +118,14 @@ fun Adresse.regionDistriktOmraadeValidert(): String? =
 fun Adresse.flyttAdressenavnNummerTilPostboksNummerNavn(): Adresse =
     if (adressenavnNummer != null && ordForPostboks.any { it in adressenavnNummer.lowercase() })
         copy(adressenavnNummer = null, postboksNummerNavn = adressenavnNummer)
+    else
+        this
+
+fun Adresse.flyttBygningEtasjeLeilighetToAdresseNummer(): Adresse =
+    if ((adressenavnNummer != null && bygningEtasjeLeilighet != null) && bygningEtasjeLeilighet.none { it.isLetter() })
+        copy(
+            adressenavnNummer = "$adressenavnNummer $bygningEtasjeLeilighet",
+            bygningEtasjeLeilighet = null
+        )
     else
         this
