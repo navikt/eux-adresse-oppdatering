@@ -44,7 +44,7 @@ fun Adresse.toPdlPostboksadresseOrNull(
     type: String,
     gyldigTilOgMed: LocalDate? = null,
 ): PdlPostboksadresse? {
-    val adresse = adresseOrNull() ?: return null
+    val adresse = toPdlVegadresseOrNull() ?: return null
     return PdlPostboksadresse(
         personopplysninger = listOf(
             PdlPostboksadresse.Personopplysning(
@@ -63,7 +63,7 @@ fun Adresse.toPdlPostboksadresseOrNull(
     )
 }
 
-private fun Adresse.adresseOrNull(): PdlPostboksadresse.Adresse? =
+private fun Adresse.toPdlVegadresseOrNull(): PdlPostboksadresse.Adresse? =
     if (postboksNummerNavn == null || postkode == null)
         null
     else

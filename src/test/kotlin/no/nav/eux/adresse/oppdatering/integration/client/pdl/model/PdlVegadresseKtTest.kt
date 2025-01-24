@@ -8,77 +8,77 @@ class PdlVegadresseKtTest {
 
     @Test
     fun husnummer() {
-        husnummerOrNull("Karl Johans gate 22") shouldBe "22"
-        husnummerOrNull("Storgata 5") shouldBe "5"
-        husnummerOrNull("Torggata 16B") shouldBe "16"
-        husnummerOrNull("Parkveien 12A") shouldBe "12"
-        husnummerOrNull("  Karl Johans gate   22  ") shouldBe "22"
-        husnummerOrNull("Storgata    5") shouldBe "5"
-        husnummerOrNull("Karl Johans gate") shouldBe null
-        husnummerOrNull("Storgata") shouldBe null
-        husnummerOrNull(null) shouldBe null
-        husnummerOrNull("") shouldBe null
-        husnummerOrNull(" ") shouldBe null
-        husnummerOrNull("Strandveien gate B") shouldBe null
-        husnummerOrNull("Langgata hus") shouldBe null
-        husnummerOrNull("Gamleveien 12B") shouldBe "12"
-        husnummerOrNull("Barkveien 78C") shouldBe "78"
-        husnummerOrNull("Fjordgata 8C") shouldBe "8"
-        husnummerOrNull("Hovedveien 44D") shouldBe "44"
-        husnummerOrNull("Sørlandsveien 55 A") shouldBe "55"
-        husnummerOrNull("Strandveien 45 B") shouldBe "45"
-        husnummerOrNull("Korsfjellveien nr. 24") shouldBe "24"
+        toHusnummerOrNull("Karl Johans gate 22") shouldBe "22"
+        toHusnummerOrNull("Storgata 5") shouldBe "5"
+        toHusnummerOrNull("Torggata 16B") shouldBe "16"
+        toHusnummerOrNull("Parkveien 12A") shouldBe "12"
+        toHusnummerOrNull("  Karl Johans gate   22  ") shouldBe "22"
+        toHusnummerOrNull("Storgata    5") shouldBe "5"
+        toHusnummerOrNull("Karl Johans gate") shouldBe null
+        toHusnummerOrNull("Storgata") shouldBe null
+        toHusnummerOrNull(null) shouldBe null
+        toHusnummerOrNull("") shouldBe null
+        toHusnummerOrNull(" ") shouldBe null
+        toHusnummerOrNull("Strandveien gate B") shouldBe null
+        toHusnummerOrNull("Langgata hus") shouldBe null
+        toHusnummerOrNull("Gamleveien 12B") shouldBe "12"
+        toHusnummerOrNull("Barkveien 78C") shouldBe "78"
+        toHusnummerOrNull("Fjordgata 8C") shouldBe "8"
+        toHusnummerOrNull("Hovedveien 44D") shouldBe "44"
+        toHusnummerOrNull("Sørlandsveien 55 A") shouldBe "55"
+        toHusnummerOrNull("Strandveien 45 B") shouldBe "45"
+        toHusnummerOrNull("Korsfjellveien nr. 24") shouldBe "24"
     }
 
     @Test
     fun husbokstav() {
-        husbokstavOrNull("Karl Johans gate 22A") shouldBe "A"
-        husbokstavOrNull("Storgata 5B") shouldBe "B"
-        husbokstavOrNull("Torggata 16B") shouldBe "B"
-        husbokstavOrNull("Parkveien 12A") shouldBe "A"
-        husbokstavOrNull("  Karl Johans gate   22A  ") shouldBe "A"
-        husbokstavOrNull("Storgata    5B") shouldBe "B"
-        husbokstavOrNull("Karl Johans gate 22") shouldBe null
-        husbokstavOrNull("Storgata 5") shouldBe null
-        husbokstavOrNull(null) shouldBe null
-        husbokstavOrNull("") shouldBe null
-        husbokstavOrNull(" ") shouldBe null
-        husbokstavOrNull("Strandveien gate B") shouldBe null
-        husbokstavOrNull("Langgata hus") shouldBe null
-        husbokstavOrNull("Gamleveien 12B") shouldBe "B"
-        husbokstavOrNull("Barkveien 78C") shouldBe "C"
-        husbokstavOrNull("Fjordgata 8C") shouldBe "C"
-        husbokstavOrNull("Hovedveien 44D") shouldBe "D"
-        husbokstavOrNull("Sørlandsveien 55 A") shouldBe "A"
-        husbokstavOrNull("Strandveien 45 B") shouldBe "B"
-        husbokstavOrNull("Korsfjellveien nr. 24") shouldBe null
+        toHusbokstavOrNull("Karl Johans gate 22A") shouldBe "A"
+        toHusbokstavOrNull("Storgata 5B") shouldBe "B"
+        toHusbokstavOrNull("Torggata 16B") shouldBe "B"
+        toHusbokstavOrNull("Parkveien 12A") shouldBe "A"
+        toHusbokstavOrNull("  Karl Johans gate   22A  ") shouldBe "A"
+        toHusbokstavOrNull("Storgata    5B") shouldBe "B"
+        toHusbokstavOrNull("Karl Johans gate 22") shouldBe null
+        toHusbokstavOrNull("Storgata 5") shouldBe null
+        toHusbokstavOrNull(null) shouldBe null
+        toHusbokstavOrNull("") shouldBe null
+        toHusbokstavOrNull(" ") shouldBe null
+        toHusbokstavOrNull("Strandveien gate B") shouldBe null
+        toHusbokstavOrNull("Langgata hus") shouldBe null
+        toHusbokstavOrNull("Gamleveien 12B") shouldBe "B"
+        toHusbokstavOrNull("Barkveien 78C") shouldBe "C"
+        toHusbokstavOrNull("Fjordgata 8C") shouldBe "C"
+        toHusbokstavOrNull("Hovedveien 44D") shouldBe "D"
+        toHusbokstavOrNull("Sørlandsveien 55 A") shouldBe "A"
+        toHusbokstavOrNull("Strandveien 45 B") shouldBe "B"
+        toHusbokstavOrNull("Korsfjellveien nr. 24") shouldBe null
     }
 
     @Test
     fun adressenavn() {
-        adressenavnOrNull("Karl Johans gate 22A") shouldBe "Karl Johans gate"
-        adressenavnOrNull("Storgata 5B") shouldBe "Storgata"
-        adressenavnOrNull("Torggata 16B") shouldBe "Torggata"
-        adressenavnOrNull("Parkveien 12A") shouldBe "Parkveien"
-        adressenavnOrNull("  Karl Johans gate   22A  ") shouldBe "Karl Johans gate"
-        adressenavnOrNull("Storgata    5B") shouldBe "Storgata"
-        adressenavnOrNull("Karl Johans gate") shouldBe "Karl Johans gate"
-        adressenavnOrNull("Storgata") shouldBe "Storgata"
-        adressenavnOrNull(null) shouldBe null
-        adressenavnOrNull("") shouldBe null
-        adressenavnOrNull(" ") shouldBe null
+        toAdressenavnOrNull("Karl Johans gate 22A") shouldBe "Karl Johans gate"
+        toAdressenavnOrNull("Storgata 5B") shouldBe "Storgata"
+        toAdressenavnOrNull("Torggata 16B") shouldBe "Torggata"
+        toAdressenavnOrNull("Parkveien 12A") shouldBe "Parkveien"
+        toAdressenavnOrNull("  Karl Johans gate   22A  ") shouldBe "Karl Johans gate"
+        toAdressenavnOrNull("Storgata    5B") shouldBe "Storgata"
+        toAdressenavnOrNull("Karl Johans gate") shouldBe "Karl Johans gate"
+        toAdressenavnOrNull("Storgata") shouldBe "Storgata"
+        toAdressenavnOrNull(null) shouldBe null
+        toAdressenavnOrNull("") shouldBe null
+        toAdressenavnOrNull(" ") shouldBe null
     }
 
     @Test
     fun tilleggsnavnOrNull() {
-        tilleggsnavnOrNull("H0101") shouldBe "H"
-        tilleggsnavnOrNull("H0101A") shouldBe "HA"
-        tilleggsnavnOrNull(null) shouldBe null
-        tilleggsnavnOrNull("") shouldBe null
-        tilleggsnavnOrNull(" ") shouldBe null
-        tilleggsnavnOrNull("0101") shouldBe null
-        tilleggsnavnOrNull("202") shouldBe null
-        tilleggsnavnOrNull("  H0101  ") shouldBe "H"
-        tilleggsnavnOrNull(" B0202  ") shouldBe "B"
+        toTilleggsnavnOrNull("H0101") shouldBe "H"
+        toTilleggsnavnOrNull("H0101A") shouldBe "HA"
+        toTilleggsnavnOrNull(null) shouldBe null
+        toTilleggsnavnOrNull("") shouldBe null
+        toTilleggsnavnOrNull(" ") shouldBe null
+        toTilleggsnavnOrNull("0101") shouldBe null
+        toTilleggsnavnOrNull("202") shouldBe null
+        toTilleggsnavnOrNull("  H0101  ") shouldBe "H"
+        toTilleggsnavnOrNull(" B0202  ") shouldBe "B"
     }
 }

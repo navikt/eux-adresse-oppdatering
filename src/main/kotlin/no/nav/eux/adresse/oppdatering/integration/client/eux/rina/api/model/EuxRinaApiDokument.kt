@@ -71,8 +71,8 @@ data class EuxRinaApiDokument(
         get() = nav.bruker?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 
     val identNorEktefelle: String?
-        get() = nav.annenperson?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav.ektefelle?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 
     val identNorAnnenPerson: String?
-        get() = nav.ektefelle?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav.annenperson?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 }

@@ -23,13 +23,14 @@ fun mockResponsePost(request: RecordedRequest, body: String) =
 
 fun mockResponsePostGraphql(body: String) =
     when {
-        body.contains("25105327164") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-25105327164.json"
-        body.contains("25105327165") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
-        body.contains("25105327166") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
-        body.contains("25105327167") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
-        body.contains("25105327168") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
-        body.contains("25105327169") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
-        body.contains("25105327170") -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
+        "25105327164" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-25105327164.json"
+        "25105327164" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-25105327164.json"
+        "25105327165" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
+        "25105327166" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
+        "25105327167" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
+        "25105327168" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
+        "25105327169" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
+        "25105327170" in body -> okMockResponse medBody "/dataset/mock/pdl-api-adresser-empty.json"
         else -> defaultResponse
     }
 

@@ -48,7 +48,7 @@ fun Adresse.toPdlVegadresseOrNull(
     type: String,
     gyldigTilOgMed: LocalDate? = null,
 ): PdlVegadresse? {
-    val adresse = adresseOrNull() ?: return null
+    val adresse = toPdlVegadresseOrNull() ?: return null
     return PdlVegadresse(
         personopplysninger = listOf(
             PdlVegadresse.Personopplysning(
@@ -67,11 +67,11 @@ fun Adresse.toPdlVegadresseOrNull(
     )
 }
 
-private fun Adresse.adresseOrNull(): PdlVegadresse.Adresse? {
-    val adressenavn = adressenavnOrNull(adressenavnNummer)
-    val husnummer = husnummerOrNull(adressenavnNummer)
-    val husbokstav = husbokstavOrNull(adressenavnNummer)
-    val tilleggsnavn = tilleggsnavnOrNull(bygningEtasjeLeilighet)
+private fun Adresse.toPdlVegadresseOrNull(): PdlVegadresse.Adresse? {
+    val adressenavn = toAdressenavnOrNull(adressenavnNummer)
+    val husnummer = toHusnummerOrNull(adressenavnNummer)
+    val husbokstav = toHusbokstavOrNull(adressenavnNummer)
+    val tilleggsnavn = toTilleggsnavnOrNull(bygningEtasjeLeilighet)
     if (adressenavn == null || husnummer == null)
         return null
     return PdlVegadresse.Adresse(
@@ -86,7 +86,7 @@ private fun Adresse.adresseOrNull(): PdlVegadresse.Adresse? {
     )
 }
 
-fun tilleggsnavnOrNull(bygningEtasjeLeilighet: String?): String? =
+fun toTilleggsnavnOrNull(bygningEtasjeLeilighet: String?): String? =
     if (bygningEtasjeLeilighet.isNullOrBlank())
         null
     else bygningEtasjeLeilighet
@@ -96,7 +96,7 @@ fun tilleggsnavnOrNull(bygningEtasjeLeilighet: String?): String? =
         .joinToString(separator = "")
         .ifEmpty { null }
 
-fun adressenavnOrNull(adressenavn: String?): String? =
+fun toAdressenavnOrNull(adressenavn: String?): String? =
     if (adressenavn.isNullOrBlank())
         null
     else adressenavn
@@ -106,7 +106,7 @@ fun adressenavnOrNull(adressenavn: String?): String? =
         .takeWhile { it.all { c -> c.isLetter() } }
         .joinToString(separator = " ")
 
-fun husbokstavOrNull(adressenavnNummer: String?): String? {
+fun toHusbokstavOrNull(adressenavnNummer: String?): String? {
     if (adressenavnNummer.isNullOrBlank())
         return null
     val lastTwo = adressenavnNummer
@@ -133,7 +133,7 @@ fun husbokstavOrNull(adressenavnNummer: String?): String? {
     return null
 }
 
-fun husnummerOrNull(adressenavnNummer: String?): String? {
+fun toHusnummerOrNull(adressenavnNummer: String?): String? {
     if (adressenavnNummer.isNullOrBlank())
         return null
     val lastTwo = adressenavnNummer

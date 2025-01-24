@@ -23,7 +23,6 @@ class PdlMottakClient(
             .body(adresse)
             .retrieve()
             .toBodilessEntity()
-        log.info { "Headers: ${entity.headers}" }
         entity
             .headers["Location"]
             ?.firstOrNull()
