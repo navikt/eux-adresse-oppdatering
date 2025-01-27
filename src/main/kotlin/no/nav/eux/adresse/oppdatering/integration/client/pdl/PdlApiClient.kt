@@ -24,16 +24,25 @@ class PdlApiClient(
     )
     fun hentAdresser(personId: String, buc: String): PdlPerson {
         val query = graphqlSpecs.read("pdl-adresser-query.graphql")
-        val response = pdlHttpSyncGraphQlClient
-            .mutate()
-            .header("Behandlingsnummer", buc.behandlingsnummer)
-            .build()
-            .document(query)
-            .variable("ident", personId)
-            .retrieveSync("hentPerson")
-            .toEntity(PdlPerson::class.java)
-            ?: throw RuntimeException("Fant ikke person i PDL")
-        return response
+        try {
+            val response = pdlHttpSyncGraphQlClient
+                .mutate()
+                .header("Behandlingsnummer", buc.behandlingsnummer)
+                .build()
+                .document(query)
+                .variable("ident", personId)
+                .retrieveSync("hentPerson")
+                .toEntity(PdlPerson::class.java)
+                ?: throw RuntimeException("Fant ikke person i PDL")
+            return response
+        } catch (e: FieldAccessException) {
+            val id = e.response.errors.first().extensions["id"]
+            log.error(e) { "Feilet for id: $id" }
+            if (id == "ugyldig_ident")
+                throw UgyldigIdentException()
+            else
+                throw e
+        }
     }
 
     private val String.behandlingsnummer
@@ -46,3 +55,5 @@ class PdlApiClient(
                 else -> ""
             }
 }
+
+class UgyldigIdentException : RuntimeException()

@@ -7,7 +7,7 @@ import no.nav.eux.adresse.oppdatering.model.Adresse
 val log = logger {}
 
 val EuxRinaApiDokument.Adresse.transformertAdresse: Adresse
-    get() = adresse().validert()
+    get() = adresse().transformertOgValidert()
 
 fun EuxRinaApiDokument.Adresse.adresse(): Adresse =
     Adresse(
@@ -19,7 +19,7 @@ fun EuxRinaApiDokument.Adresse.adresse(): Adresse =
         landkode = landkode
     )
 
-fun Adresse.validert() =
+fun Adresse.transformertOgValidert() =
     copy(
         adressenavnNummer = adressenavnNummerValidert(),
         bygningEtasjeLeilighet = bygningEtasjeLeilighetValidert(),
