@@ -122,10 +122,18 @@ fun Adresse.flyttAdressenavnNummerTilPostboksNummerNavn(): Adresse =
         this
 
 fun Adresse.flyttBygningEtasjeLeilighetToAdresseNummer(): Adresse =
-    if ((adressenavnNummer != null && bygningEtasjeLeilighet != null) && bygningEtasjeLeilighet.none { it.isLetter() })
-        copy(
-            adressenavnNummer = "$adressenavnNummer $bygningEtasjeLeilighet",
-            bygningEtasjeLeilighet = null
-        )
-    else
-        this
+    when {
+        adressenavnNummer == null && bygningEtasjeLeilighet?.none { it.isLetter() } == true ->
+            copy(
+                adressenavnNummer = "$bygningEtasjeLeilighet",
+                bygningEtasjeLeilighet = null
+            )
+
+        adressenavnNummer != null && bygningEtasjeLeilighet?.none { it.isLetter() } == true ->
+            copy(
+                adressenavnNummer = "$adressenavnNummer $bygningEtasjeLeilighet",
+                bygningEtasjeLeilighet = null
+            )
+
+        else -> this
+    }
