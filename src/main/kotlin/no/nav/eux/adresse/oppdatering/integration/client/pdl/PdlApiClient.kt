@@ -20,7 +20,10 @@ class PdlApiClient(
     @Retryable(
         maxAttempts = 9,
         backoff = Backoff(delay = 1000, multiplier = 2.0),
-        noRetryFor = [FieldAccessException::class]
+        noRetryFor = [
+            FieldAccessException::class,
+            UgyldigIdentException::class
+        ]
     )
     fun hentAdresser(personId: String, buc: String): PdlPerson {
         val query = graphqlSpecs.read("pdl-adresser-query.graphql")
