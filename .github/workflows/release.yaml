@@ -63,8 +63,6 @@ jobs:
         with:
           team: eessibasis
           tag: ${{ steps.versions.outputs.version }}
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
       - name: Echo Version
         run: echo "### Version ${{ steps.versions.outputs.version }}" >> $GITHUB_STEP_SUMMARY
