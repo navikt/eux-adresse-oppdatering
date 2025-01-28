@@ -26,7 +26,7 @@ data class KafkaRinaDocument(
         val versions: List<Version>,
         val creationDate: OffsetDateTime,
         val creator: Creator,
-        val status: String,
+        val status: String?,
         val direction: String,
     )
 
