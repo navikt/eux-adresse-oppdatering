@@ -5,6 +5,7 @@ import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.EuxRinaApi
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaApiDokument
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaSakOversiktV3
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlApiClient
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.UgyldigIdentException
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.springframework.stereotype.Service
@@ -98,14 +99,18 @@ class AdresseService(
         rinasak: EuxRinaSakOversiktV3,
         identNor: String
     ) {
-        val eksisterendeAdresser = pdlApiClient.hentAdresser(identNor, rinasak.sakType)
-        oppdaterPdl(
-            adresse = adresse,
-            kilde = rinasak.motpartFormatertNavn,
-            ident = identNor,
-            motpartLandkode = rinasak.motpartLandkode,
-            pdlPerson = eksisterendeAdresser
-        )
+        try {
+            val eksisterendeAdresser = pdlApiClient.hentAdresser(identNor, rinasak.sakType)
+            oppdaterPdl(
+                adresse = adresse,
+                kilde = rinasak.motpartFormatertNavn,
+                ident = identNor,
+                motpartLandkode = rinasak.motpartLandkode,
+                pdlPerson = eksisterendeAdresser
+            )
+        } catch (e: UgyldigIdentException) {
+            log.info(e) { "Ugyldig ident, adresse blir ikke sendt til PDL" }
+        }
     }
 
     fun oppdaterPdl(

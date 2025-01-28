@@ -17,6 +17,7 @@ class PdlApiClient(
 
     val log = logger {}
 
+
     @Retryable(
         maxAttempts = 9,
         backoff = Backoff(delay = 1000, multiplier = 2.0),
@@ -25,27 +26,16 @@ class PdlApiClient(
             UgyldigIdentException::class
         ]
     )
-    fun hentAdresser(personId: String, buc: String): PdlPerson {
+    fun hentAdresser(personId: String, buc: String): PdlPerson = callWithPdlErrorHandling {
         val query = graphqlSpecs.read("pdl-adresser-query.graphql")
-        try {
-            val response = pdlHttpSyncGraphQlClient
-                .mutate()
-                .header("Behandlingsnummer", buc.behandlingsnummer)
-                .build()
-                .document(query)
-                .variable("ident", personId)
-                .retrieveSync("hentPerson")
-                .toEntity(PdlPerson::class.java)
-                ?: throw RuntimeException("Fant ikke person i PDL")
-            return response
-        } catch (e: FieldAccessException) {
-            val id = e.response.errors.first().extensions["id"]
-            log.error(e) { "Feilet for id: $id" }
-            if (id == "ugyldig_ident")
-                throw UgyldigIdentException()
-            else
-                throw e
-        }
+        pdlHttpSyncGraphQlClient
+            .mutate()
+            .header("Behandlingsnummer", buc.behandlingsnummer)
+            .build()
+            .document(query)
+            .variable("ident", personId)
+            .retrieveSync("hentPerson")
+            .toEntity(PdlPerson::class.java)
     }
 
     private val String.behandlingsnummer
@@ -58,5 +48,16 @@ class PdlApiClient(
                 else -> ""
             }
 }
+
+fun <T> callWithPdlErrorHandling(pdlCall: () -> T?): T =
+    try {
+        pdlCall() ?: throw RuntimeException("Fant ikke entitet")
+    } catch (e: FieldAccessException) {
+        val id = e.response.errors.first().extensions["id"]
+        if (id == "ugyldig_ident")
+            throw UgyldigIdentException()
+        else
+            throw e
+    }
 
 class UgyldigIdentException : RuntimeException()
