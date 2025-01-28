@@ -223,4 +223,28 @@ class AdressetransformeringKtTest {
 
         adresse.transformertAdresse shouldBe expectedAdresse
     }
+
+    @Test
+    fun `transformertAdresse should replace special character No with letters No`() {
+        val adresse = EuxRinaApiDokument.Adresse(
+            gate = "Karl Johans gate № 22",
+            bygning = "Bygning A",
+            by = "Oslo",
+            postnummer = "0159",
+            region = "Oslo",
+            landkode = "NO",
+            type = "bosted"
+        )
+
+        val expectedAdresse = Adresse(
+            adressenavnNummer = "Karl Johans gate No 22",
+            bygningEtasjeLeilighet = "Bygning A",
+            bySted = "Oslo",
+            postkode = "0159",
+            regionDistriktOmraade = "Oslo",
+            landkode = "NO"
+        )
+
+        adresse.transformertAdresse shouldBe expectedAdresse
+    }
 }

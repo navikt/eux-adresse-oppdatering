@@ -29,6 +29,7 @@ fun Adresse.transformertOgValidert() =
     )
         .flyttAdressenavnNummerTilPostboksNummerNavn()
         .flyttBygningEtasjeLeilighetToAdresseNummer()
+        .byttUtUlovligeTegnIAdressenavnNummer()
 
 fun Adresse.adressenavnNummerValidert(): String? =
     when {
@@ -137,3 +138,9 @@ fun Adresse.flyttBygningEtasjeLeilighetToAdresseNummer(): Adresse =
 
         else -> this
     }
+
+fun Adresse.byttUtUlovligeTegnIAdressenavnNummer(): Adresse =
+    copy(
+        adressenavnNummer = adressenavnNummer?.replace("№", "No")
+    )
+
