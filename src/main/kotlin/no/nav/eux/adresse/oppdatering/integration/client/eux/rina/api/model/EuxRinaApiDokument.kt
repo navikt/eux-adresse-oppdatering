@@ -48,7 +48,7 @@ data class EuxRinaApiDokument(
 
     data class Pin(
         val identifikator: String,
-        val landkode: String,
+        val landkode: String?,
     )
 
     data class Horisontal(
