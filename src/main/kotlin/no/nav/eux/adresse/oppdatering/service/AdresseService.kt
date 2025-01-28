@@ -30,7 +30,6 @@ class AdresseService(
         oppdaterAdresseBruker(dokument, rinasak, kafkaRinaDocument.buc)
         oppdaterAdresseEktefelle(dokument, rinasak, kafkaRinaDocument.buc)
         oppdaterAdresseAnnenPerson(dokument, rinasak, kafkaRinaDocument.buc)
-        log.info { "Oppdatering av kontaktadresser ferdig" }
     }
 
     fun oppdaterAdresseBruker(

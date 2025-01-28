@@ -27,7 +27,6 @@ class EuxRinaCaseEventsKafkaListener(
         try {
             val kafkaRinaDocument = consumerRecord.value()
             val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
-            val documentEventType = kafkaRinaDocument.documentEventType
             val caseId = documentMetadata.caseId
             val bucType = kafkaRinaDocument.buc
             mdc(
@@ -36,13 +35,13 @@ class EuxRinaCaseEventsKafkaListener(
                 sedType = documentMetadata.type
             )
             if (documentMetadata.direction != "IN") {
-                log.info { "Dokument har ikke direction 'IN', avslutter behandling" }
+                log.info { "Dokumentet er ikke innkommende, avslutter behandling" }
             } else if (bucTilBehandling(bucType)) {
-                log.info { "Mottok dokument fra Kafka av type $documentEventType" }
+                log.info { "Starter behandling av dokument" }
                 adresseService.oppdaterPdl(kafkaRinaDocument)
                 log.info { "Adresseoppdatering for dokument ferdigstillt" }
             } else {
-                log.info { "Dokument behandles ikke ($documentEventType)" }
+                log.info { "Dokument av denne typen behandles ikke" }
             }
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
