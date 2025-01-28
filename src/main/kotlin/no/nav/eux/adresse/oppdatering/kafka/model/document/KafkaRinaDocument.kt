@@ -27,7 +27,7 @@ data class KafkaRinaDocument(
         val creationDate: OffsetDateTime,
         val creator: Creator,
         val status: String?,
-        val direction: String,
+        val direction: String?,
     )
 
     data class Payload(
