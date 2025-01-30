@@ -1,9 +1,12 @@
 package no.nav.eux.adresse.oppdatering.integration.client.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlMottakConflictException
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlMottakUnprocessableEntityException
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlEndringsstatus
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.stereotype.Component
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import java.lang.Thread.sleep
@@ -16,13 +19,15 @@ class PdlMottakClient(
     val log = logger {}
 
     infix fun endringsmeld(adresse: Any) {
-        val entity = pdlMottakRestClient
-            .post()
-            .uri("/api/v1/endringer")
-            .contentType(APPLICATION_JSON)
-            .body(adresse)
-            .retrieve()
-            .toBodilessEntity()
+        val entity = callWithErrorHandling {
+            pdlMottakRestClient
+                .post()
+                .uri("/api/v1/endringer")
+                .contentType(APPLICATION_JSON)
+                .body(adresse)
+                .retrieve()
+                .toBodilessEntity()
+        }
         entity
             .headers["Location"]
             ?.firstOrNull()
@@ -73,4 +78,15 @@ class PdlMottakClient(
             log.error { "Kunne ikke verifisere endringsmelding etter $maxAttempts forsøk" }
         }
     }
+
+    fun <T> callWithErrorHandling(pdlCall: () -> T): T =
+        try {
+            pdlCall()
+        } catch (e: HttpClientErrorException) {
+            when (e.statusCode.value()) {
+                422 -> throw PdlMottakUnprocessableEntityException(e)
+                409 -> throw PdlMottakConflictException(e)
+                else -> throw e
+            }
+        }
 }

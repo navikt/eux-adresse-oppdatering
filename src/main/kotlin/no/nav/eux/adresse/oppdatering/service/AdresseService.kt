@@ -5,7 +5,7 @@ import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.EuxRinaApi
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaApiDokument
 import no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model.EuxRinaSakOversiktV3
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlApiClient
-import no.nav.eux.adresse.oppdatering.integration.client.pdl.UgyldigIdentException
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlHttpClientErrorException
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.springframework.stereotype.Service
@@ -107,8 +107,8 @@ class AdresseService(
                 motpartLandkode = rinasak.motpartLandkode,
                 pdlPerson = eksisterendeAdresser
             )
-        } catch (e: UgyldigIdentException) {
-            log.info(e) { "Ugyldig ident, adresse blir ikke sendt til PDL" }
+        } catch (e: PdlHttpClientErrorException) {
+            log.info(e) { "Feil i kall mot PDL" }
         }
     }
 

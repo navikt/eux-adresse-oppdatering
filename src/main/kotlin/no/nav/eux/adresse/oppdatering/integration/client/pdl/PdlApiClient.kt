@@ -1,6 +1,8 @@
 package no.nav.eux.adresse.oppdatering.integration.client.pdl
 
 import io.github.oshai.kotlinlogging.KotlinLogging.logger
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlApiPersonNotFoundException
+import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlApiUgyldigIdentException
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.integration.config.GraphqlSpecs
 import org.springframework.graphql.client.FieldAccessException
@@ -17,13 +19,12 @@ class PdlApiClient(
 
     val log = logger {}
 
-
     @Retryable(
         maxAttempts = 9,
         backoff = Backoff(delay = 1000, multiplier = 2.0),
         noRetryFor = [
             FieldAccessException::class,
-            UgyldigIdentException::class
+            PdlApiUgyldigIdentException::class
         ]
     )
     fun hentAdresser(personId: String, buc: String): PdlPerson = callWithPdlErrorHandling {
@@ -53,11 +54,10 @@ fun <T> callWithPdlErrorHandling(pdlCall: () -> T?): T =
     try {
         pdlCall() ?: throw RuntimeException("Fant ikke entitet")
     } catch (e: FieldAccessException) {
-        val id = e.response.errors.first().extensions["id"]
-        if (id == "ugyldig_ident")
-            throw UgyldigIdentException()
-        else
-            throw e
+        val error = e.response.errors.firstOrNull() ?: throw e
+        when {
+            error.extensions["id"] == "ugyldig_ident" -> throw PdlApiUgyldigIdentException(e)
+            error.extensions["code"] == "not_found" -> throw PdlApiPersonNotFoundException(e)
+            else -> throw e
+        }
     }
-
-class UgyldigIdentException : RuntimeException()
