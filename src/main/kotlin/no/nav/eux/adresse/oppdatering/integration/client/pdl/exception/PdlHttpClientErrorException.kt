@@ -6,3 +6,4 @@ class PdlApiUgyldigIdentException(cause: Throwable) : PdlHttpClientErrorExceptio
 class PdlApiPersonNotFoundException(cause: Throwable) : PdlHttpClientErrorException(cause)
 class PdlMottakUnprocessableEntityException(cause: Throwable) : PdlHttpClientErrorException(cause)
 class PdlMottakConflictException(cause: Throwable) : PdlHttpClientErrorException(cause)
+class PdlNotFoundException(cause: Throwable) : PdlHttpClientErrorException(cause)
