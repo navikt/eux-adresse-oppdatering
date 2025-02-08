@@ -8,7 +8,6 @@ import no.nav.eux.logging.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
-import org.springframework.kafka.support.Acknowledgment
 import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
@@ -30,8 +29,7 @@ class EuxRinaCaseEventsKafkaListener(
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
     )
     fun document(
-        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
-        acknowledgment: Acknowledgment
+        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>
     ) {
         try {
             val kafkaRinaDocument = consumerRecord.value()
@@ -52,9 +50,9 @@ class EuxRinaCaseEventsKafkaListener(
             } else {
                 log.info { "Dokument av denne typen behandles ikke" }
             }
-            acknowledgment.acknowledge()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
+            throw e
         } finally {
             clearLocalMdc()
         }
