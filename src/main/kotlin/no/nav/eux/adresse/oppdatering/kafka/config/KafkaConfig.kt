@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
+import org.springframework.kafka.listener.ContainerProperties
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
@@ -34,6 +35,7 @@ class KafkaConfig(
         ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             consumerFactory = docConsumerFactory<T>()
             containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
+            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
         }
 
     private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =
