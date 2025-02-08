@@ -35,7 +35,7 @@ class KafkaConfig(
         ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             consumerFactory = docConsumerFactory<T>()
             containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
-            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+            containerProperties.ackMode = ContainerProperties.AckMode.RECORD
         }
 
     private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =
