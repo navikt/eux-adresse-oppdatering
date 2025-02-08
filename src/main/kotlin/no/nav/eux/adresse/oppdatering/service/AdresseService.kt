@@ -20,8 +20,8 @@ class AdresseService(
     val log = logger {}
 
     fun oppdaterPdl(kafkaRinaDocument: KafkaRinaDocument) {
-        if (kafkaRinaDocument.payLoad.documentMetadata.caseId == 1578L) {
-            log.info { "Test error 1578" }
+        if (kafkaRinaDocument.payLoad.documentMetadata.caseId == 1451402L) {
+            log.info { "Test error 1451402" }
             throw RuntimeException("Test kafka ack")
         }
 
