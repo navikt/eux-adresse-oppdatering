@@ -11,7 +11,6 @@ import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
-import java.time.Duration
 
 @Service
 class EuxRinaCaseEventsKafkaListener(
@@ -56,7 +55,7 @@ class EuxRinaCaseEventsKafkaListener(
             acknowledgment.acknowledge()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
-            acknowledgment.nack(Duration.ofSeconds(3))
+            throw e
         } finally {
             clearLocalMdc()
         }
