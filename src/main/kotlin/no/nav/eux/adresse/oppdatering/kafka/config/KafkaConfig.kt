@@ -38,8 +38,8 @@ class KafkaConfig(
     fun rinaDocumentKafkaListenerContainerFactory() = kafkaListenerContainerFactory<KafkaRinaDocument>()
 
     @Bean
-    fun producerFactory(): ProducerFactory<String?, Any?> {
-        return DefaultKafkaProducerFactory(
+    fun producerFactory(): ProducerFactory<String, Any> =
+        DefaultKafkaProducerFactory(
             producerConfiguration<KafkaRinaDocument>(), StringSerializer(),
             DelegatingByTypeSerializer(
                 Map.of<Class<*>, Serializer<*>>(
@@ -48,18 +48,17 @@ class KafkaConfig(
                 )
             )
         )
-    }
 
     @Bean
-    fun kafkaTemplate(): KafkaTemplate<String?, Any?> {
-        return KafkaTemplate(producerFactory())
-    }
+    fun kafkaTemplate(): KafkaTemplate<String, Any> =
+        KafkaTemplate(producerFactory())
+
 
     private inline fun <reified T> kafkaListenerContainerFactory() =
         ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             consumerFactory = docConsumerFactory<T>()
             containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
-            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+            containerProperties.ackMode = ContainerProperties.AckMode.RECORD
         }
 
     private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =

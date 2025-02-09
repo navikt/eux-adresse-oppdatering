@@ -6,32 +6,31 @@ import no.nav.eux.adresse.oppdatering.service.AdresseService
 import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.springframework.kafka.annotation.DltHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
-import org.springframework.kafka.support.Acknowledgment
 import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
 @Service
+@RetryableTopic(
+    backoff = Backoff(value = 15000L),
+    attempts = "3",
+    autoCreateTopics = "false"
+)
 class EuxRinaCaseEventsKafkaListener(
     val adresseService: AdresseService
 ) {
 
     val log = logger {}
 
-    @RetryableTopic(
-        backoff = Backoff(value = 15000L),
-        attempts = "3",
-        autoCreateTopics = "false"
-    )
     @KafkaListener(
         id = "eux-adresse-oppdatering-document",
         topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
     )
     fun document(
-        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
-        acknowledgment: Acknowledgment
+        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>
     ) {
         try {
             val kafkaRinaDocument = consumerRecord.value()
@@ -52,7 +51,6 @@ class EuxRinaCaseEventsKafkaListener(
             } else {
                 log.info { "Dokument av denne typen behandles ikke" }
             }
-            acknowledgment.acknowledge()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
             throw e
@@ -70,4 +68,8 @@ class EuxRinaCaseEventsKafkaListener(
                 else -> false
             }
 
+    @DltHandler
+    fun dltHandler(consumerRecord: ConsumerRecord<String, KafkaRinaDocument>) {
+        log.error { "Dokumentet har feilet 3 ganger, sendes til DLT" }
+    }
 }
