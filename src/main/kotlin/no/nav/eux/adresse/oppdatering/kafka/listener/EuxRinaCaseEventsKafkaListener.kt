@@ -55,6 +55,7 @@ class EuxRinaCaseEventsKafkaListener(
             acknowledgment.acknowledge()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
+            throw e
         } finally {
             clearLocalMdc()
         }
