@@ -21,8 +21,8 @@ class AdresseService(
 
     fun oppdaterPdl(kafkaRinaDocument: KafkaRinaDocument) {
         if (kafkaRinaDocument.payLoad.documentMetadata.caseId == 1451402L) {
-            log.info { "Test error 1451402 (complete it)" }
-//            throw RuntimeException("Test kafka ack")
+            log.info { "Test error 1451402 - manual ack" }
+            throw RuntimeException("Test manual kafka ack")
         }
 
         val rinasakId = kafkaRinaDocument.payLoad.documentMetadata.caseId
