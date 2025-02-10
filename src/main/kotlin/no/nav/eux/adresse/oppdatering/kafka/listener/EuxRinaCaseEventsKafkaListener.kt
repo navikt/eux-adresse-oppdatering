@@ -5,14 +5,18 @@ import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.adresse.oppdatering.service.AdresseService
 import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.DltHandler
+import org.springframework.kafka.annotation.KafkaHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
-import org.springframework.kafka.support.Acknowledgment
 import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
+@KafkaListener(
+    id = "eux-adresse-oppdatering-document",
+    topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
+    containerFactory = "rinaDocumentKafkaListenerContainerFactory"
+)
 @Service
 class EuxRinaCaseEventsKafkaListener(
     val adresseService: AdresseService
@@ -20,22 +24,14 @@ class EuxRinaCaseEventsKafkaListener(
 
     val log = logger {}
 
-    @KafkaListener(
-        id = "eux-adresse-oppdatering-document",
-        topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
-        containerFactory = "rinaDocumentKafkaListenerContainerFactory"
-    )
+    @KafkaHandler
     @RetryableTopic(
         backoff = Backoff(value = 15000L),
         attempts = "3",
         autoCreateTopics = "false"
     )
-    fun document(
-        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
-        acknowledgment: Acknowledgment
-    ) {
+    fun document(kafkaRinaDocument: KafkaRinaDocument) {
         try {
-            val kafkaRinaDocument = consumerRecord.value()
             val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
             val caseId = documentMetadata.caseId
             val bucType = kafkaRinaDocument.buc
@@ -53,7 +49,6 @@ class EuxRinaCaseEventsKafkaListener(
             } else {
                 log.info { "Dokument av denne typen behandles ikke" }
             }
-            acknowledgment.acknowledge()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
             throw e
@@ -72,7 +67,15 @@ class EuxRinaCaseEventsKafkaListener(
             }
 
     @DltHandler
-    fun dltHandler(consumerRecord: ConsumerRecord<String, KafkaRinaDocument>) {
+    fun dltHandler(kafkaRinaDocument: KafkaRinaDocument) {
+        val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
+        val caseId = documentMetadata.caseId
+        val bucType = kafkaRinaDocument.buc
+        mdc(
+            rinasakId = caseId.toInt(),
+            bucType = bucType,
+            sedType = documentMetadata.type
+        )
         log.error { "Dokumentet har feilet 3 ganger, sendes til DLT" }
     }
 }
