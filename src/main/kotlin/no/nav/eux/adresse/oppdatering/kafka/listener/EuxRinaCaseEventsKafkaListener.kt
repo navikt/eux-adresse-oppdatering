@@ -36,17 +36,14 @@ class EuxRinaCaseEventsKafkaListener(
         acknowledgment: Acknowledgment,
     ) {
         try {
-            val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
-            val caseId = documentMetadata.caseId
-            val bucType = kafkaRinaDocument.buc
             mdc(
-                rinasakId = caseId.toInt(),
-                bucType = bucType,
-                sedType = documentMetadata.type
+                rinasakId = kafkaRinaDocument.rinasakId.toInt(),
+                bucType = kafkaRinaDocument.bucType,
+                sedType = kafkaRinaDocument.sedType
             )
-            if (documentMetadata.direction != "IN") {
+            if (kafkaRinaDocument.direction != "IN") {
                 log.info { "Dokumentet er ikke innkommende, avslutter behandling" }
-            } else if (bucTilBehandling(bucType)) {
+            } else if (bucTilBehandling(kafkaRinaDocument.bucType)) {
                 log.info { "Starter behandling av dokument" }
                 adresseService.oppdaterPdl(kafkaRinaDocument)
                 log.info { "Adresseoppdatering for dokument ferdigstillt" }
@@ -76,13 +73,10 @@ class EuxRinaCaseEventsKafkaListener(
         kafkaRinaDocument: KafkaRinaDocument,
         acknowledgment: Acknowledgment,
     ) {
-        val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
-        val caseId = documentMetadata.caseId
-        val bucType = kafkaRinaDocument.buc
         mdc(
-            rinasakId = caseId.toInt(),
-            bucType = bucType,
-            sedType = documentMetadata.type
+            rinasakId = kafkaRinaDocument.rinasakId.toInt(),
+            bucType = kafkaRinaDocument.bucType,
+            sedType = kafkaRinaDocument.sedType
         )
         log.error { "Dokumentet har feilet 3 ganger, sendes til DLT" }
         acknowledgment.acknowledge()
