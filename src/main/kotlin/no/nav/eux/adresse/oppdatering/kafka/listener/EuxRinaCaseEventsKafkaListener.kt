@@ -53,6 +53,7 @@ class EuxRinaCaseEventsKafkaListener(
             } else {
                 log.info { "Dokument av denne typen behandles ikke" }
             }
+            acknowledgment.acknowledge()
         } catch (e: Exception) {
             log.error(e) { "Feil ved behandling av dokument" }
             throw e
@@ -84,5 +85,6 @@ class EuxRinaCaseEventsKafkaListener(
             sedType = documentMetadata.type
         )
         log.error { "Dokumentet har feilet 3 ganger, sendes til DLT" }
+        acknowledgment.acknowledge()
     }
 }
