@@ -9,6 +9,7 @@ import org.springframework.kafka.annotation.DltHandler
 import org.springframework.kafka.annotation.KafkaHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
+import org.springframework.kafka.support.Acknowledgment
 import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
@@ -30,7 +31,10 @@ class EuxRinaCaseEventsKafkaListener(
         attempts = "3",
         autoCreateTopics = "false"
     )
-    fun document(kafkaRinaDocument: KafkaRinaDocument) {
+    fun document(
+        kafkaRinaDocument: KafkaRinaDocument,
+        acknowledgment: Acknowledgment,
+    ) {
         try {
             val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
             val caseId = documentMetadata.caseId
@@ -67,7 +71,10 @@ class EuxRinaCaseEventsKafkaListener(
             }
 
     @DltHandler
-    fun dltHandler(kafkaRinaDocument: KafkaRinaDocument) {
+    fun dltHandler(
+        kafkaRinaDocument: KafkaRinaDocument,
+        acknowledgment: Acknowledgment,
+    ) {
         val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
         val caseId = documentMetadata.caseId
         val bucType = kafkaRinaDocument.buc
