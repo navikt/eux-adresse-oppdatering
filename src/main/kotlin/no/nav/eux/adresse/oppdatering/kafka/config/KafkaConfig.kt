@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.*
-import org.springframework.kafka.listener.ContainerProperties
+import org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL
 import org.springframework.kafka.support.serializer.DelegatingByTypeSerializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS
@@ -21,9 +21,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VA
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE
 import org.springframework.kafka.support.serializer.JsonSerializer
-import java.time.Duration
-import java.util.Map
-
+import java.time.Duration.ofSeconds
 
 @Configuration
 class KafkaConfig(
@@ -42,9 +40,9 @@ class KafkaConfig(
         DefaultKafkaProducerFactory(
             producerConfiguration<KafkaRinaDocument>(), StringSerializer(),
             DelegatingByTypeSerializer(
-                Map.of<Class<*>, Serializer<*>>(
-                    ByteArray::class.java, ByteArraySerializer(),
-                    KafkaRinaDocument::class.java, JsonSerializer<Any>()
+                mapOf<Class<*>, Serializer<*>>(
+                    ByteArray::class.java to ByteArraySerializer(),
+                    KafkaRinaDocument::class.java to JsonSerializer<Any>()
                 )
             )
         )
@@ -53,12 +51,11 @@ class KafkaConfig(
     fun kafkaTemplate(): KafkaTemplate<String, Any> =
         KafkaTemplate(producerFactory())
 
-
     private inline fun <reified T> kafkaListenerContainerFactory() =
         ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             consumerFactory = docConsumerFactory<T>()
-            containerProperties.setAuthExceptionRetryInterval(Duration.ofSeconds(4L))
-            containerProperties.ackMode = ContainerProperties.AckMode.MANUAL
+            containerProperties.setAuthExceptionRetryInterval(ofSeconds(4L))
+            containerProperties.ackMode = MANUAL
         }
 
     private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =

@@ -6,7 +6,6 @@ import no.nav.eux.adresse.oppdatering.service.AdresseService
 import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.springframework.kafka.annotation.DltHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.kafka.support.Acknowledgment
@@ -14,11 +13,6 @@ import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
 @Service
-@RetryableTopic(
-    backoff = Backoff(value = 15000L),
-    attempts = "3",
-    autoCreateTopics = "false"
-)
 class EuxRinaCaseEventsKafkaListener(
     val adresseService: AdresseService
 ) {
@@ -29,6 +23,11 @@ class EuxRinaCaseEventsKafkaListener(
         id = "eux-adresse-oppdatering-document",
         topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
+    )
+    @RetryableTopic(
+        backoff = Backoff(value = 15000L),
+        attempts = "3",
+        autoCreateTopics = "false"
     )
     fun document(
         consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
@@ -71,8 +70,4 @@ class EuxRinaCaseEventsKafkaListener(
                 else -> false
             }
 
-    @DltHandler
-    fun dltHandler(consumerRecord: ConsumerRecord<String, KafkaRinaDocument>) {
-        log.error { "Dokumentet har feilet 3 ganger, sendes til DLT" }
-    }
 }
