@@ -5,19 +5,14 @@ import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.adresse.oppdatering.service.AdresseService
 import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.DltHandler
-import org.springframework.kafka.annotation.KafkaHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
-@KafkaListener(
-    id = "eux-adresse-oppdatering-document",
-    topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
-    containerFactory = "rinaDocumentKafkaListenerContainerFactory"
-)
 @Service
 class EuxRinaCaseEventsKafkaListener(
     val adresseService: AdresseService
@@ -25,25 +20,33 @@ class EuxRinaCaseEventsKafkaListener(
 
     val log = logger {}
 
-    @KafkaHandler
+    @KafkaListener(
+        id = "eux-adresse-oppdatering-document",
+        topics = ["\${kafka.topics.eux-rina-document-events-v1}"],
+        containerFactory = "rinaDocumentKafkaListenerContainerFactory"
+    )
     @RetryableTopic(
         backoff = Backoff(value = 15000L),
         attempts = "3",
         autoCreateTopics = "false"
     )
     fun document(
-        kafkaRinaDocument: KafkaRinaDocument,
-        acknowledgment: Acknowledgment,
+        consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
+        acknowledgment: Acknowledgment
     ) {
         try {
+            val kafkaRinaDocument = consumerRecord.value()
+            val documentMetadata = kafkaRinaDocument.payLoad.documentMetadata
+            val caseId = documentMetadata.caseId
+            val bucType = kafkaRinaDocument.buc
             mdc(
-                rinasakId = kafkaRinaDocument.rinasakId.toInt(),
-                bucType = kafkaRinaDocument.bucType,
-                sedType = kafkaRinaDocument.sedType
+                rinasakId = caseId.toInt(),
+                bucType = bucType,
+                sedType = documentMetadata.type
             )
-            if (kafkaRinaDocument.direction != "IN") {
+            if (documentMetadata.direction != "IN") {
                 log.info { "Dokumentet er ikke innkommende, avslutter behandling" }
-            } else if (bucTilBehandling(kafkaRinaDocument.bucType)) {
+            } else if (bucTilBehandling(bucType)) {
                 log.info { "Starter behandling av dokument" }
                 adresseService.oppdaterPdl(kafkaRinaDocument)
                 log.info { "Adresseoppdatering for dokument ferdigstillt" }
@@ -69,16 +72,7 @@ class EuxRinaCaseEventsKafkaListener(
             }
 
     @DltHandler
-    fun dltHandler(
-        kafkaRinaDocument: KafkaRinaDocument,
-        acknowledgment: Acknowledgment,
-    ) {
-        mdc(
-            rinasakId = kafkaRinaDocument.rinasakId.toInt(),
-            bucType = kafkaRinaDocument.bucType,
-            sedType = kafkaRinaDocument.sedType
-        )
+    fun dltHandler(consumerRecord: ConsumerRecord<String, KafkaRinaDocument>) {
         log.error { "Dokumentet har feilet 3 ganger, sendes til DLT" }
-        acknowledgment.acknowledge()
     }
 }
