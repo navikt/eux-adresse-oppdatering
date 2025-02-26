@@ -15,7 +15,8 @@ data class EuxRinaApiDokument(
 
     data class Bruker(
         val adresse: List<Adresse>?,
-        val person: Person
+        val person: Person,
+        val bostedsadresse: Adresse?,
     )
 
     data class AnnenPerson(

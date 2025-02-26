@@ -33,6 +33,9 @@ class AdresseOppdateringTest : AbstractTest() {
         await until { requestBodies["/api/v1/endringer"]?.size == 10 }
         "/api/v1/endringer" requestNumber 8 shouldEqual "/dataset/forventet/endringer-f001-ektefelle.json"
         "/api/v1/endringer" requestNumber 9 shouldEqual "/dataset/forventet/endringer-f001-annenperson.json"
+        kafkaTopicRinaDocumentEvents send case7_H055
+        await until { requestBodies["/api/v1/endringer"]?.size == 11 }
+        "/api/v1/endringer" requestNumber 10 shouldEqual "/dataset/forventet/endringer-bostedsadresse.json"
     }
 
     @AfterEach

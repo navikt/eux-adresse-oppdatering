@@ -8,6 +8,7 @@ import no.nav.eux.adresse.oppdatering.integration.client.pdl.PdlApiClient
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlHttpClientErrorException
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
+import no.nav.eux.adresse.oppdatering.model.harDirekteSpesifisertBostedsadresse
 import org.springframework.stereotype.Service
 
 @Service
@@ -53,6 +54,13 @@ class AdresseService(
                 ?.filter { it.kanSendesTilPdl() }
                 ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                 ?: log.info { "Ingen adresser å oppdatere på horisontal/anmodningominformasjon/fastslaabosted" }
+            if (harDirekteSpesifisertBostedsadresse(dokument.sed)) {
+                val bostedsadresse = dokument.nav.bruker?.bostedsadresse?.copy(type = "bosted")
+                if (bostedsadresse != null && bostedsadresse.kanSendesTilPdl())
+                    oppdaterPdl(bostedsadresse, rinasak, identNor)
+                else
+                    log.info { "Ingen bostedsadresse definert på ${dokument.sed}" }
+            }
         }
     }
 
