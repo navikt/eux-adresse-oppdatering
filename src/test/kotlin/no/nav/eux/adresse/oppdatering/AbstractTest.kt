@@ -28,7 +28,7 @@ abstract class AbstractTest {
         @JvmStatic
         @Container
         val kafka = ConfluentKafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka")
+            DockerImageName.parse("confluentinc/cp-kafka:7.8.1")
         )
 
         @JvmStatic
