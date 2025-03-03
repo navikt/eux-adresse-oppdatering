@@ -39,15 +39,6 @@ data class KafkaRinaDocument(
         val id: Int
     )
 
-    val bucType: String
-        get() = buc
-
-    val rinasakId: Long
-        get() = payLoad.documentMetadata.caseId
-
-    val sedType: String
-        get() = payLoad.documentMetadata.type
-
     val direction: String?
         get() = payLoad.documentMetadata.direction
 }
