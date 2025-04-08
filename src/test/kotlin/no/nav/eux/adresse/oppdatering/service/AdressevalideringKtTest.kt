@@ -189,8 +189,8 @@ class AdressetransformeringKtTest {
         )
 
         val expectedAdresse = Adresse(
-            adressenavnNummer = "Karl Johans gate 22",
-            bygningEtasjeLeilighet = null,
+            adressenavnNummer = "Karl Johans gate",
+            bygningEtasjeLeilighet = "22",
             bySted = "Oslo",
             postkode = "0159",
             regionDistriktOmraade = "Oslo",

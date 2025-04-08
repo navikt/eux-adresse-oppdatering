@@ -124,13 +124,13 @@ fun Adresse.flyttAdressenavnNummerTilPostboksNummerNavn(): Adresse =
 
 fun Adresse.flyttBygningEtasjeLeilighetToAdresseNummer(): Adresse =
     when {
-        adressenavnNummer == null && bygningEtasjeLeilighet?.none { it.isLetter() } == true ->
+        adressenavnNummer == null && bygningEtasjeLeilighet?.none { it.isLetterOrDigit() } == true ->
             copy(
                 adressenavnNummer = "$bygningEtasjeLeilighet",
                 bygningEtasjeLeilighet = null
             )
 
-        adressenavnNummer != null && bygningEtasjeLeilighet?.none { it.isLetter() } == true ->
+        adressenavnNummer != null && bygningEtasjeLeilighet?.none { it.isLetterOrDigit() } == true ->
             copy(
                 adressenavnNummer = "$adressenavnNummer $bygningEtasjeLeilighet",
                 bygningEtasjeLeilighet = null
