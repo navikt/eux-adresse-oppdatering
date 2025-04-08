@@ -177,7 +177,7 @@ class AdressetransformeringKtTest {
     }
 
     @Test
-    fun `transformertAdresse should move bygning to gate`() {
+    fun `transformertAdresse should map bygning to bygningEtasjeLeilighet if letter or digit`() {
         val adresse = EuxRinaApiDokument.Adresse(
             gate = "Karl Johans gate",
             bygning = "22",
