@@ -141,6 +141,9 @@ fun Adresse.flyttBygningEtasjeLeilighetToAdresseNummer(): Adresse =
 
 fun Adresse.byttUtUlovligeTegnIAdressenavnNummer(): Adresse =
     copy(
-        adressenavnNummer = adressenavnNummer?.replace("№", "No")
+        adressenavnNummer = adressenavnNummer
+            ?.replace("№", "No")
+            ?.replace("\${quotationMARK}", "")
+            ?.replace("{quotationMARK}", "")
     )
 
