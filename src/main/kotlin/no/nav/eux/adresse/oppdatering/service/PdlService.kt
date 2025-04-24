@@ -64,6 +64,7 @@ class PdlService(
                     kilde = kilde,
                     ident = ident,
                     type = "KONTAKTADRESSE",
+                    gyldigFraOgMed = now(),
                     gyldigTilOgMed = now().plusYears(5)
                 )
                 log.info { "Endringsmelding for kontaktadresse sendt til PDL" }
