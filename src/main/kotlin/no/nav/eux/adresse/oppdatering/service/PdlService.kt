@@ -89,7 +89,8 @@ class PdlService(
                 val vegadresse = adresse.toPdlVegadresseOrNull(
                     kilde = kilde,
                     ident = ident,
-                    type = "KONTAKTADRESSE"
+                    type = "KONTAKTADRESSE",
+                    gyldigFraOgMed = now(),
                 )
                 if (vegadresse != null) {
                     pdlMottakClient endringsmeld vegadresse
@@ -103,7 +104,8 @@ class PdlService(
                 val postboksadresse = adresse.toPdlPostboksadresseOrNull(
                     kilde = kilde,
                     ident = ident,
-                    type = "KONTAKTADRESSE"
+                    type = "KONTAKTADRESSE",
+                    gyldigFraOgMed = now(),
                 )
                 if (postboksadresse != null) {
                     pdlMottakClient endringsmeld postboksadresse
