@@ -23,7 +23,7 @@ data class PdlPostboksadresse(
         @JsonProperty("@type")
         val type: String,
         @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-        val gyldigFraOgMed: LocalDate,
+        val gyldigFraOgMed: LocalDate?,
         @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
         val gyldigTilOgMed: LocalDate?,
         val adresse: Adresse,
@@ -42,6 +42,7 @@ fun Adresse.toPdlPostboksadresseOrNull(
     kilde: String,
     ident: String,
     type: String,
+    gyldigFraOgMed: LocalDate? = null,
     gyldigTilOgMed: LocalDate? = null,
 ): PdlPostboksadresse? {
     val adresse = toPdlVegadresseOrNull() ?: return null
@@ -53,7 +54,7 @@ fun Adresse.toPdlPostboksadresseOrNull(
                 opplysningstype = type,
                 endringsmelding = PdlPostboksadresse.Endringsmelding(
                     kilde = kilde,
-                    gyldigFraOgMed = LocalDate.now(),
+                    gyldigFraOgMed = gyldigFraOgMed,
                     gyldigTilOgMed = gyldigTilOgMed,
                     type = type,
                     adresse = adresse

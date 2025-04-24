@@ -4,6 +4,7 @@
       "endringsmelding": {
         "kilde": "NAV ACC 06 (Sverige)",
         "@type": "BOSTEDSADRESSE",
+        "gyldigFraOgMed": null,
         "gyldigTilOgMed": null,
         "adresse": {
           "adressenavnNummer": "Gatenavn (bosted)",

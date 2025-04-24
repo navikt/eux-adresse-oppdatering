@@ -23,7 +23,7 @@ data class PdlUtenlandskAdresse(
         @JsonProperty("@type")
         val type: String,
         @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
-        val gyldigFraOgMed: LocalDate,
+        val gyldigFraOgMed: LocalDate?,
         @JsonFormat(shape = STRING, pattern = "yyyy-MM-dd")
         val gyldigTilOgMed: LocalDate?,
         val adresse: Adresse,
@@ -46,6 +46,7 @@ fun Adresse.toPdlUtenlandskAdresse(
     kilde: String,
     ident: String,
     type: String,
+    gyldigFraOgMed: LocalDate? = null,
     gyldigTilOgMed: LocalDate? = null,
 ) =
     PdlUtenlandskAdresse(
@@ -56,7 +57,7 @@ fun Adresse.toPdlUtenlandskAdresse(
                 opplysningstype = type,
                 endringsmelding = PdlUtenlandskAdresse.Endringsmelding(
                     kilde = kilde,
-                    gyldigFraOgMed = LocalDate.now(),
+                    gyldigFraOgMed = gyldigFraOgMed,
                     gyldigTilOgMed = gyldigTilOgMed,
                     type = type,
                     adresse = adresse

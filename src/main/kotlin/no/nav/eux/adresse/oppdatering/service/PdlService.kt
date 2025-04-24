@@ -32,6 +32,7 @@ class PdlService(
                     kilde = kilde,
                     ident = ident,
                     type = "KONTAKTADRESSE",
+                    gyldigFraOgMed = now(),
                     gyldigTilOgMed = now().plusYears(5)
                 )
                 if (vegadresse != null) {
@@ -47,6 +48,7 @@ class PdlService(
                     kilde = kilde,
                     ident = ident,
                     type = "KONTAKTADRESSE",
+                    gyldigFraOgMed = now(),
                     gyldigTilOgMed = now().plusYears(5)
                 )
                 if (postboksadresse != null) {
