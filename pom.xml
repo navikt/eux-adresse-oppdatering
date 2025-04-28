@@ -11,7 +11,7 @@
     <parent>
         <groupId>no.nav.eux</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>1.0.37</version>
+        <version>1.0.38</version>
     </parent>
 
     <properties>
