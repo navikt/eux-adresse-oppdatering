@@ -120,7 +120,7 @@ class AdresseService(
                 pdlPerson = eksisterendeAdresser
             )
         } catch (e: PdlHttpClientErrorException) {
-            log.info(e) { "Feil i kall mot PDL" }
+            log.info(e) { "PDL godtok ikke oppdateringen av adresse" }
         }
     }
 
