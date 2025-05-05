@@ -29,10 +29,9 @@ spec:
     cpuThresholdPercentage: 80
   resources:
     limits:
-      cpu: "1"
       memory: {{ resources.limits.memory }}
     requests:
-      cpu: "1"
+      cpu: 100m
       memory: {{ resources.requests.memory }}
   kafka:
     pool: {{ kafka.pool }}
