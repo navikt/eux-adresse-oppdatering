@@ -44,7 +44,8 @@ data class EuxRinaApiDokument(
         val etternavn: String,
         val fornavn: String,
         val pin: List<Pin>?,
-        val foedselsdato: String
+        val foedselsdato: String,
+        val adresser: List<Adresse>?
     )
 
     data class Pin(
