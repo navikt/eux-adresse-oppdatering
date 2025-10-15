@@ -46,10 +46,17 @@ class AdresseService(
         if (identNor.isNullOrEmpty()) {
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for bruker" }
         } else {
-            dokument.nav.bruker?.adresse
-                ?.filter { it.kanSendesTilPdl() }
-                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
-                ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
+            if (dokument.sed.startsWith("F") && erMinstSedVersjon(dokument, 4, 4)) {
+                dokument.nav.bruker?.person?.adresser
+                    ?.filter { it.kanSendesTilPdl() }
+                    ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                    ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
+            } else {
+                dokument.nav.bruker?.adresse
+                    ?.filter { it.kanSendesTilPdl() }
+                    ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                    ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
+            }
             dokument.horisontal?.anmodningominformasjon?.fastslaabosted?.bruker?.adresse
                 ?.filter { it.kanSendesTilPdl() }
                 ?.forEach { oppdaterPdl(it, rinasak, identNor) }
@@ -72,11 +79,19 @@ class AdresseService(
         val identNor = dokument.identNorEktefelle
         if (identNor.isNullOrEmpty())
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for ektefelle" }
-        else
-            dokument.nav.ektefelle?.adresse
-                ?.filter { it.kanSendesTilPdl() }
-                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
-                ?: log.info { "Ingen adresser å oppdatere på ektefelle" }
+        else {
+            if (dokument.sed.startsWith("F") && erMinstSedVersjon(dokument, 4, 4)) {
+                dokument.nav.ektefelle?.person?.adresser
+                    ?.filter { it.kanSendesTilPdl() }
+                    ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                    ?: log.info { "Ingen adresser å oppdatere på ektefelle" }
+            } else {
+                dokument.nav.ektefelle?.adresse
+                    ?.filter { it.kanSendesTilPdl() }
+                    ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                    ?: log.info { "Ingen adresser å oppdatere på ektefelle" }
+            }
+        }
     }
 
     fun oppdaterAdresseAnnenPerson(
@@ -87,11 +102,19 @@ class AdresseService(
         val identNor = dokument.identNorAnnenPerson
         if (identNor.isNullOrEmpty())
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for annen person" }
-        else
-            dokument.nav.annenperson?.adresse
-                ?.filter { it.kanSendesTilPdl() }
-                ?.forEach { oppdaterPdl(it, rinasak, identNor) }
-                ?: log.info { "Ingen adresser å oppdatere på annen person" }
+        else {
+            if (dokument.sed.startsWith("F") && erMinstSedVersjon(dokument, 4, 4)) {
+                dokument.nav.annenperson?.person?.adresser
+                    ?.filter { it.kanSendesTilPdl() }
+                    ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                    ?: log.info { "Ingen adresser å oppdatere på annen person" }
+            } else {
+                dokument.nav.annenperson?.adresse
+                    ?.filter { it.kanSendesTilPdl() }
+                    ?.forEach { oppdaterPdl(it, rinasak, identNor) }
+                    ?: log.info { "Ingen adresser å oppdatere på annen person" }
+            }
+        }
     }
 
     fun EuxRinaApiDokument.Adresse.kanSendesTilPdl(): Boolean =
@@ -158,6 +181,13 @@ class AdresseService(
 
             else -> log.info { "Ukjent adresse type ${adresse.type}, adresse blir ikke sendt til PDL" }
         }
+    }
+
+    fun erMinstSedVersjon(dokument: EuxRinaApiDokument, sedGVer: Int, sedVer: Int): Boolean {
+        val dokumentSedGVer = dokument.sedGVer.toIntOrNull() ?: 0
+        val dokumentSedVer = dokument.sedVer.toIntOrNull() ?: 0
+        return (dokumentSedGVer > sedGVer)
+                || (dokumentSedGVer == sedGVer && dokumentSedVer >= sedVer)
     }
 
 }
