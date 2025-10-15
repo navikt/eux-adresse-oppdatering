@@ -43,6 +43,7 @@ fun mockResponseGet(request: RecordedRequest) =
         "/cpi/buc/5/sed/5?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-h001-ikke-id.json"
         "/cpi/buc/6/sed/6?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-f001.json"
         "/cpi/buc/7/sed/7?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-h055.json"
+        "/cpi/buc/8/sed/8?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-dokument-f001-acl44.json"
         "/v3/buc/1/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/v3/buc/2/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/v3/buc/3/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
@@ -50,6 +51,7 @@ fun mockResponseGet(request: RecordedRequest) =
         "/v3/buc/5/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/v3/buc/6/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/v3/buc/7/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
+        "/v3/buc/8/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/endringsstatus" -> okMockResponse medBody "/dataset/mock/endringsstatus.json"
         else -> defaultResponse
     }
