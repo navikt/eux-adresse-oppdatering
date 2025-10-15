@@ -5,10 +5,10 @@
         "kilde": "NAV ACC 06 (Sverige)",
         "@type": "OPPHOLDSADRESSE",
         "adresse": {
-          "adressenavnNummer": "Tullegata 1",
+          "adressenavnNummer": "Tullegata 2",
           "bygningEtasjeLeilighet": "Tull",
           "postboksNummerNavn": null,
-          "postkode": "1406",
+          "postkode": "1405",
           "bySted": "Tullebyen",
           "regionDistriktOmraade": null,
           "landkode": "SWE",
