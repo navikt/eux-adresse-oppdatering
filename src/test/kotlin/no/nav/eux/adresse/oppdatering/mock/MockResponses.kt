@@ -51,6 +51,7 @@ fun mockResponseGet(request: RecordedRequest) =
         "/v3/buc/5/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/v3/buc/6/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/v3/buc/7/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
+        "/v3/buc/8/oversikt?domene=nav" -> okMockResponse medBody "/dataset/mock/eux-rina-api-rinasak.json"
         "/endringsstatus" -> okMockResponse medBody "/dataset/mock/endringsstatus.json"
         else -> defaultResponse
     }
