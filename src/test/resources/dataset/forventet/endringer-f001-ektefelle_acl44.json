@@ -1,0 +1,23 @@
+{
+  "personopplysninger": [
+    {
+      "endringsmelding": {
+        "kilde": "NAV ACC 06 (Sverige)",
+        "@type": "OPPHOLDSADRESSE",
+        "adresse": {
+          "adressenavnNummer": "Tullegata 1",
+          "bygningEtasjeLeilighet": "Tull",
+          "postboksNummerNavn": null,
+          "postkode": "1406",
+          "bySted": "Tullebyen",
+          "regionDistriktOmraade": null,
+          "landkode": "SWE",
+          "@type": "UTENLANDSK_ADRESSE"
+        }
+      },
+      "ident": "25105327170",
+      "endringstype": "OPPRETT",
+      "opplysningstype": "OPPHOLDSADRESSE"
+    }
+  ]
+}

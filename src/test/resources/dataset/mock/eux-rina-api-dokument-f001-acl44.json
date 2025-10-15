@@ -19,7 +19,7 @@
             "type": "kontakt",
             "landkode": "NOR",
             "gate": "Gateveien 1",
-            "postnummer": "1405",
+            "postnummer": "1406",
             "land": "NO"
           }
         ]
@@ -51,7 +51,7 @@
         "adresser": [
           {
             "type": "opphold",
-            "gate": "Tullegata 1",
+            "gate": "Tullegata 2",
             "postnummer": "1405",
             "by": "Tullebyen",
             "landkode": "SWE",
