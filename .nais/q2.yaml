@@ -4,7 +4,7 @@ ingress: https://eux-adresse-oppdatering-q2.intern.dev.nav.no
 kafka:
   pool: nav-dev
   topics:
-    eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1-q2
+    eux-rina-document-events-v1: eessibasis.eux-rina-document-events-v1-q1
 
 application:
   pdl-api:
@@ -18,9 +18,9 @@ application:
     scope: api://dev-fss.pdl.pdl-mottak/.default
 
   eux-rina-api:
-    app: eux-rina-api-q2
-    url: http://eux-rina-api-q2
-    scope: api://dev-gcp.eessibasis.eux-rina-api-q2/.default
+    app: eux-rina-api-q1
+    url: http://eux-rina-api-q1
+    scope: api://dev-gcp.eessibasis.eux-rina-api-q1/.default
 
 resources:
   limits:
