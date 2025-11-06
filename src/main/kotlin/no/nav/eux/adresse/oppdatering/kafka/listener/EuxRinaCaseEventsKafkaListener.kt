@@ -28,7 +28,7 @@ class EuxRinaCaseEventsKafkaListener(
     @RetryableTopic(
         backoff = Backoff(value = 15000L),
         attempts = "3",
-        autoCreateTopics = "true"
+        autoCreateTopics = "false"
     )
     fun document(
         consumerRecord: ConsumerRecord<String, KafkaRinaDocument>,
