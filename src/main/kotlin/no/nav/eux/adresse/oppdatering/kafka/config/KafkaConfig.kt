@@ -1,5 +1,8 @@
 package no.nav.eux.adresse.oppdatering.kafka.config
 
+import com.fasterxml.jackson.core.StreamReadConstraints
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.json.JsonMapper
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
@@ -9,8 +12,10 @@ import org.apache.kafka.common.serialization.Serializer
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.*
 import org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL
@@ -81,4 +86,11 @@ class KafkaConfig(
         SSL_TRUSTSTORE_LOCATION_CONFIG to kafkaSslProperties.truststore.location,
         SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaSslProperties.truststore.password
     )
+    @Bean
+    fun objectMapper() : ObjectMapper =
+        JsonMapper.builder().build()
+
+
+
+
 }
