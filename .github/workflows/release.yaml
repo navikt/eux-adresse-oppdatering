@@ -9,7 +9,7 @@ permissions:
 
 on:
   push:
-    branches: [ main ]
+    branches: [ springboot4 ]
 
 concurrency: release
 
