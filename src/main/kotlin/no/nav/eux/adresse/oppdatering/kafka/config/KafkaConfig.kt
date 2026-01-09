@@ -51,15 +51,14 @@ class KafkaConfig(
     fun kafkaTemplate(): KafkaTemplate<String, Any> =
         KafkaTemplate(producerFactory())
 
-    private inline fun <reified T> kafkaListenerContainerFactory() =
+    private inline fun <reified T : Any> kafkaListenerContainerFactory() =
         ConcurrentKafkaListenerContainerFactory<String, T>().apply {
-            consumerFactory = docConsumerFactory<T>()
             containerProperties.setAuthExceptionRetryInterval(ofSeconds(4L))
             containerProperties.ackMode = MANUAL
-        }
+        }.setConsumerFactory(docConsumerFactory<T>())
 
-    private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =
-        DefaultKafkaConsumerFactory(
+    private inline fun <reified T : Any> docConsumerFactory(): ConsumerFactory<String, T> =
+        DefaultKafkaConsumerFactory<String, T>(
             producerConfiguration<T>()
         )
 

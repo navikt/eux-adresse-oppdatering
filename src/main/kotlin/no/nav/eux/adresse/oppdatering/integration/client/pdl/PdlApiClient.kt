@@ -7,8 +7,7 @@ import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.integration.config.GraphqlSpecs
 import org.springframework.graphql.client.FieldAccessException
 import org.springframework.graphql.client.HttpSyncGraphQlClient
-import org.springframework.retry.annotation.Backoff
-import org.springframework.retry.annotation.Retryable
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
 
 @Component
@@ -20,9 +19,9 @@ class PdlApiClient(
     val log = logger {}
 
     @Retryable(
-        maxAttempts = 9,
-        backoff = Backoff(delay = 1000, multiplier = 2.0),
-        noRetryFor = [
+        maxRetries = 9,
+        delay = 1000, multiplier = 2.0,
+        excludes = [
             FieldAccessException::class,
             PdlApiUgyldigIdentException::class
         ]

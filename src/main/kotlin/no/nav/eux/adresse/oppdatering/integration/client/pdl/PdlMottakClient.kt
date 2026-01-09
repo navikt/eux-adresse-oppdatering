@@ -6,8 +6,7 @@ import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlMottak
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.exception.PdlNotFoundException
 import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlEndringsstatus
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.retry.annotation.Backoff
-import org.springframework.retry.annotation.Retryable
+import org.springframework.resilience.annotation.Retryable
 import org.springframework.stereotype.Component
 import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.HttpServerErrorException
@@ -23,9 +22,9 @@ class PdlMottakClient(
     val log = logger {}
 
     @Retryable(
-        maxAttempts = 9,
-        backoff = Backoff(delay = 1000, multiplier = 2.0),
-        retryFor = [
+        maxRetries = 9,
+        delay = 1000, multiplier = 2.0,
+        includes = [
             HttpServerErrorException::class,
             PdlNotFoundException::class
         ]

@@ -6,11 +6,11 @@ import no.nav.eux.adresse.oppdatering.service.AdresseService
 import no.nav.eux.logging.clearLocalMdc
 import no.nav.eux.logging.mdc
 import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.springframework.kafka.annotation.BackOff
 import org.springframework.kafka.annotation.DltHandler
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.annotation.RetryableTopic
 import org.springframework.kafka.support.Acknowledgment
-import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,7 +26,7 @@ class EuxRinaCaseEventsKafkaListener(
         containerFactory = "rinaDocumentKafkaListenerContainerFactory"
     )
     @RetryableTopic(
-        backoff = Backoff(value = 15000L),
+        backOff = BackOff(value = 15000L),
         attempts = "3",
         autoCreateTopics = "false"
     )
