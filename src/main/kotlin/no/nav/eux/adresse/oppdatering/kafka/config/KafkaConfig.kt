@@ -18,9 +18,9 @@ import org.springframework.kafka.support.serializer.DelegatingByTypeSerializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
-import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE
-import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer.VALUE_DEFAULT_TYPE
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer
 import java.time.Duration.ofSeconds
 
 @Configuration
@@ -42,7 +42,7 @@ class KafkaConfig(
             DelegatingByTypeSerializer(
                 mapOf<Class<*>, Serializer<*>>(
                     ByteArray::class.java to ByteArraySerializer(),
-                    KafkaRinaDocument::class.java to JsonSerializer<Any>()
+                    KafkaRinaDocument::class.java to JacksonJsonSerializer<Any>()
                 )
             )
         )
@@ -51,15 +51,18 @@ class KafkaConfig(
     fun kafkaTemplate(): KafkaTemplate<String, Any> =
         KafkaTemplate(producerFactory())
 
-    private inline fun <reified T> kafkaListenerContainerFactory() =
-        ConcurrentKafkaListenerContainerFactory<String, T>().apply {
-            consumerFactory = docConsumerFactory<T>()
+    private inline fun <reified T : Any> kafkaListenerContainerFactory():
+        ConcurrentKafkaListenerContainerFactory<String, T> {
+            val containerFactory = ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             containerProperties.setAuthExceptionRetryInterval(ofSeconds(4L))
             containerProperties.ackMode = MANUAL
         }
+        containerFactory.setConsumerFactory(docConsumerFactory<T>())
+        return containerFactory
+    }
 
-    private inline fun <reified T> docConsumerFactory(): ConsumerFactory<String, T> =
-        DefaultKafkaConsumerFactory(
+    private inline fun <reified T : Any> docConsumerFactory(): ConsumerFactory<String, T> =
+        DefaultKafkaConsumerFactory<String, T>(
             producerConfiguration<T>()
         )
 
@@ -68,7 +71,7 @@ class KafkaConfig(
         KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
         VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java,
         KEY_DESERIALIZER_CLASS to StringDeserializer::class.java.name,
-        VALUE_DESERIALIZER_CLASS to JsonDeserializer::class.java.name,
+        VALUE_DESERIALIZER_CLASS to JacksonJsonDeserializer::class.java.name,
         ENABLE_AUTO_COMMIT_CONFIG to false,
         VALUE_DEFAULT_TYPE to T::class.java.name,
         SECURITY_PROTOCOL_CONFIG to securityProtocol,
