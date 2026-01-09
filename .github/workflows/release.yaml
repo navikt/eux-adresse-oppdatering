@@ -9,7 +9,7 @@ permissions:
 
 on:
   push:
-    branches: [ main ]
+    branches: [ springboot4 ]
 
 concurrency: release
 
@@ -29,10 +29,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up java 21
+      - name: Set up java 25
         uses: actions/setup-java@v5
         with:
-          java-version: 21
+          java-version: 25
           distribution: 'temurin'
           cache: 'maven'
 
