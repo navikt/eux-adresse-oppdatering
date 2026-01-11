@@ -60,8 +60,9 @@ class KafkaConfig(
     fun kafkaTemplate(): KafkaTemplate<String, Any> =
         KafkaTemplate(producerFactory())
 
-    private inline fun <reified T : Any> kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, T> {
-        val containerFactory = ConcurrentKafkaListenerContainerFactory<String, T>().apply {
+    private inline fun <reified T : Any> kafkaListenerContainerFactory():
+        ConcurrentKafkaListenerContainerFactory<String, T> {
+            val containerFactory = ConcurrentKafkaListenerContainerFactory<String, T>().apply {
             containerProperties.setAuthExceptionRetryInterval(ofSeconds(4L))
             containerProperties.ackMode = MANUAL
         }
