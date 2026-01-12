@@ -19,8 +19,6 @@ class EuxRinaApiClient(
         .uri("/cpi/buc/$rinasakId/sed/$sedId?domene=nav")
         .accept(APPLICATION_JSON)
         .retrieve()
-        .body<EuxRinaApiDokument>()
-        ?: throw RuntimeException("Dokument ikke funnet")
 
     @Retryable(maxRetries = 9, delay = 1000, multiplier = 2.0)
     fun rinasak(rinasakId: Long) = euxRinaApiRestClient

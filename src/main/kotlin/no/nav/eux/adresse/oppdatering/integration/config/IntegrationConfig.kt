@@ -36,11 +36,14 @@ class IntegrationConfig {
     fun euxRinaApiRestClient(
         clientProperties: ClientProperties,
         bearerTokenService: BearerTokenService
-    ) = RestClient
-        .builder()
-        .baseUrl(clientProperties.euxRinaApi.url)
-        .requestInterceptor(bearerTokenService interceptorFor EUX_RINA_API)
-        .build()
+    ) : RestClient {
+        log.info {"eux-rina-api url: ${clientProperties.euxRinaApi.url}"}
+        return RestClient
+            .builder()
+            .baseUrl(clientProperties.euxRinaApi.url)
+            .requestInterceptor(bearerTokenService interceptorFor EUX_RINA_API)
+            .build()
+    }
 
     @Bean
     fun pdlMottakRestClient(
