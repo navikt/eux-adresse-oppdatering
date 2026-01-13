@@ -10,7 +10,6 @@ import no.nav.eux.adresse.oppdatering.integration.client.pdl.model.PdlPerson
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import no.nav.eux.adresse.oppdatering.model.harDirekteSpesifisertBostedsadresse
 import org.springframework.stereotype.Service
-import org.springframework.web.client.body
 
 @Service
 class AdresseService(
@@ -27,23 +26,15 @@ class AdresseService(
             throw RuntimeException("CaseId brukes for test av feilhåndtering")
         }
         val rinasakId = kafkaRinaDocument.payLoad.documentMetadata.caseId
-        try {
-            val response = euxRinaApiClient.dokument(
-                rinasakId = rinasakId,
-                sedId = kafkaRinaDocument.payLoad.documentMetadata.id
-            )
-            val dokument = response.body<EuxRinaApiDokument>() ?: throw RuntimeException("Dokument ikke funnet")
-
-            log.info { "Dokument hentet fra Rina" }
-            val rinasak = euxRinaApiClient.rinasak(rinasakId)
-            oppdaterAdresseBruker(dokument, rinasak, kafkaRinaDocument.buc)
-            oppdaterAdresseEktefelle(dokument, rinasak, kafkaRinaDocument.buc)
-            oppdaterAdresseAnnenPerson(dokument, rinasak, kafkaRinaDocument.buc)
-
-        } catch (e: Exception) {
-            log.error(e) { "Feil ved henting av dokument eller oppdatering av PDL" }
-            throw e
-        }
+        val dokument = euxRinaApiClient.dokument(
+            rinasakId = rinasakId,
+            sedId = kafkaRinaDocument.payLoad.documentMetadata.id
+        )
+        log.info { "Dokument hentet fra Rina" }
+        val rinasak = euxRinaApiClient.rinasak(rinasakId)
+        oppdaterAdresseBruker(dokument, rinasak, kafkaRinaDocument.buc)
+        oppdaterAdresseEktefelle(dokument, rinasak, kafkaRinaDocument.buc)
+        oppdaterAdresseAnnenPerson(dokument, rinasak, kafkaRinaDocument.buc)
     }
 
     fun oppdaterAdresseBruker(

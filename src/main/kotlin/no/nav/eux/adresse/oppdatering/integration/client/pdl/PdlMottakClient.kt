@@ -23,7 +23,8 @@ class PdlMottakClient(
 
     @Retryable(
         maxRetries = 9,
-        delay = 1000, multiplier = 2.0,
+        delay = 1000,
+        multiplier = 2.0,
         includes = [
             HttpServerErrorException::class,
             PdlNotFoundException::class

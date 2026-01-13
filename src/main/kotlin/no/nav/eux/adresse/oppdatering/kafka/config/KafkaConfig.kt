@@ -1,12 +1,5 @@
 package no.nav.eux.adresse.oppdatering.kafka.config
 
-import com.fasterxml.jackson.core.StreamReadConstraints
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule
 import no.nav.eux.adresse.oppdatering.kafka.model.document.KafkaRinaDocument
 import org.apache.kafka.clients.CommonClientConfigs.SECURITY_PROTOCOL_CONFIG
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
@@ -16,10 +9,8 @@ import org.apache.kafka.common.serialization.Serializer
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.*
 import org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL
@@ -27,9 +18,9 @@ import org.springframework.kafka.support.serializer.DelegatingByTypeSerializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS
-import org.springframework.kafka.support.serializer.JsonDeserializer
-import org.springframework.kafka.support.serializer.JsonDeserializer.VALUE_DEFAULT_TYPE
-import org.springframework.kafka.support.serializer.JsonSerializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+import org.springframework.kafka.support.serializer.JacksonJsonDeserializer.VALUE_DEFAULT_TYPE
+import org.springframework.kafka.support.serializer.JacksonJsonSerializer
 import java.time.Duration.ofSeconds
 
 @Configuration
@@ -51,7 +42,7 @@ class KafkaConfig(
             DelegatingByTypeSerializer(
                 mapOf<Class<*>, Serializer<*>>(
                     ByteArray::class.java to ByteArraySerializer(),
-                    KafkaRinaDocument::class.java to JsonSerializer<Any>()
+                    KafkaRinaDocument::class.java to JacksonJsonSerializer<Any>()
                 )
             )
         )
@@ -80,7 +71,7 @@ class KafkaConfig(
         KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
         VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.java,
         KEY_DESERIALIZER_CLASS to StringDeserializer::class.java.name,
-        VALUE_DESERIALIZER_CLASS to JsonDeserializer::class.java.name,
+        VALUE_DESERIALIZER_CLASS to JacksonJsonDeserializer::class.java.name,
         ENABLE_AUTO_COMMIT_CONFIG to false,
         VALUE_DEFAULT_TYPE to T::class.java.name,
         SECURITY_PROTOCOL_CONFIG to securityProtocol,
@@ -91,11 +82,4 @@ class KafkaConfig(
         SSL_TRUSTSTORE_LOCATION_CONFIG to kafkaSslProperties.truststore.location,
         SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaSslProperties.truststore.password
     )
-    @Bean
-    fun objectMapper() : ObjectMapper =
-        JsonMapper.builder().addModules(JakartaXmlBindAnnotationModule(), JSR310Module(), Jdk8Module(), JavaTimeModule()).build()
-
-
-
-
 }

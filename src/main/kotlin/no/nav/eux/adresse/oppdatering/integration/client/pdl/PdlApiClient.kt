@@ -20,7 +20,8 @@ class PdlApiClient(
 
     @Retryable(
         maxRetries = 9,
-        delay = 1000, multiplier = 2.0,
+        delay = 1000,
+        multiplier = 2.0,
         excludes = [
             FieldAccessException::class,
             PdlApiUgyldigIdentException::class
