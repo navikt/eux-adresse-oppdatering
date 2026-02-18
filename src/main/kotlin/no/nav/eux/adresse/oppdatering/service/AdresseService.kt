@@ -25,6 +25,10 @@ class AdresseService(
             log.info { "CaseId brukes for test av feilhåndtering" }
             throw RuntimeException("CaseId brukes for test av feilhåndtering")
         }
+        if (kafkaRinaDocument.payLoad.documentMetadata.type == "H020") {
+            log.warn { "Ignorerer H020 pga. feil" }
+            return
+        }
         val rinasakId = kafkaRinaDocument.payLoad.documentMetadata.caseId
         val dokument = euxRinaApiClient.dokument(
             rinasakId = rinasakId,
