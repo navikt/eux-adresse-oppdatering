@@ -12,6 +12,11 @@ kafka:
     eux-rina-document-events-v1: ${KAFKA_TOPICS_EUX_RINA_DOCUMENT_EVENTS_V1}
   bootstrap-servers: ${KAFKA_BROKERS}
   properties:
+    consumer:
+      properties:
+        session:
+          timeout:
+            ms: 600000
     security:
       protocol: SSL
     ssl:
