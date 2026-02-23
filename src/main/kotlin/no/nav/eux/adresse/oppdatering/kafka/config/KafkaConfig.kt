@@ -80,6 +80,8 @@ class KafkaConfig(
         SSL_KEYSTORE_PASSWORD_CONFIG to kafkaSslProperties.keystore.password,
         SSL_TRUSTSTORE_TYPE_CONFIG to kafkaSslProperties.truststore.type,
         SSL_TRUSTSTORE_LOCATION_CONFIG to kafkaSslProperties.truststore.location,
-        SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaSslProperties.truststore.password
+        SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaSslProperties.truststore.password,
+        MAX_POLL_INTERVAL_MS_CONFIG to 900000, // 15 minutter
+        SESSION_TIMEOUT_MS_CONFIG to 600000, // 10 minutter
     )
 }
