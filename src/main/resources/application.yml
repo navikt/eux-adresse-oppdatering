@@ -1,12 +1,4 @@
 spring:
-  kafka:
-    consumer:
-      max-poll-interval: 900000
-      properties:
-        session:
-          timeout:
-            ms: 600000
-
   main:
     banner-mode: "off"
 
@@ -21,14 +13,8 @@ kafka:
   bootstrap-servers: ${KAFKA_BROKERS}
   properties:
     consumer:
-      max:
-        poll:
-          interval:
-            ms: 900000
-      properties:
-        session:
-          timeout:
-            ms: 600000
+      maxPollInterval: 900000
+      sessionTimeout: 30000
     security:
       protocol: SSL
     ssl:

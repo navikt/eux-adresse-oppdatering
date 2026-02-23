@@ -29,7 +29,8 @@ class KafkaConfig(
     val bootstrapServers: String,
     @Value("\${kafka.properties.security.protocol}")
     val securityProtocol: String,
-    val kafkaSslProperties: KafkaSslProperties
+    val kafkaSslProperties: KafkaSslProperties,
+    val kafkaConsumerProperties: KafkaConsumerProperties
 ) {
 
     @Bean
@@ -81,7 +82,7 @@ class KafkaConfig(
         SSL_TRUSTSTORE_TYPE_CONFIG to kafkaSslProperties.truststore.type,
         SSL_TRUSTSTORE_LOCATION_CONFIG to kafkaSslProperties.truststore.location,
         SSL_TRUSTSTORE_PASSWORD_CONFIG to kafkaSslProperties.truststore.password,
-        MAX_POLL_INTERVAL_MS_CONFIG to 900000, // 15 minutter
-        SESSION_TIMEOUT_MS_CONFIG to 30000, // 10 minutter
+        MAX_POLL_INTERVAL_MS_CONFIG to kafkaConsumerProperties.maxPollInterval,
+        SESSION_TIMEOUT_MS_CONFIG to kafkaConsumerProperties.sessionTimeout,
     )
 }
