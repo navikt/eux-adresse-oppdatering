@@ -1,4 +1,12 @@
 spring:
+  kafka:
+    consumer:
+      max-poll-interval: 900000
+      properties:
+        session:
+          timeout:
+            ms: 600000
+
   main:
     banner-mode: "off"
 
