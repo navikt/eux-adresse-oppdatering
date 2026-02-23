@@ -5,6 +5,9 @@ kafka:
   properties:
     security:
       protocol: PLAINTEXT
+    consumer:
+      maxPollInterval: 900000
+      sessionTimeout: 30000
 
 spring:
   kafka:
