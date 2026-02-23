@@ -13,6 +13,10 @@ kafka:
   bootstrap-servers: ${KAFKA_BROKERS}
   properties:
     consumer:
+      max:
+        poll:
+          interval:
+            ms: 900000
       properties:
         session:
           timeout:
