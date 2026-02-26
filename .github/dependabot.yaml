@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown: 7
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    reviewers:
+      - "navikt/eessibasis"
+    labels:
+      - "dependencies"
+      - "automerge"
