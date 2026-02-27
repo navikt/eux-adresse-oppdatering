@@ -29,6 +29,10 @@ class AdresseService(
             log.warn { "Ignorerer H020 pga. feil" }
             return
         }
+        if (kafkaRinaDocument.payLoad.documentMetadata.type == "U020_Master") {
+            log.warn { "Ignorerer U020 pga. manglende støtte i ACL" }
+            return
+        }
         val rinasakId = kafkaRinaDocument.payLoad.documentMetadata.caseId
         val dokument = euxRinaApiClient.dokument(
             rinasakId = rinasakId,
