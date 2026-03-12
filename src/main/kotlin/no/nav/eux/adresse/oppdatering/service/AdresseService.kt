@@ -29,7 +29,7 @@ class AdresseService(
             log.warn { "Ignorerer H020 pga. feil" }
             return
         }
-        if (kafkaRinaDocument.payLoad.documentMetadata.type == "U020_Master") {
+        if (kafkaRinaDocument.payLoad.documentMetadata.type == "U020_Master" || kafkaRinaDocument.payLoad.documentMetadata.type == "U020") {
             log.warn { "Ignorerer U020 pga. manglende støtte i ACL" }
             return
         }
