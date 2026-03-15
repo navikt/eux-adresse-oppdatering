@@ -1,7 +1,7 @@
 package no.nav.eux.adresse.oppdatering.integration.client.eux.rina.api.model
 
 data class EuxRinaApiDokument(
-    val nav: Nav,
+    val nav: Nav?,
     val horisontal: Horisontal?,
     val sed: String,
     val sedGVer: String,
@@ -70,11 +70,11 @@ data class EuxRinaApiDokument(
     }
 
     val identNor: String?
-        get() = nav.bruker?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav?.bruker?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 
     val identNorEktefelle: String?
-        get() = nav.ektefelle?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav?.ektefelle?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 
     val identNorAnnenPerson: String?
-        get() = nav.annenperson?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
+        get() = nav?.annenperson?.person?.pin?.firstOrNull { it.landkode == "NOR" }?.identifikator
 }
