@@ -29,6 +29,10 @@ class AdresseService(
             log.warn { "Ignorerer H020 pga. feil" }
             return
         }
+        if (kafkaRinaDocument.payLoad.documentMetadata.type == "U020_Master" || kafkaRinaDocument.payLoad.documentMetadata.type == "U020") {
+            log.warn { "Ignorerer U020 pga. manglende støtte i ACL" }
+            return
+        }
         val rinasakId = kafkaRinaDocument.payLoad.documentMetadata.caseId
         val dokument = euxRinaApiClient.dokument(
             rinasakId = rinasakId,
@@ -51,12 +55,12 @@ class AdresseService(
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for bruker" }
         } else {
             if (dokument.sed.startsWith("F") && erMinstSedVersjon(dokument, 4, 4)) {
-                dokument.nav.bruker?.person?.adresser
+                dokument.nav?.bruker?.person?.adresser
                     ?.filter { it.kanSendesTilPdl() }
                     ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                     ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
             } else {
-                dokument.nav.bruker?.adresse
+                dokument.nav?.bruker?.adresse
                     ?.filter { it.kanSendesTilPdl() }
                     ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                     ?: log.info { "Ingen adresser å oppdatere på dokument/nav/bruker" }
@@ -66,7 +70,7 @@ class AdresseService(
                 ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                 ?: log.info { "Ingen adresser å oppdatere på horisontal/anmodningominformasjon/fastslaabosted" }
             if (harDirekteSpesifisertBostedsadresse(dokument.sed)) {
-                val bostedsadresse = dokument.nav.bruker?.bostedsadresse?.copy(type = "bosted")
+                val bostedsadresse = dokument.nav?.bruker?.bostedsadresse?.copy(type = "bosted")
                 if (bostedsadresse != null && bostedsadresse.kanSendesTilPdl())
                     oppdaterPdl(bostedsadresse, rinasak, identNor)
                 else
@@ -85,12 +89,12 @@ class AdresseService(
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for ektefelle" }
         else {
             if (dokument.sed.startsWith("F") && erMinstSedVersjon(dokument, 4, 4)) {
-                dokument.nav.ektefelle?.person?.adresser
+                dokument.nav?.ektefelle?.person?.adresser
                     ?.filter { it.kanSendesTilPdl() }
                     ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                     ?: log.info { "Ingen adresser å oppdatere på ektefelle" }
             } else {
-                dokument.nav.ektefelle?.adresse
+                dokument.nav?.ektefelle?.adresse
                     ?.filter { it.kanSendesTilPdl() }
                     ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                     ?: log.info { "Ingen adresser å oppdatere på ektefelle" }
@@ -108,12 +112,12 @@ class AdresseService(
             log.info { "Ingen ident for norge funnet, avslutter oppdatering av adresser for annen person" }
         else {
             if (dokument.sed.startsWith("F") && erMinstSedVersjon(dokument, 4, 4)) {
-                dokument.nav.annenperson?.person?.adresser
+                dokument.nav?.annenperson?.person?.adresser
                     ?.filter { it.kanSendesTilPdl() }
                     ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                     ?: log.info { "Ingen adresser å oppdatere på annen person" }
             } else {
-                dokument.nav.annenperson?.adresse
+                dokument.nav?.annenperson?.adresse
                     ?.filter { it.kanSendesTilPdl() }
                     ?.forEach { oppdaterPdl(it, rinasak, identNor) }
                     ?: log.info { "Ingen adresser å oppdatere på annen person" }
