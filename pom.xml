@@ -21,6 +21,7 @@
         <lz4.version>1.11.1</lz4.version>
         <tomcat.version>11.0.24</tomcat.version>
         <jackson-3-bom.version>3.2.1</jackson-3-bom.version>
+        <httpcore5.version>5.4.3</httpcore5.version>
     </properties>
 
     <scm>
@@ -52,6 +53,16 @@
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-websocket</artifactId>
                 <version>${tomcat.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5</artifactId>
+                <version>${httpcore5.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents.core5</groupId>
+                <artifactId>httpcore5-h2</artifactId>
+                <version>${httpcore5.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
