@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lz4.version>1.11.1</lz4.version>
         <tomcat.version>11.0.24</tomcat.version>
-        <jackson-3-bom.version>3.2.1</jackson-3-bom.version>
+        <jackson-3-bom.version>3.2.2</jackson-3-bom.version>
         <httpcore5.version>5.4.3</httpcore5.version>
     </properties>
 
