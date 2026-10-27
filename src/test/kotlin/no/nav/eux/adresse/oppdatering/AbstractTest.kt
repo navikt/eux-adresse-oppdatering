@@ -2,8 +2,12 @@ package no.nav.eux.adresse.oppdatering
 
 import io.kotest.assertions.json.shouldEqualSpecifiedJson
 import no.nav.eux.adresse.oppdatering.mock.RequestBodies
+import org.awaitility.kotlin.await
+import org.awaitility.kotlin.until
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
@@ -47,6 +51,18 @@ abstract class AbstractTest {
 
     @Autowired
     lateinit var kafkaTemplate: KafkaTemplate<String, Any>
+
+    @Autowired
+    lateinit var kafkaListenerEndpointRegistry: KafkaListenerEndpointRegistry
+
+    // Consumers use auto.offset.reset=latest, so messages sent before partition assignment are skipped
+    @BeforeEach
+    fun ventPaaKafkaPartisjoner() {
+        await until {
+            kafkaListenerEndpointRegistry.allListenerContainers
+                .all { !it.assignedPartitions.isNullOrEmpty() }
+        }
+    }
 
     infix fun String.requestNumber(number: Int) =
         requestBodies[this]!![number]
