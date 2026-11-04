@@ -31,7 +31,7 @@ class PdlApiClient(
         val query = graphqlSpecs.read("pdl-adresser-query.graphql")
         pdlHttpSyncGraphQlClient
             .mutate()
-            .header("Behandlingsnummer", buc.behandlingsnummer)
+            .header("Behandlingsnummer", "B1379")
             .build()
             .document(query)
             .variable("ident", personId)
